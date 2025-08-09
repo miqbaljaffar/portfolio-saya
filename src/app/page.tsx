@@ -66,21 +66,21 @@ const featuredProjects: Project[] = [
     description: "Platform e-commerce modern dengan fitur lengkap untuk pelanggan dan admin, mulai dari katalog, checkout, manajemen pesanan, hingga CMS berita fashion.",
     tech: ["Next.js 14", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "NextAuth.js", "Zod", "Zustand", "Vercel Blob"],
     link: "https://ztyle-store.vercel.app",
-    imageUrl: "/projects/ztyle.jpg",
+    imageUrl: "/projects/ztyle.JPG",
   },
   {
     title: "Predictive Analytics for Car MSRP",
     description: "Melakukan analisis data eksplorasi (EDA) dan pemodelan prediktif menggunakan Regresi Linier dan KNN untuk memperkirakan harga mobil (MSRP).",
     tech: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Jupyter"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/MPA%20CAR%20(2).ipynb", 
-    imageUrl: "/projects/ztyle.jpg",
+    imageUrl: "/projects/ztyle.JPG",
   },
   {
     title: "Phone Recommendation System",
     description: "Mengembangkan sistem rekomendasi smartphone berbasis fitur menggunakan cosine similarity untuk memberikan saran yang akurat dan personal.",
     tech: ["Python", "Cosine Similarity", "Pandas", "Scikit-learn"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/SRR.ipynb",
-    imageUrl: "/projects/hotel.jpg",
+    imageUrl: "/projects/hotel.JPG",
   },
 ];
 
