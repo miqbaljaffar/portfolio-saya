@@ -251,7 +251,7 @@ export default function PortfolioPage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-              <a href="/cv/Mohammad_Iqbal_Jaffar_CV.pdf" target="_blank" rel="noopener noreferrer">
+              <a href="/cv/CV-MOHAMMAD-IQBAL-JAFFAR.pdf" target="_blank" rel="noopener noreferrer">
                 <Button
                   variant="outline"
                   className="font-bold py-3 px-6 rounded-lg text-lg w-full sm:w-auto"
