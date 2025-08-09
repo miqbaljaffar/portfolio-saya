@@ -80,7 +80,7 @@ const certifications: Certification[] = [
     title: "Bangkit Academy Graduate with Distinction",
     issuer: "Google, GoTo, Traveloka",
     description: "Lulus dari program Bangkit 2024 dengan predikat Distinction pada learning path Machine Learning.",
-    imageUrl: "/images/certs/bangkit-distinction.jpg", 
+    imageUrl: "/certs/bangkit.jpg", 
   },
   {
     title: "Machine Learning Specialization",
