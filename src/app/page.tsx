@@ -19,8 +19,7 @@ import {
   Github, 
   Linkedin, 
   Mail,
-  // Award, // PERBAIKAN: Dihapus karena tidak digunakan
-  // Users, // PERBAIKAN: Dihapus karena tidak digunakan
+  FileText, // PERBAIKAN: Menambahkan ikon FileText
   X 
 } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -66,21 +65,21 @@ const featuredProjects: Project[] = [
     description: "Platform e-commerce modern dengan fitur lengkap untuk pelanggan dan admin, mulai dari katalog, checkout, manajemen pesanan, hingga CMS berita fashion.",
     tech: ["Next.js 14", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "NextAuth.js", "Zod", "Zustand", "Vercel Blob"],
     link: "https://ztyle-store.vercel.app",
-    imageUrl: "/projects/ztyle.JPG",
+    imageUrl: "/projects/ztyle.jpg",
   },
   {
     title: "Predictive Analytics for Car MSRP",
     description: "Melakukan analisis data eksplorasi (EDA) dan pemodelan prediktif menggunakan Regresi Linier dan KNN untuk memperkirakan harga mobil (MSRP).",
     tech: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Jupyter"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/MPA%20CAR%20(2).ipynb", 
-    imageUrl: "/projects/ztyle.JPG",
+    imageUrl: "/projects/ztyle.jpg",
   },
   {
     title: "Phone Recommendation System",
     description: "Mengembangkan sistem rekomendasi smartphone berbasis fitur menggunakan cosine similarity untuk memberikan saran yang akurat dan personal.",
     tech: ["Python", "Cosine Similarity", "Pandas", "Scikit-learn"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/SRR.ipynb",
-    imageUrl: "/projects/hotel.JPG",
+    imageUrl: "/projects/hotel.jpg",
   },
 ];
 
@@ -236,18 +235,30 @@ export default function PortfolioPage() {
             >
               Mahasiswa Teknik Informatika dengan hasrat mendalam pada Machine Learning dan Data Science. Berpengalaman membangun model cerdas untuk menyelesaikan masalah dunia nyata.
             </motion.p>
+            {/* PERBAIKAN: Menambahkan tombol CV dan bungkus dalam flex container */}
             <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <a href="#projects">
                 <Button
-                  className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 font-bold py-3 px-6 rounded-lg text-lg"
+                  className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 font-bold py-3 px-6 rounded-lg text-lg w-full sm:w-auto"
                   size="lg"
                 >
                   Lihat Proyek Saya
                   <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </a>
+              <a href="/cv/Mohammad_Iqbal_Jaffar_CV.pdf" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  className="font-bold py-3 px-6 rounded-lg text-lg w-full sm:w-auto"
+                  size="lg"
+                >
+                  Lihat CV
+                  <FileText className="ml-2 h-5 w-5" />
                 </Button>
               </a>
             </motion.div>
