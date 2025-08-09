@@ -19,8 +19,8 @@ import {
   Github, 
   Linkedin, 
   Mail,
-  Award,
-  Users, // Icon untuk kegiatan
+  // Award, // PERBAIKAN: Dihapus karena tidak digunakan
+  // Users, // PERBAIKAN: Dihapus karena tidak digunakan
   X 
 } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -258,7 +258,8 @@ export default function PortfolioPage() {
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-4">Tentang Saya</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12">
-              Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning, saya tidak hanya membuat aplikasi, tapi juga memberinya "otak" untuk berpikir. Saya menikmati setiap tahap, mulai dari data mining hingga deployment fitur AI yang bermanfaat bagi pengguna.
+              {/* PERBAIKAN: Menggunakan &quot; untuk tanda kutip */}
+              Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning, saya tidak hanya membuat aplikasi, tapi juga memberinya &quot;otak&quot; untuk berpikir. Saya menikmati setiap tahap, mulai dari data mining hingga deployment fitur AI yang bermanfaat bagi pengguna.
             </p>
             <div className="grid md:grid-cols-3 gap-8">
               <SkillCard icon={<Code size={32} />} title="Frontend Development">
