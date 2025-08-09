@@ -20,7 +20,8 @@ import {
   Linkedin, 
   Mail,
   Award,
-  X // Icon untuk tombol close
+  Users, // Icon untuk kegiatan
+  X 
 } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
@@ -33,13 +34,22 @@ type Project = {
   imageUrl: string;
 };
 
-// Tipe data untuk Sertifikasi (dengan tambahan imageUrl)
+// Tipe data untuk Sertifikasi
 type Certification = {
   title:string;
   issuer: string;
   description: string;
-  imageUrl: string; // Path ke gambar sertifikat
+  imageUrl: string; 
 };
+
+// --- PENAMBAHAN: Tipe data untuk Kegiatan ---
+type Activity = {
+  title: string;
+  role: string;
+  description: string;
+  imageUrl: string;
+  year: string;
+}
 
 // --- DATA DARI PORTFOLIO ANDA ---
 
@@ -63,18 +73,42 @@ const featuredProjects: Project[] = [
     description: "Melakukan analisis data eksplorasi (EDA) dan pemodelan prediktif menggunakan Regresi Linier dan KNN untuk memperkirakan harga mobil (MSRP).",
     tech: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Jupyter"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/MPA%20CAR%20(2).ipynb", 
-    imageUrl: "/images/projects/car-msrp.jpg",
+    imageUrl: "/projects/ztyle.jpg",
   },
   {
     title: "Phone Recommendation System",
     description: "Mengembangkan sistem rekomendasi smartphone berbasis fitur menggunakan cosine similarity untuk memberikan saran yang akurat dan personal.",
     tech: ["Python", "Cosine Similarity", "Pandas", "Scikit-learn"],
     link: "https://github.com/miqbaljaffar/MLT/blob/main/SRR.ipynb",
-    imageUrl: "/images/projects/phone-recommender.jpg",
+    imageUrl: "/projects/hotel.jpg",
   },
 ];
 
-// Data Sertifikasi dengan path gambar
+// --- PENAMBAHAN: Data Kegiatan ---
+const activities: Activity[] = [
+  {
+    title: "Pameran Mikrokontroler",
+    role: "Peserta & Presenter Proyek",
+    description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR kepada pengunjung dan juri.",
+    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
+    year: "2024"
+  },
+  {
+    title: "Hackathon Nasional: Solusi Digital",
+    role: "Full-Stack Developer",
+    description: "Berkolaborasi dalam tim untuk membangun prototipe aplikasi event management dalam waktu 24 jam, mengintegrasikan Firebase dan QR Code.",
+    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
+    year: "2024"
+  },
+  {
+    title: "Pameran Website & Aplikasi Desktop",
+    role: "Pengembang Aplikasi",
+    description: "Mendemonstrasikan aplikasi desktop untuk manajemen perpustakaan yang dibangun dengan database lokal phpMyAdmin.",
+    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
+    year: "2023"
+  }
+];
+
 const certifications: Certification[] = [
   {
     title: "Bangkit Academy Graduate with Distinction",
@@ -86,36 +120,34 @@ const certifications: Certification[] = [
     title: "Machine Learning Specialization",
     issuer: "Stanford University & DeepLearning.AI",
     description: "Menguasai model supervised, neural networks, decision trees, dan recommender systems.",
-    imageUrl: "/images/certs/stanford-ml.jpg", 
+    imageUrl: "/certs/bangkit.jpg", 
   },
   {
     title: "DeepLearning.AI TensorFlow Developer",
     issuer: "DeepLearning.AI",
     description: "Sertifikasi profesional dalam membangun dan melatih model neural networks menggunakan TensorFlow.",
-    imageUrl: "/images/certs/tensorflow-developer.jpg",
+    imageUrl: "/certs/bangkit.jpg",
   },
   {
     title: "Oracle Cloud Infrastructure Foundations",
     issuer: "Oracle Academy & Kominfo",
     description: "Memiliki pemahaman fundamental mengenai layanan cloud Oracle, termasuk Core Infrastructure.",
-    imageUrl: "/images/certs/oracle-cloud.jpg", 
+    imageUrl: "/certs/bangkit.jpg", 
   },
   {
     title: "Natural Language Processing Specialization",
     issuer: "DeepLearning.AI",
     description: "Mendalami teknik NLP tingkat lanjut seperti word embeddings, RNNs, dan transformers.",
-    imageUrl: "/images/certs/nlp-specialization.jpg",
+    imageUrl: "/certs/bangkit.jpg",
   },
   {
     title: "Junior Web Developer",
     issuer: "BNSP",
     description: "Sertifikasi kompetensi nasional yang memvalidasi kemampuan dalam pengembangan web.",
-    imageUrl: "/images/certs/bnsp-jwd.jpg", 
+    imageUrl: "/certs/bangkit.jpg", 
   },
 ];
 
-
-// Komponen untuk kartu skill
 const SkillCard = ({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) => (
   <motion.div 
     className="bg-gray-100 dark:bg-gray-900/50 p-6 rounded-lg border border-gray-200 dark:border-gray-800/50 text-center h-full hover:border-blue-500 hover:-translate-y-1 transition-all duration-300"
@@ -129,7 +161,6 @@ const SkillCard = ({ icon, title, children }: { icon: React.ReactNode; title: st
 
 
 export default function PortfolioPage() {
-  // State untuk mengelola modal gambar sertifikat
   const [selectedCert, setSelectedCert] = React.useState<string | null>(null);
 
   return (
@@ -145,6 +176,8 @@ export default function PortfolioPage() {
           <nav className="hidden md:flex items-center space-x-6">
             <a href="#about" className="hover:text-blue-500 transition-colors">Tentang Saya</a>
             <a href="#projects" className="hover:text-blue-500 transition-colors">Proyek</a>
+            {/* PENAMBAHAN: Link navigasi baru */}
+            <a href="#activities" className="hover:text-blue-500 transition-colors">Kegiatan</a>
             <a href="#certifications" className="hover:text-blue-500 transition-colors">Sertifikasi</a>
             <a href="#contact" className="hover:text-blue-500 transition-colors">Kontak</a>
           </nav>
@@ -160,7 +193,7 @@ export default function PortfolioPage() {
       </header>
 
       <main className="pt-20">
-        {/* ===== HERO SECTION ===== */}
+        {/* ... (Hero Section & About Me Section tidak berubah) ... */}
         <section className="min-h-screen flex items-center justify-center text-center px-4">
           <div className="container mx-auto">
             <motion.div
@@ -221,7 +254,6 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* ===== TENTANG SAYA (ABOUT ME) SECTION ===== */}
         <section id="about" className="py-24 bg-gray-50 dark:bg-gray-900/40">
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-4">Tentang Saya</h2>
@@ -242,7 +274,6 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* ===== PROYEK UNGGULAN (PROJECTS) SECTION ===== */}
         <section id="projects" className="py-24">
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-12">Proyek Unggulan</h2>
@@ -299,8 +330,50 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* ===== SERTIFIKASI (CERTIFICATIONS) SECTION ===== */}
-        <section id="certifications" className="py-24 bg-gray-50 dark:bg-gray-900/40">
+        {/* --- PENAMBAHAN: SEKSI KEGIATAN (ACTIVITIES) --- */}
+        <section id="activities" className="py-24 bg-gray-50 dark:bg-gray-900/40">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-12 text-center">Pengalaman & Kegiatan</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {activities.map((activity, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="h-full"
+                >
+                  <Card className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col p-0 overflow-hidden shadow-md group">
+                    <div className="relative h-48 w-full">
+                      <Image
+                        src={activity.imageUrl}
+                        alt={`Gambar untuk ${activity.title}`}
+                        fill={true}
+                        style={{objectFit: 'cover'}}
+                        className="transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <CardHeader className="p-0">
+                        <div className="flex justify-between items-start mb-2">
+                          <CardTitle className="text-gray-900 dark:text-white text-lg">{activity.title}</CardTitle>
+                          <span className="text-xs font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full">{activity.year}</span>
+                        </div>
+                        <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold">{activity.role}</p>
+                      </CardHeader>
+                      <CardContent className="p-0 pt-4 flex-grow">
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">{activity.description}</p>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="certifications" className="py-24">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-12 text-center">Sertifikasi & Pencapaian</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -317,7 +390,6 @@ export default function PortfolioPage() {
                     className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col p-0 overflow-hidden shadow-md group cursor-pointer hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1"
                     onClick={() => setSelectedCert(cert.imageUrl)}
                   >
-                    {/* Bagian Gambar Sertifikat */}
                     <div className="relative h-40 w-full">
                       <Image
                         src={cert.imageUrl}
@@ -327,7 +399,6 @@ export default function PortfolioPage() {
                         className="transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    {/* Bagian Teks */}
                     <div className="p-6 flex flex-col flex-grow">
                       <CardHeader className="p-0">
                         <CardTitle className="text-gray-900 dark:text-white text-lg">{cert.title}</CardTitle>
@@ -344,8 +415,7 @@ export default function PortfolioPage() {
           </div>
         </section>
         
-        {/* ===== KONTAK (CONTACT) SECTION ===== */}
-        <section id="contact" className="py-24">
+        <section id="contact" className="py-24 bg-gray-50 dark:bg-gray-900/40">
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-4">Mari Terhubung</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
@@ -367,7 +437,7 @@ export default function PortfolioPage() {
         </div>
       </footer>
 
-      {/* ===== MODAL UNTUK TAMPILAN GAMBAR SERTIFIKAT ===== */}
+      {/* ... (Modal Section tidak berubah) ... */}
       <AnimatePresence>
         {selectedCert && (
           <motion.div
