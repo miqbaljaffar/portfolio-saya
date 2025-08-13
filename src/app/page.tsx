@@ -12,6 +12,13 @@ import {
   CardDescription 
 } from "@/components/ui/card";
 import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"; // IMPORT BARU
+import { 
   ArrowRight, 
   Code, 
   Database, 
@@ -19,7 +26,7 @@ import {
   Github, 
   Linkedin, 
   Mail,
-  FileText, // PERBAIKAN: Menambahkan ikon FileText
+  FileText,
   X 
 } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -41,7 +48,7 @@ type Certification = {
   imageUrl: string; 
 };
 
-// --- PENAMBAHAN: Tipe data untuk Kegiatan ---
+// Tipe data untuk Kegiatan
 type Activity = {
   title: string;
   role: string;
@@ -55,95 +62,75 @@ type Activity = {
 const featuredProjects: Project[] = [
   {
     title: "Automated Nutrition Fact Recognition",
-    description: "Model klasifikasi berbasis CNN untuk identifikasi dan ekstraksi tabel fakta nutrisi dari gambar, terintegrasi dengan OpenCV dan PaddleOCR untuk mengekstrak kadar gula.",
+    description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
     tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject", 
-    imageUrl: "/projects/gluco.jpg",
+    imageUrl: "/projects/gluco.jpg", 
   },
   {
     title: "Ztyle - Modern E-Commerce Platform",
-    description: "Platform e-commerce modern dengan fitur lengkap untuk pelanggan dan admin, mulai dari katalog, checkout, manajemen pesanan, hingga CMS berita fashion.",
+    description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
     tech: ["Next.js 14", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "NextAuth.js", "Zod", "Zustand", "Vercel Blob"],
     link: "https://ztyle-store.vercel.app",
-    imageUrl: "/projects/ztyle.jpg",
+    imageUrl: "/projects/ztyle.JPG", 
   },
   {
-    title: "Predictive Analytics for Car MSRP",
-    description: "Melakukan analisis data eksplorasi (EDA) dan pemodelan prediktif menggunakan Regresi Linier dan KNN untuk memperkirakan harga mobil (MSRP).",
-    tech: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Jupyter"],
-    link: "https://github.com/miqbaljaffar/MLT/blob/main/MPA%20CAR%20(2).ipynb", 
-    imageUrl: "/projects/ztyle.jpg",
+    title: "Aurora Haven - Aplikasi Pemesanan Kamar Hotel",
+    description: "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
+    tech: ["Laravel", "PHP", "Bootstrap", "Eloquent ORM", "MySQL", "SweetAlert", "Maatwebsite/Excel"],
+    link: "https://miqbalj.pweb-utb.cloud",
+    imageUrl: "/projects/hotel.JPG" 
   },
   {
-    title: "Phone Recommendation System",
-    description: "Mengembangkan sistem rekomendasi smartphone berbasis fitur menggunakan cosine similarity untuk memberikan saran yang akurat dan personal.",
-    tech: ["Python", "Cosine Similarity", "Pandas", "Scikit-learn"],
-    link: "https://github.com/miqbaljaffar/MLT/blob/main/SRR.ipynb",
-    imageUrl: "/projects/hotel.jpg",
+    title: "Analisis Sentimen Aplikasi M-Pajak",
+    description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
+    tech: ["Python", "Pandas", "Scikit-learn", "TensorFlow", "Keras", "NLTK", "Sastrawi", "WordCloud", "Jupyter Notebook"],
+    link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
+    imageUrl: "/projects/mpajak.JPG" 
+  },
+  {
+    title: "Analisis dan Prediksi Student Dropout",
+    description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual dan web interaktif.",
+    tech: ["Python", "Pandas", "Scikit-learn", "Streamlit", "Metabase", "Jupyter Notebook", "Random Forest"],
+    link: "https://github.com/miqbaljaffar/Student-Dropout",
+    imageUrl: "/projects/dropout.jpg" 
   },
 ];
 
-// --- PENAMBAHAN: Data Kegiatan ---
 const activities: Activity[] = [
   {
     title: "Pameran Mikrokontroler",
     role: "Peserta & Presenter Proyek",
     description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR kepada pengunjung dan juri.",
-    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
+    imageUrl: "/img/gtr.jpg", 
     year: "2024"
   },
-  {
-    title: "Hackathon Nasional: Solusi Digital",
-    role: "Full-Stack Developer",
-    description: "Berkolaborasi dalam tim untuk membangun prototipe aplikasi event management dalam waktu 24 jam, mengintegrasikan Firebase dan QR Code.",
-    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
-    year: "2024"
-  },
-  {
-    title: "Pameran Website & Aplikasi Desktop",
-    role: "Pengembang Aplikasi",
-    description: "Mendemonstrasikan aplikasi desktop untuk manajemen perpustakaan yang dibangun dengan database lokal phpMyAdmin.",
-    imageUrl: "/certs/bangkit.jpg", // Ganti dengan path gambar Anda
-    year: "2023"
-  }
 ];
 
 const certifications: Certification[] = [
   {
     title: "Bangkit Academy Graduate with Distinction",
     issuer: "Google, GoTo, Traveloka",
-    description: "Lulus dari program Bangkit 2024 dengan predikat Distinction pada learning path Machine Learning.",
+    description: "Lulus Bangkit 2024 dengan predikat Distinction di jalur Machine Learning.",
     imageUrl: "/certs/bangkit.jpg", 
   },
   {
-    title: "Machine Learning Specialization",
-    issuer: "Stanford University & DeepLearning.AI",
-    description: "Menguasai model supervised, neural networks, decision trees, dan recommender systems.",
-    imageUrl: "/certs/bangkit.jpg", 
+    title: "Dev Certified for Machine Learning with TensorFlow",
+    issuer: "dev.id with Dicoding",
+    description: "Tersertifikasi dalam TensorFlow, neural network, image classification, NLP, dan time series prediction.",
+    imageUrl: "/certs/dcml.jpg", 
   },
   {
-    title: "DeepLearning.AI TensorFlow Developer",
-    issuer: "DeepLearning.AI",
-    description: "Sertifikasi profesional dalam membangun dan melatih model neural networks menggunakan TensorFlow.",
-    imageUrl: "/certs/bangkit.jpg",
+    title: "Machine Learning Operations (MLOps)",
+    issuer: "Dicoding Indonesia",
+    description: "Menguasai pengembangan dan operasional sistem machine learning end-to-end dengan prinsip MLOps industri.",
+    imageUrl: "/certs/mlops.JPG" 
   },
   {
-    title: "Oracle Cloud Infrastructure Foundations",
-    issuer: "Oracle Academy & Kominfo",
-    description: "Memiliki pemahaman fundamental mengenai layanan cloud Oracle, termasuk Core Infrastructure.",
-    imageUrl: "/certs/bangkit.jpg", 
-  },
-  {
-    title: "Natural Language Processing Specialization",
-    issuer: "DeepLearning.AI",
-    description: "Mendalami teknik NLP tingkat lanjut seperti word embeddings, RNNs, dan transformers.",
-    imageUrl: "/certs/bangkit.jpg",
-  },
-  {
-    title: "Junior Web Developer",
-    issuer: "BNSP",
-    description: "Sertifikasi kompetensi nasional yang memvalidasi kemampuan dalam pengembangan web.",
-    imageUrl: "/certs/bangkit.jpg", 
+    title: "Machine Learning Terapan",
+    issuer: "Dicoding Indonesia",
+    description: "Menerapkan machine learning untuk predictive analytics, sentiment analysis, computer vision, dan sistem rekomendasi.",
+    imageUrl: "/certs/mlt.JPG"
   },
 ];
 
@@ -175,7 +162,6 @@ export default function PortfolioPage() {
           <nav className="hidden md:flex items-center space-x-6">
             <a href="#about" className="hover:text-blue-500 transition-colors">Tentang Saya</a>
             <a href="#projects" className="hover:text-blue-500 transition-colors">Proyek</a>
-            {/* PENAMBAHAN: Link navigasi baru */}
             <a href="#activities" className="hover:text-blue-500 transition-colors">Kegiatan</a>
             <a href="#certifications" className="hover:text-blue-500 transition-colors">Sertifikasi</a>
             <a href="#contact" className="hover:text-blue-500 transition-colors">Kontak</a>
@@ -192,7 +178,7 @@ export default function PortfolioPage() {
       </header>
 
       <main className="pt-20">
-        {/* ... (Hero Section & About Me Section tidak berubah) ... */}
+        {/* ===== HERO SECTION ===== */}
         <section className="min-h-screen flex items-center justify-center text-center px-4">
           <div className="container mx-auto">
             <motion.div
@@ -202,7 +188,7 @@ export default function PortfolioPage() {
               className="mb-8"
             >
               <Image
-                src="/img/profile.jpg"
+                src="/img/profile.jpg" // PERUBAHAN: Format gambar ke .webp
                 alt="Foto Profil Mohammad Iqbal Jaffar"
                 width={150}
                 height={150}
@@ -235,7 +221,6 @@ export default function PortfolioPage() {
             >
               Mahasiswa Teknik Informatika dengan hasrat mendalam pada Machine Learning dan Data Science. Berpengalaman membangun model cerdas untuk menyelesaikan masalah dunia nyata.
             </motion.p>
-            {/* PERBAIKAN: Menambahkan tombol CV dan bungkus dalam flex container */}
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -265,11 +250,11 @@ export default function PortfolioPage() {
           </div>
         </section>
 
+        {/* ===== ABOUT ME SECTION ===== */}
         <section id="about" className="py-24 bg-gray-50 dark:bg-gray-900/40">
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-4">Tentang Saya</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12">
-              {/* PERBAIKAN: Menggunakan &quot; untuk tanda kutip */}
               Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning, saya tidak hanya membuat aplikasi, tapi juga memberinya &quot;otak&quot; untuk berpikir. Saya menikmati setiap tahap, mulai dari data mining hingga deployment fitur AI yang bermanfaat bagi pengguna.
             </p>
             <div className="grid md:grid-cols-3 gap-8">
@@ -286,67 +271,73 @@ export default function PortfolioPage() {
           </div>
         </section>
 
+        {/* ===== PROJECTS SECTION (DENGAN CAROUSEL) ===== */}
         <section id="projects" className="py-24">
-          <div className="container mx-auto text-center px-4">
-            <h2 className="text-4xl font-bold mb-12">Proyek Unggulan</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {featuredProjects.map((project, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="h-full"
-                >
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="block h-full group"
-                  >
-                    <Card className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col group-hover:border-blue-500 transition-all duration-300 transform group-hover:-translate-y-1 overflow-hidden rounded-lg shadow-md">
-                      <div className="relative w-full h-56">
-                        <Image
-                          src={project.imageUrl}
-                          alt={`Gambar pratinjau untuk ${project.title}`}
-                          fill={true}
-                          style={{objectFit: 'cover'}}
-                          className="transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <CardHeader>
-                        <CardTitle className="text-gray-900 dark:text-white">{project.title}</CardTitle>
-                        <CardDescription className="text-gray-600 dark:text-gray-400 pt-2">{project.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-grow">
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((t, i) => (
-                            <span key={i} className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-2 py-1 rounded-full">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </CardContent>
-                      <div className="p-6 pt-0 mt-auto">
-                        <div className="text-blue-600 dark:text-blue-400 p-0 inline-flex items-center font-medium">
-                          Lihat di GitHub
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </div>
-                      </div>
-                    </Card>
-                  </a>
-                </motion.div>
-              ))}
-            </div>
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-12 text-center">Proyek Unggulan</h2>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full max-w-5xl mx-auto"
+            >
+              <CarouselContent>
+                {featuredProjects.map((project, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2">
+                    <div className="p-1 h-full">
+                      <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="block h-full group"
+                      >
+                        <Card className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col group-hover:border-blue-500 transition-all duration-300 transform group-hover:-translate-y-1 overflow-hidden rounded-lg shadow-md">
+                          <div className="relative w-full h-56">
+                            <Image
+                              src={project.imageUrl}
+                              alt={`Gambar pratinjau untuk ${project.title}`}
+                              fill={true}
+                              style={{objectFit: 'cover'}}
+                              className="transition-transform duration-300 group-hover:scale-105"
+                            />
+                          </div>
+                          <CardHeader>
+                            <CardTitle className="text-gray-900 dark:text-white">{project.title}</CardTitle>
+                            <CardDescription className="text-gray-600 dark:text-gray-400 pt-2">{project.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex-grow">
+                            <div className="flex flex-wrap gap-2">
+                              {project.tech.map((t, i) => (
+                                <span key={i} className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-2 py-1 rounded-full">
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          </CardContent>
+                          <div className="p-6 pt-0 mt-auto">
+                            <div className="text-blue-600 dark:text-blue-400 p-0 inline-flex items-center font-medium">
+                              Lihat di GitHub
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </div>
+                          </div>
+                        </Card>
+                      </a>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         </section>
 
-        {/* --- PENAMBAHAN: SEKSI KEGIATAN (ACTIVITIES) --- */}
+        {/* ===== ACTIVITIES SECTION ===== */}
         <section id="activities" className="py-24 bg-gray-50 dark:bg-gray-900/40">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-12 text-center">Pengalaman & Kegiatan</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="max-w-md mx-auto">
               {activities.map((activity, index) => (
                 <motion.div
                   key={index}
@@ -385,48 +376,55 @@ export default function PortfolioPage() {
           </div>
         </section>
 
+        {/* ===== CERTIFICATIONS SECTION (DENGAN CAROUSEL) ===== */}
         <section id="certifications" className="py-24">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-12 text-center">Sertifikasi & Pencapaian</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {certifications.map((cert, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="h-full"
-                >
-                  <Card 
-                    className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col p-0 overflow-hidden shadow-md group cursor-pointer hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1"
-                    onClick={() => setSelectedCert(cert.imageUrl)}
-                  >
-                    <div className="relative h-40 w-full">
-                      <Image
-                        src={cert.imageUrl}
-                        alt={`Sertifikat untuk ${cert.title}`}
-                        fill={true}
-                        style={{objectFit: 'cover', objectPosition: 'top'}}
-                        className="transition-transform duration-300 group-hover:scale-105"
-                      />
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full max-w-6xl mx-auto"
+            >
+              <CarouselContent>
+                {certifications.map((cert, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1 h-full">
+                      <Card 
+                        className="bg-white dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 text-left h-full flex flex-col p-0 overflow-hidden shadow-md group cursor-pointer hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1"
+                        onClick={() => setSelectedCert(cert.imageUrl)}
+                      >
+                        <div className="relative h-40 w-full">
+                          <Image
+                            src={cert.imageUrl}
+                            alt={`Sertifikat untuk ${cert.title}`}
+                            fill={true}
+                            style={{objectFit: 'cover', objectPosition: 'top'}}
+                            className="transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="p-6 flex flex-col flex-grow">
+                          <CardHeader className="p-0">
+                            <CardTitle className="text-gray-900 dark:text-white text-lg">{cert.title}</CardTitle>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{cert.issuer}</p>
+                          </CardHeader>
+                          <CardContent className="p-0 pt-4 flex-grow">
+                            <p className="text-gray-600 dark:text-gray-400 text-sm">{cert.description}</p>
+                          </CardContent>
+                        </div>
+                      </Card>
                     </div>
-                    <div className="p-6 flex flex-col flex-grow">
-                      <CardHeader className="p-0">
-                        <CardTitle className="text-gray-900 dark:text-white text-lg">{cert.title}</CardTitle>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{cert.issuer}</p>
-                      </CardHeader>
-                      <CardContent className="p-0 pt-4 flex-grow">
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">{cert.description}</p>
-                      </CardContent>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         </section>
         
+        {/* ===== CONTACT SECTION ===== */}
         <section id="contact" className="py-24 bg-gray-50 dark:bg-gray-900/40">
           <div className="container mx-auto text-center px-4">
             <h2 className="text-4xl font-bold mb-4">Mari Terhubung</h2>
@@ -449,7 +447,7 @@ export default function PortfolioPage() {
         </div>
       </footer>
 
-      {/* ... (Modal Section tidak berubah) ... */}
+      {/* ===== MODAL ===== */}
       <AnimatePresence>
         {selectedCert && (
           <motion.div
