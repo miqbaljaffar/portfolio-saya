@@ -33,17 +33,19 @@ import {
   FileText,
   X,
   ExternalLink,
-  ChevronDown
+  ChevronDown,
+  Terminal,
+  Cpu,
+  Layers,
+  ArrowUp
 } from "lucide-react";
 import { ThemeSwitcher } from "../components/theme-switcher";
 
 // --- HELPERS UNTUK MEMUAT GSAP DARI CDN ---
-// (Di lingkungan produksi Next.js asli, Anda bisa menggunakan 'import gsap from "gsap"')
 const useGSAPLoader = () => {
   const [gsapLoaded, setGsapLoaded] = useState(false);
 
   useEffect(() => {
-    // Cek jika GSAP sudah ada di window
     if (typeof window !== "undefined" && (window as any).gsap) {
       setGsapLoaded(true);
       return;
@@ -57,7 +59,6 @@ const useGSAPLoader = () => {
       stScript.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
       stScript.async = true;
       stScript.onload = () => {
-        // Register plugin setelah dimuat
         if ((window as any).gsap && (window as any).ScrollTrigger) {
            (window as any).gsap.registerPlugin((window as any).ScrollTrigger);
         }
@@ -66,10 +67,6 @@ const useGSAPLoader = () => {
       document.body.appendChild(stScript);
     };
     document.body.appendChild(script);
-
-    return () => {
-      // Cleanup script tags jika perlu (opsional)
-    };
   }, []);
 
   return gsapLoaded;
@@ -92,12 +89,14 @@ type Certification = {
   imageUrl: string;
 };
 
-type Activity = {
+// Mengubah Activity menjadi Experience untuk Timeline
+type Experience = {
   title: string;
   role: string;
+  company: string;
   description: string;
-  imageUrl: string;
-  year: string;
+  date: string;
+  type: "work" | "education" | "organization";
 };
 
 // --- DATA ---
@@ -105,7 +104,7 @@ const featuredProjects: Project[] = [
   {
     title: "Automated Nutrition Fact Recognition",
     description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
-    tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
+    tech: ["Python", "TensorFlow", "OpenCV", "PaddleOCR"],
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
     imageUrl: "/projects/gluco.jpg",
   },
@@ -126,36 +125,47 @@ const featuredProjects: Project[] = [
   {
     title: "Analisis Sentimen M-Pajak",
     description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
-    tech: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
+    tech: ["Python", "NLP", "Scikit-learn", "Pandas"],
     link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
     imageUrl: "/projects/mpajak.JPG",
   },
   {
     title: "Prediksi Student Dropout",
     description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
-    tech: ["Python", "Streamlit", "Random Forest", "Pandas"],
+    tech: ["Python", "Streamlit", "Random Forest", "Data Viz"],
     link: "https://github.com/miqbaljaffar/Student-Dropout",
     imageUrl: "/projects/dropout.jpg",
   },
 ];
 
-const activities: Activity[] = [
+// Menggabungkan Activities & Bangkit menjadi Timeline Experience yang lebih profesional
+const experiences: Experience[] = [
+  {
+    title: "Bangkit Academy 2024 Batch 1",
+    role: "Machine Learning Cohort (Distinction)",
+    company: "Google, GoTo, Traveloka",
+    date: "Feb 2024 - Jun 2024",
+    type: "education", // Anggap ini pendidikan/magang
+    description: "Menyelesaikan kurikulum intensif 900+ jam. Memimpin tim dalam Capstone Project 'GlucoScan' (Nutrition Analysis App).",
+  },
   {
     title: "Pameran Mikrokontroler",
     role: "Peserta & Presenter",
-    description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR.",
-    imageUrl: "/img/gtr.jpg",
-    year: "2024",
+    company: "Universitas Teknologi Bandung",
+    date: "2024",
+    type: "organization",
+    description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR kepada publik dan akademisi.",
   },
 ];
 
+// Data Tech Stack untuk Marquee
+const techStack = [
+  "Python", "TensorFlow", "Pytorch", "Scikit-Learn", "OpenCV", 
+  "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL",
+  "Docker", "Git", "Figma", "Tailwind CSS"
+];
+
 const certifications: Certification[] = [
-  {
-    title: "Bangkit Academy Graduate (Distinction)",
-    issuer: "Google, GoTo, Traveloka",
-    description: "Lulus Bangkit 2024 dengan predikat Distinction di jalur Machine Learning.",
-    imageUrl: "/certs/bangkit.jpg",
-  },
   {
     title: "Dev Certified for ML with TensorFlow",
     issuer: "dev.id with Dicoding",
@@ -176,6 +186,33 @@ const certifications: Certification[] = [
   },
 ];
 
+// --- COMPONENT: TECH STACK MARQUEE ---
+const TechMarquee = () => {
+  return (
+    <div className="w-full overflow-hidden bg-white dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800 py-6 mb-16 relative">
+      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 dark:from-black to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 dark:from-black to-transparent z-10" />
+      
+      <div className="flex animate-marquee whitespace-nowrap">
+        {[...techStack, ...techStack].map((tech, index) => (
+          <div key={index} className="mx-8 flex items-center gap-2 text-gray-400 font-bold text-xl hover:text-blue-500 transition-colors cursor-default">
+            <span className="text-2xl">⚡</span> {tech}
+          </div>
+        ))}
+      </div>
+      <style jsx>{`
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
 // --- COMPONENT: SKILL CARD (With GSAP Hover) ---
 const SkillCard = ({ icon, title, children, gsapReady }: { icon: React.ReactNode; title: string; children: React.ReactNode; gsapReady: boolean }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -184,7 +221,6 @@ const SkillCard = ({ icon, title, children, gsapReady }: { icon: React.ReactNode
     if (!gsapReady || !cardRef.current || typeof window === "undefined") return;
     const gsap = (window as any).gsap;
 
-    // Menggunakan gsap.context untuk cleanup yang aman di React
     const ctx = gsap.context(() => {
       const card = cardRef.current!;
       card.addEventListener("mouseenter", () => {
@@ -232,11 +268,25 @@ const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string 
 // --- MAIN PAGE ---
 export default function PortfolioPage() {
   const [selectedCert, setSelectedCert] = React.useState<string | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   
-  // Load GSAP
   const gsapReady = useGSAPLoader();
+
+  // Scroll to Top Logic
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) setShowScrollTop(true);
+      else setShowScrollTop(false);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     if (!gsapReady || !containerRef.current || typeof window === "undefined") return;
@@ -244,7 +294,7 @@ export default function PortfolioPage() {
     const ScrollTrigger = (window as any).ScrollTrigger;
 
     const ctx = gsap.context(() => {
-      // 1. Navbar Animation (Slide Down)
+      // 1. Navbar Animation
       if (navRef.current) {
         gsap.from(navRef.current, {
           y: -100,
@@ -264,7 +314,7 @@ export default function PortfolioPage() {
         .from(".hero-desc", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
         .from(".hero-btn", { y: 20, opacity: 0, stagger: 0.1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4");
 
-      // 3. Scroll Down Indicator Animation
+      // 3. Scroll Indicator
       gsap.to(".scroll-indicator", {
         y: 10,
         repeat: -1,
@@ -273,10 +323,9 @@ export default function PortfolioPage() {
         ease: "power1.inOut"
       });
 
-      // 4. General Section Headers Reveal
+      // 4. Section Headers
       if (ScrollTrigger) {
         gsap.utils.toArray(".section-header").forEach((header: any) => {
-          // Perbaikan: Gunakan fromTo untuk elemen yang memiliki class opacity-0
           gsap.fromTo(header, 
             { y: 50, opacity: 0 }, 
             {
@@ -293,13 +342,11 @@ export default function PortfolioPage() {
           );
         });
 
-        // 5. Staggered Grid Reveals (About, Projects, Certs)
-        const staggerSections = [".about-grid", ".activities-grid"];
+        // 5. Staggered Elements
+        const staggerSections = [".about-grid", ".experience-timeline"];
         staggerSections.forEach((section) => {
           const el = document.querySelector(section);
           if(el) {
-            // Perbaikan: Gunakan fromTo karena element memiliki class 'opacity-0'
-            // Jika menggunakan 'from', GSAP akan menganimasikan dari 0 ke opacity saat ini (yang mana 0)
             gsap.fromTo(section, 
               { y: 50, opacity: 0 },
               {
@@ -316,8 +363,7 @@ export default function PortfolioPage() {
           }
         });
 
-        // 6. Carousel Reveal
-        // Perbaikan: Gunakan gsap.utils.toArray untuk menangani SEMUA carousel (Projects & Certs)
+        // 6. Carousels
         gsap.utils.toArray(".carousel-container").forEach((container: any) => {
           gsap.fromTo(container,
             { scale: 0.95, opacity: 0 },
@@ -358,7 +404,7 @@ export default function PortfolioPage() {
             </a>
           </h1>
           <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-            {["About", "Projects", "Activities", "Certifications"].map((item) => (
+            {["About", "Experience", "Projects", "Certifications"].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase()}`} 
@@ -386,7 +432,6 @@ export default function PortfolioPage() {
           <div className="container mx-auto max-w-4xl">
             <div className="hero-img mb-8 relative inline-block">
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-2xl opacity-40 animate-pulse"></div>
-              {/* Menggunakan <img> biasa agar compatible dengan preview */}
               <img
                 src="/img/profile.jpg"
                 alt="Mohammad Iqbal Jaffar"
@@ -432,6 +477,9 @@ export default function PortfolioPage() {
           </div>
         </section>
 
+        {/* ===== TECH STACK MARQUEE ===== */}
+        <TechMarquee />
+
         {/* ===== ABOUT ME SECTION ===== */}
         <section id="about" className="py-24 relative">
           <div className="container mx-auto px-4">
@@ -455,8 +503,50 @@ export default function PortfolioPage() {
           </div>
         </section>
 
+        {/* ===== EXPERIENCE TIMELINE (REPLACES ACTIVITIES) ===== */}
+        <section id="experience" className="py-24 bg-gray-50 dark:bg-gray-900/30">
+          <div className="container mx-auto px-4">
+            <SectionHeading title="Pengalaman & Aktivitas" subtitle="true" />
+            
+            <div className="experience-timeline max-w-3xl mx-auto relative opacity-0">
+              {/* Timeline Line */}
+              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-800 transform md:-translate-x-1/2 ml-4 md:ml-0" />
+
+              {experiences.map((exp, index) => (
+                <div key={index} className={`relative mb-12 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-start`}>
+                  
+                  {/* Timeline Dot */}
+                  <div className="absolute left-0 md:left-1/2 top-0 w-8 h-8 rounded-full bg-blue-500 border-4 border-white dark:border-black transform -translate-x-1/2 md:-translate-x-1/2 ml-4 md:ml-0 z-10 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                  </div>
+
+                  {/* Spacer for Desktop */}
+                  <div className="hidden md:block w-1/2" />
+
+                  {/* Content Card */}
+                  <div className="w-full md:w-1/2 pl-16 md:pl-0 md:px-8">
+                     <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
+                        <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full text-xs font-bold mb-3">
+                          {exp.date}
+                        </span>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{exp.title}</h3>
+                        <p className="text-blue-600 dark:text-blue-400 font-medium text-sm mb-3 flex items-center gap-2">
+                           {exp.type === 'education' ? <Terminal size={14} /> : <Cpu size={14} />}
+                           {exp.role} @ {exp.company}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                          {exp.description}
+                        </p>
+                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ===== PROJECTS SECTION ===== */}
-        <section id="projects" className="py-24 bg-gray-100/50 dark:bg-gray-900/30">
+        <section id="projects" className="py-24">
           <div className="container mx-auto px-4">
             <SectionHeading title="Proyek Unggulan" subtitle="true" />
             
@@ -491,7 +581,7 @@ export default function PortfolioPage() {
                             <CardContent>
                               <div className="flex flex-wrap gap-2 mt-auto">
                                 {project.tech.map((t, i) => (
-                                  <span key={i} className="text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-3 py-1 rounded-full">
+                                  <span key={i} className="text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700">
                                     {t}
                                   </span>
                                 ))}
@@ -508,36 +598,6 @@ export default function PortfolioPage() {
                   <CarouselNext className="right-[-50px] bg-white dark:bg-gray-800 border-0 shadow-lg" />
                 </div>
               </Carousel>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== ACTIVITIES SECTION ===== */}
-        <section id="activities" className="py-24">
-          <div className="container mx-auto px-4">
-            <SectionHeading title="Aktivitas" />
-            <div className="activities-grid max-w-4xl mx-auto opacity-0">
-              {activities.map((activity, index) => (
-                <div key={index} className="group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800">
-                  <div className="md:flex">
-                    <div className="md:w-1/3 relative h-48 md:h-auto overflow-hidden">
-                      <img
-                        src={activity.imageUrl}
-                        alt={activity.title}
-                        className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
-                      />
-                    </div>
-                    <div className="p-8 md:w-2/3">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{activity.title}</h3>
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-bold rounded-full">{activity.year}</span>
-                      </div>
-                      <p className="text-blue-600 dark:text-blue-400 font-medium mb-4">{activity.role}</p>
-                      <p className="text-gray-600 dark:text-gray-400">{activity.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -631,6 +691,21 @@ export default function PortfolioPage() {
           </p>
         </div>
       </footer>
+      
+      {/* ===== SCROLL TO TOP BUTTON ===== */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 p-3 bg-blue-600 text-white rounded-full shadow-lg z-40 hover:bg-blue-700 transition-colors"
+          >
+            <ArrowUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* ===== MODAL (Framer Motion for ease of mount/unmount) ===== */}
       <AnimatePresence>
