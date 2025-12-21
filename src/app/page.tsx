@@ -107,35 +107,35 @@ const featuredProjects: Project[] = [
     description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
     tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
-    imageUrl: "../projects/gluco.jpg",
+    imageUrl: "/projects/gluco.jpg",
   },
   {
     title: "Ztyle - Modern E-Commerce",
     description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
     tech: ["Next.js 14", "Prisma", "PostgreSQL", "Zustand"],
     link: "https://ztyle-store.vercel.app",
-    imageUrl: "../projects/ztyle.JPG",
+    imageUrl: "/projects/ztyle.JPG",
   },
   {
     title: "Aurora Haven Hotel",
     description: "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
     tech: ["Laravel", "PHP", "MySQL", "Bootstrap"],
     link: "https://miqbalj.pweb-utb.cloud",
-    imageUrl: "../projects/hotel.JPG",
+    imageUrl: "/projects/hotel.JPG",
   },
   {
     title: "Analisis Sentimen M-Pajak",
     description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
     tech: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
     link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
-    imageUrl: "../projects/mpajak.JPG",
+    imageUrl: "/projects/mpajak.JPG",
   },
   {
     title: "Prediksi Student Dropout",
     description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
     tech: ["Python", "Streamlit", "Random Forest", "Pandas"],
     link: "https://github.com/miqbaljaffar/Student-Dropout",
-    imageUrl: "../projects/dropout.jpg",
+    imageUrl: "/projects/dropout.jpg",
   },
 ];
 
@@ -144,7 +144,7 @@ const activities: Activity[] = [
     title: "Pameran Mikrokontroler",
     role: "Peserta & Presenter",
     description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR.",
-    imageUrl: "../img/gtr.jpg",
+    imageUrl: "/img/gtr.jpg",
     year: "2024",
   },
 ];
@@ -154,25 +154,25 @@ const certifications: Certification[] = [
     title: "Bangkit Academy Graduate (Distinction)",
     issuer: "Google, GoTo, Traveloka",
     description: "Lulus Bangkit 2024 dengan predikat Distinction di jalur Machine Learning.",
-    imageUrl: "../certs/bangkit.jpg",
+    imageUrl: "/certs/bangkit.jpg",
   },
   {
     title: "Dev Certified for ML with TensorFlow",
     issuer: "dev.id with Dicoding",
     description: "Tersertifikasi dalam TensorFlow, neural network, dan image classification.",
-    imageUrl: "../certs/dcml.jpg",
+    imageUrl: "/certs/dcml.jpg",
   },
   {
     title: "Machine Learning Operations (MLOps)",
     issuer: "Dicoding Indonesia",
     description: "Menguasai pengembangan dan operasional sistem ML end-to-end.",
-    imageUrl: "../certs/mlops.JPG",
+    imageUrl: "/certs/mlops.JPG",
   },
   {
     title: "Machine Learning Terapan",
     issuer: "Dicoding Indonesia",
     description: "Menerapkan ML untuk predictive analytics dan sentiment analysis.",
-    imageUrl: "../certs/mlt.JPG",
+    imageUrl: "/certs/mlt.JPG",
   },
 ];
 
@@ -276,17 +276,21 @@ export default function PortfolioPage() {
       // 4. General Section Headers Reveal
       if (ScrollTrigger) {
         gsap.utils.toArray(".section-header").forEach((header: any) => {
-          gsap.to(header, {
-            scrollTrigger: {
-              trigger: header,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power3.out"
-          });
+          // Perbaikan: Gunakan fromTo untuk elemen yang memiliki class opacity-0
+          gsap.fromTo(header, 
+            { y: 50, opacity: 0 }, 
+            {
+              scrollTrigger: {
+                trigger: header,
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+              },
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "power3.out"
+            }
+          );
         });
 
         // 5. Staggered Grid Reveals (About, Projects, Certs)
@@ -294,34 +298,41 @@ export default function PortfolioPage() {
         staggerSections.forEach((section) => {
           const el = document.querySelector(section);
           if(el) {
-            gsap.from(section, {
-              scrollTrigger: {
-                trigger: section,
-                start: "top 85%",
-              },
-              y: 50,
-              opacity: 0,
-              duration: 0.8,
-              stagger: 0.2,
-              ease: "power3.out"
-            });
+            // Perbaikan: Gunakan fromTo karena element memiliki class 'opacity-0'
+            // Jika menggunakan 'from', GSAP akan menganimasikan dari 0 ke opacity saat ini (yang mana 0)
+            gsap.fromTo(section, 
+              { y: 50, opacity: 0 },
+              {
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top 85%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power3.out"
+              }
+            );
           }
         });
 
         // 6. Carousel Reveal
-        const carouselContainer = document.querySelector(".carousel-container");
-        if(carouselContainer) {
-          gsap.from(".carousel-container", {
-            scrollTrigger: {
-              trigger: ".carousel-container",
-              start: "top 80%",
-            },
-            scale: 0.95,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-          });
-        }
+        // Perbaikan: Gunakan gsap.utils.toArray untuk menangani SEMUA carousel (Projects & Certs)
+        gsap.utils.toArray(".carousel-container").forEach((container: any) => {
+          gsap.fromTo(container,
+            { scale: 0.95, opacity: 0 },
+            {
+              scrollTrigger: {
+                trigger: container,
+                start: "top 80%",
+              },
+              scale: 1,
+              opacity: 1,
+              duration: 1,
+              ease: "power3.out"
+            }
+          );
+        });
       }
 
     }, containerRef);
