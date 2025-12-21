@@ -37,7 +37,8 @@ import {
   Terminal,
   Cpu,
   Layers,
-  ArrowUp
+  ArrowUp,
+  Briefcase
 } from "lucide-react";
 import { ThemeSwitcher } from "../components/theme-switcher";
 
@@ -100,69 +101,71 @@ type Experience = {
 };
 
 // --- DATA ---
+// Update Project sesuai CV Baru (CV_Iqbal_Jaffar.pdf)
 const featuredProjects: Project[] = [
   {
+    title: "Anxiety Attack Severity Prediction",
+    description: "Model Deep Learning untuk memprediksi tingkat keparahan serangan kecemasan (Mild hingga Panic). Dideploy di Railway & Docker dengan monitoring real-time via Prometheus & Grafana.",
+    tech: ["TensorFlow", "Keras", "Docker", "Prometheus", "Grafana"],
+    link: "https://github.com/miqbaljaffar", 
+    imageUrl: "/projects/anxiety.jpg",
+  },
+  {
+    title: "Football Fake News Classification",
+    description: "Sistem deteksi berita palsu sepak bola (91.88% akurasi) menggunakan komponen TFX (SchemaGen, Transform, Trainer, Pusher) dan dideploy menggunakan Docker.",
+    tech: ["Python", "TFX", "Docker", "Machine Learning"],
+    link: "https://github.com/miqbaljaffar",
+    imageUrl: "/projects/football.jpg",
+  },
+  {
+    title: "Predictive Analytics for MSRP",
+    description: "Analisis prediktif harga mobil (MSRP) menggunakan Linear Regression dan KNN. KNN terbukti memberikan performa terbaik dalam menangkap tren harga pasar.",
+    tech: ["Python", "Scikit-learn", "KNN", "Linear Regression"],
+    link: "https://github.com/miqbaljaffar",
+    imageUrl: "/projects/msrp.jpg",
+  },
+  {
+    title: "Model System Recommendation",
+    description: "Sistem rekomendasi smartphone berbasis fitur menggunakan Cosine Similarity. Evaluasi presisi menunjukkan relevansi 100% untuk rekomendasi yang personal.",
+    tech: ["Python", "Cosine Similarity", "EDA", "Recommender System"],
+    link: "https://github.com/miqbaljaffar",
+    imageUrl: "/projects/recommendation.jpg",
+  },
+  {
     title: "Automated Nutrition Fact Recognition",
-    description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
-    tech: ["Python", "TensorFlow", "OpenCV", "PaddleOCR"],
+    description: "Model CNN untuk mengekstrak tabel fakta nutrisi (gula) dari citra kemasan menggunakan OpenCV dan PaddleOCR. F1-score 0.8550.",
+    tech: ["Python", "CNN", "OpenCV", "PaddleOCR"],
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
     imageUrl: "/projects/gluco.jpg",
   },
-  {
-    title: "Ztyle - Modern E-Commerce",
-    description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
-    tech: ["Next.js 14", "Prisma", "PostgreSQL", "Zustand"],
-    link: "https://ztyle-store.vercel.app",
-    imageUrl: "/projects/ztyle.JPG",
-  },
-  {
-    title: "Aurora Haven Hotel",
-    description: "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
-    tech: ["Laravel", "PHP", "MySQL", "Bootstrap"],
-    link: "https://miqbalj.pweb-utb.cloud",
-    imageUrl: "/projects/hotel.JPG",
-  },
-  {
-    title: "Analisis Sentimen M-Pajak",
-    description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
-    tech: ["Python", "NLP", "Scikit-learn", "Pandas"],
-    link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
-    imageUrl: "/projects/mpajak.JPG",
-  },
-  {
-    title: "Prediksi Student Dropout",
-    description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
-    tech: ["Python", "Streamlit", "Random Forest", "Data Viz"],
-    link: "https://github.com/miqbaljaffar/Student-Dropout",
-    imageUrl: "/projects/dropout.jpg",
-  },
 ];
 
-// Menggabungkan Activities & Bangkit menjadi Timeline Experience yang lebih profesional
+// Update Experience sesuai CV Baru
 const experiences: Experience[] = [
   {
-    title: "Bangkit Academy 2024 Batch 1",
-    role: "Machine Learning Cohort (Distinction)",
-    company: "Google, GoTo, Traveloka",
-    date: "Feb 2024 - Jun 2024",
-    type: "education", // Anggap ini pendidikan/magang
-    description: "Menyelesaikan kurikulum intensif 900+ jam. Memimpin tim dalam Capstone Project 'GlucoScan' (Nutrition Analysis App).",
+    title: "Tax Iwaaki (Remote Internship)",
+    role: "Programmer",
+    company: "Tax Iwaaki",
+    date: "Jun 2025 - Present",
+    type: "work", 
+    description: "Mendigitalisasi alur kerja manual divisi Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
   },
   {
-    title: "Pameran Mikrokontroler",
-    role: "Peserta & Presenter",
-    company: "Universitas Teknologi Bandung",
-    date: "2024",
-    type: "organization",
-    description: "Mempresentasikan sistem klasifikasi sampah otomatis berbasis sensor induktif dan LDR kepada publik dan akademisi.",
+    title: "Bangkit Academy 2024 Batch 2",
+    role: "Machine Learning Cohort",
+    company: "Google, GoTo, Traveloka",
+    date: "Sep 2024 - Dec 2024",
+    type: "education", 
+    description: "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan 'GlucoScan' (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
   },
 ];
 
-// Data Tech Stack untuk Marquee
+// Data Tech Stack sesuai CV Baru
 const techStack = [
-  "Python", "TensorFlow", "Pytorch", "Scikit-Learn", "OpenCV", 
-  "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL",
-  "Docker", "Git", "Figma", "Tailwind CSS"
+  "Python", "SQL", "PHP", "JavaScript", "TypeScript",
+  "TensorFlow", "Keras", "Scikit-Learn", "OpenCV", "PaddleOCR",
+  "MariaDB", "Firebase", "Roboflow", "Streamlit", "Tableau",
+  "Docker", "Vercel", "Git"
 ];
 
 const certifications: Certification[] = [
@@ -448,7 +451,7 @@ export default function PortfolioPage() {
               Machine Learning Engineer
             </h2>
             <p className="hero-desc text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Mengubah data menjadi kecerdasan. Saya membangun solusi AI yang skalabel dan aplikasi web modern yang memecahkan masalah dunia nyata.
+              Mahasiswa Teknik Informatika Universitas Teknologi Bandung (Semester 7) berumur 24 tahun yang berfokus pada Machine Learning, Data Science, dan pengembangan aplikasi web yang skalabel serta sistem backend yang handal.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -531,7 +534,7 @@ export default function PortfolioPage() {
                         </span>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{exp.title}</h3>
                         <p className="text-blue-600 dark:text-blue-400 font-medium text-sm mb-3 flex items-center gap-2">
-                           {exp.type === 'education' ? <Terminal size={14} /> : <Cpu size={14} />}
+                           {exp.type === 'education' ? <Terminal size={14} /> : <Briefcase size={14} />}
                            {exp.role} @ {exp.company}
                         </p>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
