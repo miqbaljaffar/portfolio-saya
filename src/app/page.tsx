@@ -1,27 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
-// Menggunakan img tag biasa untuk preview environment agar tidak error
-// import Image from "next/image"; 
-import { motion, AnimatePresence } from "framer-motion";
-
-// Import komponen UI dengan relative path untuk menghindari error alias (@/)
-import { Button } from "../components/ui/button";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../components/ui/card";
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../components/ui/carousel";
+} from "@/components/ui/carousel";
 import {
   ArrowRight,
   Code,
@@ -35,46 +31,15 @@ import {
   ExternalLink,
   ChevronDown,
   Terminal,
-  Cpu,
-  Layers,
+  Briefcase,
   ArrowUp,
-  Briefcase
+  Menu,
 } from "lucide-react";
-import { ThemeSwitcher } from "../components/theme-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
-// --- HELPERS UNTUK MEMUAT GSAP DARI CDN ---
-const useGSAPLoader = () => {
-  const [gsapLoaded, setGsapLoaded] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).gsap) {
-      setGsapLoaded(true);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
-    script.async = true;
-    script.onload = () => {
-      const stScript = document.createElement("script");
-      stScript.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
-      stScript.async = true;
-      stScript.onload = () => {
-        if ((window as any).gsap && (window as any).ScrollTrigger) {
-           (window as any).gsap.registerPlugin((window as any).ScrollTrigger);
-        }
-        setGsapLoaded(true);
-      };
-      document.body.appendChild(stScript);
-    };
-    document.body.appendChild(script);
-  }, []);
-
-  return gsapLoaded;
-};
-
-
-// --- TIPE DATA ---
+// ─────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────
 type Project = {
   title: string;
   description: string;
@@ -90,7 +55,6 @@ type Certification = {
   imageUrl: string;
 };
 
-// Mengubah Activity menjadi Experience untuk Timeline
 type Experience = {
   title: string;
   role: string;
@@ -100,71 +64,78 @@ type Experience = {
   type: "work" | "education" | "organization";
 };
 
-// --- DATA ---
+// ─────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────
 const featuredProjects: Project[] = [
   {
     title: "Automated Nutrition Fact Recognition",
-    description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
+    description:
+      "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
     tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
     imageUrl: "/projects/gluco.jpg",
   },
   {
     title: "Ztyle - Modern E-Commerce",
-    description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
+    description:
+      "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
     tech: ["Next.js 14", "Prisma", "PostgreSQL", "Zustand"],
     link: "https://ztyle-store.vercel.app",
     imageUrl: "/projects/ztyle.JPG",
   },
   {
     title: "Aurora Haven Hotel",
-    description: "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
+    description:
+      "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
     tech: ["Laravel", "PHP", "MySQL", "Bootstrap"],
     link: "https://miqbalj.pweb-utb.cloud",
     imageUrl: "/projects/hotel.JPG",
   },
   {
     title: "Analisis Sentimen M-Pajak",
-    description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
+    description:
+      "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
     tech: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
     link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
     imageUrl: "/projects/mpajak.JPG",
   },
   {
     title: "Prediksi Student Dropout",
-    description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
+    description:
+      "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
     tech: ["Python", "Streamlit", "Random Forest", "Pandas"],
     link: "https://github.com/miqbaljaffar/Student-Dropout",
     imageUrl: "/projects/dropout.jpg",
   },
 ];
 
-// Update Experience sesuai CV Baru
 const experiences: Experience[] = [
   {
     title: "Tax Iwaaki (Remote Internship)",
     role: "Programmer",
     company: "Tax Iwaaki",
-    date: "Jun 2025 - Present",
-    type: "work", 
-    description: "Mendigitalisasi alur kerja manual divisi Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
+    date: "Jun 2025 – Present",
+    type: "work",
+    description:
+      "Mendigitalisasi alur kerja manual divisi Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
   },
   {
     title: "Bangkit Academy 2024 Batch 2",
     role: "Machine Learning Cohort",
     company: "Google, GoTo, Traveloka",
-    date: "Sep 2024 - Dec 2024",
-    type: "education", 
-    description: "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan 'GlucoScan' (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
+    date: "Sep 2024 – Dec 2024",
+    type: "education",
+    description:
+      "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan 'GlucoScan' (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
   },
 ];
 
-// Data Tech Stack sesuai CV Baru
 const techStack = [
   "Python", "SQL", "PHP", "JavaScript", "TypeScript",
   "TensorFlow", "Keras", "Scikit-Learn", "OpenCV", "PaddleOCR",
   "MariaDB", "Firebase", "Roboflow", "Streamlit", "Tableau",
-  "Docker", "Vercel", "Git"
+  "Docker", "Vercel", "Git",
 ];
 
 const certifications: Certification[] = [
@@ -194,558 +165,740 @@ const certifications: Certification[] = [
   },
 ];
 
-// --- COMPONENT: TECH STACK MARQUEE ---
-const TechMarquee = () => {
+const navItems = ["About", "Experience", "Projects", "Certifications"];
+
+// ─────────────────────────────────────────
+// ANIMATION VARIANTS
+// ─────────────────────────────────────────
+
+// Typed bezier curve untuk Framer Motion
+const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: EASE_OUT_EXPO, delay },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    transition: { duration: 0.6, ease: "easeOut" as const, delay },
+  }),
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT_EXPO },
+  },
+};
+
+// ─────────────────────────────────────────
+// REUSABLE: AnimatedSection
+// ─────────────────────────────────────────
+function AnimatedSection({
+  children,
+  className,
+  variants = staggerContainer,
+  once = true,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  variants?: typeof staggerContainer;
+  once?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once, margin: "-80px 0px" });
+
   return (
-    <div className="w-full overflow-hidden bg-white dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800 py-6 mb-16 relative">
-      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 dark:from-black to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 dark:from-black to-transparent z-10" />
-      
+    <motion.div
+      ref={ref}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─────────────────────────────────────────
+// COMPONENT: TechMarquee
+// ─────────────────────────────────────────
+function TechMarquee() {
+  const items = [...techStack, ...techStack];
+  return (
+    <div className="relative w-full overflow-hidden border-y border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 py-5 my-0">
+      {/* Fade edges */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10" />
+
       <div className="flex animate-marquee whitespace-nowrap">
-        {[...techStack, ...techStack].map((tech, index) => (
-          <div key={index} className="mx-8 flex items-center gap-2 text-gray-400 font-bold text-xl hover:text-blue-500 transition-colors cursor-default">
-            <span className="text-2xl">⚡</span> {tech}
-          </div>
+        {items.map((tech, i) => (
+          <span
+            key={i}
+            className="mx-8 flex items-center gap-2 text-gray-400 dark:text-gray-600 font-semibold text-sm tracking-wide uppercase hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200 cursor-default"
+          >
+            <span className="text-blue-500/60 text-xs">✦</span>
+            {tech}
+          </span>
         ))}
       </div>
-      <style jsx>{`
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </div>
   );
-};
+}
 
-// --- COMPONENT: SKILL CARD (With GSAP Hover) ---
-const SkillCard = ({ icon, title, children, gsapReady }: { icon: React.ReactNode; title: string; children: React.ReactNode; gsapReady: boolean }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!gsapReady || !cardRef.current || typeof window === "undefined") return;
-    const gsap = (window as any).gsap;
-
-    const ctx = gsap.context(() => {
-      const card = cardRef.current!;
-      card.addEventListener("mouseenter", () => {
-        gsap.to(card, { y: -10, scale: 1.02, duration: 0.3, ease: "power2.out", boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" });
-        const iconWrapper = card.querySelector(".icon-wrapper");
-        if(iconWrapper) gsap.to(iconWrapper, { scale: 1.2, rotate: 10, duration: 0.4, ease: "back.out(1.7)" });
-      });
-      card.addEventListener("mouseleave", () => {
-        gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: "power2.out", boxShadow: "none" });
-        const iconWrapper = card.querySelector(".icon-wrapper");
-        if(iconWrapper) gsap.to(iconWrapper, { scale: 1, rotate: 0, duration: 0.4 });
-      });
-    }, cardRef);
-
-    return () => ctx.revert(); 
-  }, [gsapReady]);
+// ─────────────────────────────────────────
+// COMPONENT: SectionHeading
+// ─────────────────────────────────────────
+function SectionHeading({ title, withBar = true }: { title: string; withBar?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px 0px" });
 
   return (
-    <div 
-      ref={cardRef}
-      className="bg-white/50 dark:bg-gray-900/50 backdrop-blur-md p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm relative group overflow-hidden"
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className="text-center mb-16"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="icon-wrapper flex justify-center mb-6 text-blue-600 dark:text-blue-400">
+      <motion.h2
+        variants={fadeUp}
+        custom={0}
+        className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
+      >
+        {title}
+      </motion.h2>
+      {withBar && (
+        <motion.div
+          variants={fadeIn}
+          custom={0.2}
+          className="h-1 w-16 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
+        />
+      )}
+    </motion.div>
+  );
+}
+
+// ─────────────────────────────────────────
+// COMPONENT: SkillCard
+// ─────────────────────────────────────────
+function SkillCard({
+  icon,
+  title,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      variants={staggerItem}
+      whileHover={{ y: -8, scale: 1.02 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="relative group bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300 overflow-hidden cursor-default"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+      <motion.div
+        className="flex justify-center mb-6 text-blue-600 dark:text-blue-400"
+        whileHover={{ scale: 1.2, rotate: 8 }}
+        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      >
         {icon}
-      </div>
+      </motion.div>
       <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white relative z-10">{title}</h3>
       <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm relative z-10">{children}</p>
-    </div>
+    </motion.div>
   );
-};
+}
 
-// --- COMPONENT: SECTION HEADING ---
-const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string }) => {
-  return (
-    <div className="text-center mb-16 section-header opacity-0 translate-y-10">
-      <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
-        {title}
-      </h2>
-      {subtitle && <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />}
-    </div>
-  );
-};
-
-// --- MAIN PAGE ---
+// ─────────────────────────────────────────
+// MAIN PAGE
+// ─────────────────────────────────────────
 export default function PortfolioPage() {
-  const [selectedCert, setSelectedCert] = React.useState<string | null>(null);
+  const [selectedCert, setSelectedCert] = useState<string | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
-  
-  const gsapReady = useGSAPLoader();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
-  // Scroll to Top Logic
+  // Close mobile nav on resize
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileNavOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // Scroll tracking: scroll-to-top + active section
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) setShowScrollTop(true);
-      else setShowScrollTop(false);
+      setShowScrollTop(window.scrollY > 400);
+
+      // Determine active nav section
+      const sections = navItems.map((item) =>
+        document.getElementById(item.toLowerCase())
+      );
+      let current = "";
+      sections.forEach((section) => {
+        if (section) {
+          const { top } = section.getBoundingClientRect();
+          if (top <= 120) current = section.id;
+        }
+      });
+      setActiveSection(current);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
-  useEffect(() => {
-    if (!gsapReady || !containerRef.current || typeof window === "undefined") return;
-    const gsap = (window as any).gsap;
-    const ScrollTrigger = (window as any).ScrollTrigger;
-
-    const ctx = gsap.context(() => {
-      // 1. Navbar Animation
-      if (navRef.current) {
-        gsap.from(navRef.current, {
-          y: -100,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
-          delay: 0.2
-        });
-      }
-
-      // 2. Hero Animation
-      const heroTl = gsap.timeline();
-      heroTl
-        .from(".hero-img", { scale: 0, opacity: 0, duration: 1, ease: "elastic.out(1, 0.5)" })
-        .from(".hero-text-1", { y: 50, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.5")
-        .from(".hero-text-2", { y: 50, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
-        .from(".hero-desc", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
-        .from(".hero-btn", { y: 20, opacity: 0, stagger: 0.1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4");
-
-      // 3. Scroll Indicator
-      gsap.to(".scroll-indicator", {
-        y: 10,
-        repeat: -1,
-        yoyo: true,
-        duration: 1.5,
-        ease: "power1.inOut"
-      });
-
-      // 4. Section Headers
-      if (ScrollTrigger) {
-        gsap.utils.toArray(".section-header").forEach((header: any) => {
-          gsap.fromTo(header, 
-            { y: 50, opacity: 0 }, 
-            {
-              scrollTrigger: {
-                trigger: header,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-              },
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power3.out"
-            }
-          );
-        });
-
-        // 5. Staggered Elements
-        const staggerSections = [".about-grid", ".experience-timeline"];
-        staggerSections.forEach((section) => {
-          const el = document.querySelector(section);
-          if(el) {
-            gsap.fromTo(section, 
-              { y: 50, opacity: 0 },
-              {
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top 85%",
-                },
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                ease: "power3.out"
-              }
-            );
-          }
-        });
-
-        // 6. Carousels
-        gsap.utils.toArray(".carousel-container").forEach((container: any) => {
-          gsap.fromTo(container,
-            { scale: 0.95, opacity: 0 },
-            {
-              scrollTrigger: {
-                trigger: container,
-                start: "top 80%",
-              },
-              scale: 1,
-              opacity: 1,
-              duration: 1,
-              ease: "power3.out"
-            }
-          );
-        });
-      }
-
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [gsapReady]);
+  // Hero parallax
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, -80]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <div ref={containerRef} className="bg-gray-50 dark:bg-black text-gray-800 dark:text-gray-200 antialiased min-h-screen selection:bg-blue-500 selection:text-white">
-      
-      {/* ===== BACKGROUND ELEMENTS ===== */}
+    <div className="bg-gray-50 dark:bg-[#0a0a0f] text-gray-800 dark:text-gray-200 antialiased min-h-screen selection:bg-blue-500 selection:text-white">
+
+      {/* ─── AMBIENT BACKGROUND ORBS ─── */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/10 blur-[100px]" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[100px]" />
+        <div className="absolute top-[-15%] right-[-8%] w-[600px] h-[600px] rounded-full bg-blue-500/[0.08] blur-[100px]" />
+        <div className="absolute bottom-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full bg-purple-500/[0.08] blur-[100px]" />
+        <div className="absolute top-[40%] left-[40%] w-[300px] h-[300px] rounded-full bg-indigo-400/[0.05] blur-[80px]" />
       </div>
 
-      {/* ===== HEADER ===== */}
-      <header ref={navRef} className="fixed top-0 left-0 w-full z-50 bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50 supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto flex justify-between items-center p-4">
-          <h1 className="text-2xl font-bold tracking-tighter">
-            <a href="#" aria-label="Homepage" className="flex items-center gap-1 group">
-              <span className="text-blue-600 dark:text-blue-500 group-hover:-translate-y-1 transition-transform inline-block">M</span>I<span className="text-blue-600 dark:text-blue-500 group-hover:translate-y-1 transition-transform inline-block">J</span>
-            </a>
-          </h1>
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-            {["About", "Experience", "Projects", "Certifications"].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
-                className="relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-[-4px] after:left-0 after:bg-blue-500 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-              >
-                {item}
-              </a>
-            ))}
+      {/* ─── HEADER ─── */}
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.1 }}
+        className="fixed top-0 left-0 w-full z-50 bg-white/75 dark:bg-black/75 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-800/60"
+      >
+        <div className="container mx-auto flex justify-between items-center px-4 py-3">
+          {/* Logo */}
+          <a href="#" aria-label="Homepage" className="group flex items-center gap-0.5">
+            <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">
+              <span className="text-blue-600 group-hover:-translate-y-1 inline-block transition-transform duration-200">M</span>
+              I
+              <span className="text-blue-600 group-hover:translate-y-1 inline-block transition-transform duration-200">J</span>
+            </span>
+          </a>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.toLowerCase();
+              return (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                    isActive
+                      ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50"
+                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-900"
+                  }`}
+                >
+                  {item}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-lg bg-blue-50 dark:bg-blue-950/50 -z-10"
+                    />
+                  )}
+                </a>
+              );
+            })}
           </nav>
-          <div className="flex items-center gap-3">
+
+          <div className="flex items-center gap-2">
             <ThemeSwitcher />
             <a href="#contact" className="hidden md:inline-block">
-              <Button className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-full px-6 shadow-lg shadow-blue-500/20">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-5 h-9 text-sm shadow-lg shadow-blue-500/20 transition-all hover:shadow-blue-500/30 hover:-translate-y-0.5">
                 Hire Me
               </Button>
             </a>
+            {/* Mobile hamburger */}
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+              onClick={() => setMobileNavOpen((prev) => !prev)}
+              aria-label="Toggle menu"
+            >
+              <Menu size={20} />
+            </button>
           </div>
         </div>
-      </header>
 
+        {/* Mobile Nav Dropdown */}
+        <AnimatePresence>
+          {mobileNavOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="md:hidden overflow-hidden border-t border-gray-200/60 dark:border-gray-800/60 bg-white/95 dark:bg-black/95 backdrop-blur-xl"
+            >
+              <nav className="flex flex-col p-4 gap-1">
+                {navItems.map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setMobileNavOpen(false)}
+                    className="px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg transition-colors"
+                  >
+                    {item}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  onClick={() => setMobileNavOpen(false)}
+                  className="mt-2 px-4 py-3 text-sm font-bold text-center text-white bg-blue-600 hover:bg-blue-700 rounded-full transition-colors"
+                >
+                  Hire Me
+                </a>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+
+      {/* ─── MAIN ─── */}
       <main className="relative z-10 pt-20">
-        
-        {/* ===== HERO SECTION ===== */}
-        <section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-4 relative">
-          <div className="container mx-auto max-w-4xl">
-            <div className="hero-img mb-8 relative inline-block">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+
+        {/* ══════════ HERO ══════════ */}
+        <section className="min-h-[92vh] flex flex-col items-center justify-center text-center px-4 relative">
+          <motion.div
+            style={{ y: heroY, opacity: heroOpacity }}
+            className="container mx-auto max-w-4xl"
+          >
+            {/* Profile Image */}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.3 }}
+              className="mb-8 relative inline-block"
+            >
+              <div className="absolute inset-[-8px] bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-2xl opacity-40 animate-pulse" />
               <img
                 src="/img/profile.jpg"
                 alt="Mohammad Iqbal Jaffar"
                 width={160}
                 height={160}
-                className="rounded-full relative z-10 border-4 border-white dark:border-gray-800 shadow-2xl object-cover w-[160px] h-[160px]"
+                className="rounded-full relative z-10 border-4 border-white dark:border-gray-900 shadow-2xl object-cover w-[160px] h-[160px]"
               />
-            </div>
+            </motion.div>
 
-            <h1 className="hero-text-1 text-5xl md:text-8xl font-bold mb-4 tracking-tight text-gray-900 dark:text-white">
-              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Iqbal</span>
-            </h1>
-            <h2 className="hero-text-2 text-2xl md:text-3xl text-gray-600 dark:text-gray-300 font-medium mb-6">
+            <motion.h1
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.9, ease: EASE_OUT_EXPO, delay: 0.5 }}
+              className="text-5xl md:text-8xl font-extrabold mb-4 tracking-tight text-gray-900 dark:text-white leading-none"
+            >
+              Hi, I&apos;m{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Iqbal
+              </span>
+            </motion.h1>
+
+            <motion.h2
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.65 }}
+              className="text-xl md:text-3xl text-gray-500 dark:text-gray-400 font-medium mb-6 tracking-wide"
+            >
               Machine Learning Engineer
-            </h2>
-            <p className="hero-desc text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Mahasiswa Teknik Informatika Universitas Teknologi Bandung (Semester 7) berumur 24 tahun yang berfokus pada Machine Learning, Data Science, dan pengembangan aplikasi web yang skalabel serta sistem backend yang handal.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#projects" className="hero-btn w-full sm:w-auto">
-                <Button
-                  className="bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 font-bold py-6 px-8 rounded-full text-lg w-full transition-all hover:scale-105"
-                >
+            </motion.h2>
+
+            <motion.p
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.78 }}
+              className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+            >
+              Mahasiswa Teknik Informatika UTB (Semester 7) yang berfokus pada Machine Learning,
+              Data Science, dan pengembangan aplikasi web yang skalabel serta sistem backend yang handal.
+            </motion.p>
+
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, ease: EASE_OUT_EXPO, delay: 0.9 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <a href="#projects" className="w-full sm:w-auto">
+                <Button className="bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 font-bold py-6 px-8 rounded-full text-base w-full hover:scale-105 transition-transform shadow-xl shadow-black/10">
                   Lihat Karya Saya
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-              <a href="/cv/CV-MOHAMMAD-IQBAL-JAFFAR.pdf" target="_blank" rel="noopener noreferrer" className="hero-btn w-full sm:w-auto">
+              <a
+                href="/cv/CV-MOHAMMAD-IQBAL-JAFFAR.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto"
+              >
                 <Button
                   variant="outline"
-                  className="font-bold py-6 px-8 rounded-full text-lg w-full border-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:scale-105"
+                  className="font-bold py-6 px-8 rounded-full text-base w-full border-2 hover:bg-gray-100 dark:hover:bg-gray-900 transition-transform hover:scale-105"
                 >
                   Unduh CV
                   <FileText className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="scroll-indicator absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-400">
-             <ChevronDown size={32} />
-          </div>
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-300 dark:text-gray-700"
+          >
+            <ChevronDown size={28} />
+          </motion.div>
         </section>
 
-        {/* ===== TECH STACK MARQUEE ===== */}
+        {/* ══════════ TECH MARQUEE ══════════ */}
         <TechMarquee />
 
-        {/* ===== ABOUT ME SECTION ===== */}
+        {/* ══════════ ABOUT ══════════ */}
         <section id="about" className="py-24 relative">
           <div className="container mx-auto px-4">
-            <SectionHeading title="Tentang Saya" subtitle="true" />
-            
-            <p className="text-lg text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-16 section-header opacity-0 translate-y-10">
-              Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning, saya tidak hanya membuat aplikasi, tapi juga memberinya &quot;otak&quot;.
-            </p>
+            <SectionHeading title="Tentang Saya" />
 
-            <div className="about-grid grid md:grid-cols-3 gap-8 opacity-0">
-              <SkillCard gsapReady={gsapReady} icon={<Code size={40} />} title="Frontend Wizardry">
+            <AnimatedSection className="mb-12">
+              <motion.p
+                variants={fadeUp}
+                custom={0}
+                className="text-base md:text-lg text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
+              >
+                Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning,
+                saya tidak hanya membuat aplikasi — tapi juga memberinya{" "}
+                <span className="font-semibold text-gray-900 dark:text-white">&quot;otak&quot;</span>.
+              </motion.p>
+            </AnimatedSection>
+
+            <AnimatedSection className="grid md:grid-cols-3 gap-6 md:gap-8">
+              <SkillCard icon={<Code size={36} />} title="Frontend Wizardry">
                 Menciptakan antarmuka yang responsif dan smooth dengan ekosistem React, Next.js, dan Tailwind CSS.
               </SkillCard>
-              <SkillCard gsapReady={gsapReady} icon={<Database size={40} />} title="Robust Backend">
+              <SkillCard icon={<Database size={36} />} title="Robust Backend">
                 Arsitektur API yang efisien, manajemen database SQL/NoSQL, dan deployment scalable dengan Docker.
               </SkillCard>
-              <SkillCard gsapReady={gsapReady} icon={<BrainCircuit size={40} />} title="AI & ML Integration">
+              <SkillCard icon={<BrainCircuit size={36} />} title="AI & ML Integration">
                 Membangun model Deep Learning untuk Computer Vision dan NLP, serta mengintegrasikannya ke aplikasi web.
               </SkillCard>
-            </div>
+            </AnimatedSection>
           </div>
         </section>
 
-        {/* ===== EXPERIENCE TIMELINE (REPLACES ACTIVITIES) ===== */}
-        <section id="experience" className="py-24 bg-gray-50 dark:bg-gray-900/30">
+        {/* ══════════ EXPERIENCE ══════════ */}
+        <section id="experience" className="py-24 bg-white dark:bg-gray-950/60">
           <div className="container mx-auto px-4">
-            <SectionHeading title="Pengalaman & Aktivitas" subtitle="true" />
-            
-            <div className="experience-timeline max-w-3xl mx-auto relative opacity-0">
-              {/* Timeline Line */}
-              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-800 transform md:-translate-x-1/2 ml-4 md:ml-0" />
+            <SectionHeading title="Pengalaman & Aktivitas" />
 
-              {experiences.map((exp, index) => (
-                <div key={index} className={`relative mb-12 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-start`}>
-                  
-                  {/* Timeline Dot */}
-                  <div className="absolute left-0 md:left-1/2 top-0 w-8 h-8 rounded-full bg-blue-500 border-4 border-white dark:border-black transform -translate-x-1/2 md:-translate-x-1/2 ml-4 md:ml-0 z-10 flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full" />
-                  </div>
+            <div className="max-w-3xl mx-auto relative">
+              {/* Timeline vertical line */}
+              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/40 via-purple-500/30 to-transparent md:-translate-x-1/2" />
 
-                  {/* Spacer for Desktop */}
-                  <div className="hidden md:block w-1/2" />
+              {experiences.map((exp, index) => {
+                const isEven = index % 2 === 0;
+                return (
+                  <AnimatedSection
+                    key={index}
+                    className={`relative mb-10 flex flex-col md:flex-row ${isEven ? "md:flex-row-reverse" : ""} items-start`}
+                  >
+                    {/* Dot */}
+                    <div className="absolute left-4 md:left-1/2 top-5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-950 shadow-md transform -translate-x-1/2 z-10" />
 
-                  {/* Content Card */}
-                  <div className="w-full md:w-1/2 pl-16 md:pl-0 md:px-8">
-                     <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
-                        <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full text-xs font-bold mb-3">
+                    {/* Spacer */}
+                    <div className="hidden md:block w-1/2" />
+
+                    {/* Card */}
+                    <motion.div
+                      variants={staggerItem}
+                      className="w-full md:w-1/2 pl-12 md:pl-0 md:px-8"
+                    >
+                      <motion.div
+                        whileHover={{ y: -4 }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300"
+                      >
+                        <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full text-xs font-bold mb-3">
                           {exp.date}
                         </span>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{exp.title}</h3>
-                        <p className="text-blue-600 dark:text-blue-400 font-medium text-sm mb-3 flex items-center gap-2">
-                           {exp.type === 'education' ? <Terminal size={14} /> : <Briefcase size={14} />}
-                           {exp.role} @ {exp.company}
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                          {exp.title}
+                        </h3>
+                        <p className="text-blue-600 dark:text-blue-400 font-medium text-sm mb-3 flex items-center gap-1.5">
+                          {exp.type === "education" ? <Terminal size={13} /> : <Briefcase size={13} />}
+                          {exp.role} @ {exp.company}
                         </p>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                           {exp.description}
                         </p>
-                     </div>
-                  </div>
-                </div>
-              ))}
+                      </motion.div>
+                    </motion.div>
+                  </AnimatedSection>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* ===== PROJECTS SECTION ===== */}
+        {/* ══════════ PROJECTS ══════════ */}
         <section id="projects" className="py-24">
           <div className="container mx-auto px-4">
-            <SectionHeading title="Proyek Unggulan" subtitle="true" />
-            
-            <div className="carousel-container opacity-0">
-              <Carousel
-                opts={{ align: "start", loop: true }}
-                className="w-full max-w-6xl mx-auto"
-              >
-                <CarouselContent>
-                  {featuredProjects.map((project, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2 pl-6 pb-6">
-                      <div className="h-full">
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full group">
-                          <Card className="h-full border-0 shadow-lg bg-white dark:bg-gray-900 overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 dark:shadow-blue-900/10">
-                            <div className="relative w-full h-64 overflow-hidden">
-                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10" />
-                              <img
-                                src={project.imageUrl}
-                                alt={project.title}
-                                className="object-cover transition-transform duration-700 group-hover:scale-110 w-full h-full"
-                              />
-                            </div>
-                            <CardHeader>
-                              <div className="flex justify-between items-start">
-                                <CardTitle className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</CardTitle>
-                                <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
+            <SectionHeading title="Proyek Unggulan" />
+
+            <AnimatedSection>
+              <motion.div variants={staggerItem} className="w-full max-w-6xl mx-auto">
+                <Carousel opts={{ align: "start", loop: true }}>
+                  <CarouselContent>
+                    {featuredProjects.map((project, index) => (
+                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2 pl-4 pb-4">
+                        <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.25 }} className="h-full">
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block h-full group"
+                          >
+                            <Card className="h-full border border-gray-100 dark:border-gray-800 shadow-sm bg-white dark:bg-gray-900 overflow-hidden rounded-2xl hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300">
+                              <div className="relative w-full h-56 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300 z-10" />
+                                <img
+                                  src={project.imageUrl}
+                                  alt={project.title}
+                                  className="object-cover transition-transform duration-700 group-hover:scale-105 w-full h-full"
+                                />
                               </div>
-                              <CardDescription className="text-gray-600 dark:text-gray-400 line-clamp-2">
-                                {project.description}
-                              </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="flex flex-wrap gap-2 mt-auto">
-                                {project.tech.map((t, i) => (
-                                  <span key={i} className="text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700">
-                                    {t}
-                                  </span>
-                                ))}
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </a>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <div className="hidden md:block">
-                  <CarouselPrevious className="left-[-50px] bg-white dark:bg-gray-800 border-0 shadow-lg" />
-                  <CarouselNext className="right-[-50px] bg-white dark:bg-gray-800 border-0 shadow-lg" />
-                </div>
-              </Carousel>
-            </div>
+                              <CardHeader className="pb-2">
+                                <div className="flex justify-between items-start gap-2">
+                                  <CardTitle className="text-lg font-bold text-gray-900 dark:text-white leading-tight">
+                                    {project.title}
+                                  </CardTitle>
+                                  <ExternalLink className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transition-colors shrink-0 mt-0.5" />
+                                </div>
+                                <CardDescription className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mt-1">
+                                  {project.description}
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {project.tech.map((t, i) => (
+                                    <span
+                                      key={i}
+                                      className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2.5 py-1 rounded-full border border-gray-200 dark:border-gray-700"
+                                    >
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </a>
+                        </motion.div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="hidden md:block">
+                    <CarouselPrevious className="left-[-52px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow" />
+                    <CarouselNext className="right-[-52px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow" />
+                  </div>
+                </Carousel>
+              </motion.div>
+            </AnimatedSection>
           </div>
         </section>
 
-        {/* ===== CERTIFICATIONS SECTION ===== */}
-        <section id="certifications" className="py-24 bg-gray-50 dark:bg-gray-900/30">
+        {/* ══════════ CERTIFICATIONS ══════════ */}
+        <section id="certifications" className="py-24 bg-white dark:bg-gray-950/60">
           <div className="container mx-auto px-4">
-            <SectionHeading title="Sertifikasi" subtitle="true" />
-            
-            <div className="carousel-container opacity-0">
-              <Carousel opts={{ align: "start", loop: true }} className="w-full max-w-6xl mx-auto">
-                <CarouselContent>
-                  {certifications.map((cert, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                      <div 
-                        className="h-full p-2 cursor-pointer"
-                        onClick={() => setSelectedCert(cert.imageUrl)}
-                      >
-                        <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-gray-800 h-full flex flex-col group">
-                          <div className="relative h-48 w-full overflow-hidden">
-                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10" />
-                            <img
-                              src={cert.imageUrl}
-                              alt={cert.title}
-                              className="object-cover object-top transition-transform duration-500 group-hover:scale-105 w-full h-full"
-                            />
-                            <div className="absolute bottom-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-xs px-2 py-1 rounded">
-                              Klik untuk memperbesar
+            <SectionHeading title="Sertifikasi" />
+
+            <AnimatedSection>
+              <motion.div variants={staggerItem} className="w-full max-w-6xl mx-auto">
+                <Carousel opts={{ align: "start", loop: true }}>
+                  <CarouselContent>
+                    {certifications.map((cert, index) => (
+                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
+                        <motion.div
+                          whileHover={{ y: -5 }}
+                          transition={{ duration: 0.2 }}
+                          className="h-full p-1 cursor-pointer"
+                          onClick={() => setSelectedCert(cert.imageUrl)}
+                        >
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300 h-full flex flex-col group">
+                            <div className="relative h-44 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10" />
+                              <img
+                                src={cert.imageUrl}
+                                alt={cert.title}
+                                className="object-cover object-top transition-transform duration-500 group-hover:scale-105 w-full h-full"
+                              />
+                              <div className="absolute bottom-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-xs px-2 py-1 rounded-lg">
+                                Klik untuk memperbesar
+                              </div>
+                            </div>
+                            <div className="p-5 flex-grow flex flex-col">
+                              <h3 className="font-bold text-base mb-1 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                                {cert.title}
+                              </h3>
+                              <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-wide">
+                                {cert.issuer}
+                              </p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-auto leading-relaxed">
+                                {cert.description}
+                              </p>
                             </div>
                           </div>
-                          <div className="p-6 flex-grow flex flex-col">
-                            <h3 className="font-bold text-lg mb-1 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{cert.title}</h3>
-                            <p className="text-sm font-medium text-gray-500 mb-3">{cert.issuer}</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-auto">{cert.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <div className="hidden md:block">
-                  <CarouselPrevious className="left-[-40px]" />
-                  <CarouselNext className="right-[-40px]" />
-                </div>
-              </Carousel>
-            </div>
+                        </motion.div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="hidden md:block">
+                    <CarouselPrevious className="left-[-44px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg" />
+                    <CarouselNext className="right-[-44px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg" />
+                  </div>
+                </Carousel>
+              </motion.div>
+            </AnimatedSection>
           </div>
         </section>
-        
-        {/* ===== CONTACT SECTION ===== */}
+
+        {/* ══════════ CONTACT ══════════ */}
         <section id="contact" className="py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-100 to-transparent dark:from-gray-900 dark:to-transparent -z-10" />
-          <div className="container mx-auto text-center px-4">
-            <div className="section-header opacity-0 translate-y-10">
-              <h2 className="text-5xl font-bold mb-6">Let's Work Together</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10">
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 to-transparent dark:from-gray-900/60 dark:to-transparent pointer-events-none" />
+          <div className="container mx-auto text-center px-4 relative">
+            <SectionHeading title="Let's Work Together" withBar={false} />
+
+            <AnimatedSection>
+              <motion.p
+                variants={fadeUp}
+                custom={0}
+                className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-12"
+              >
                 Tertarik berkolaborasi atau sekadar berdiskusi tentang AI? Hubungi saya kapan saja.
-              </p>
-              
-              <div className="flex flex-wrap justify-center gap-6">
-                 {[
-                   { icon: <Mail size={24} />, label: "Email Me", href: "mailto:iqbaljaffar1108@gmail.com" },
-                   { icon: <Github size={24} />, label: "Github", href: "https://github.com/miqbaljaffar" },
-                   { icon: <Linkedin size={24} />, label: "LinkedIn", href: "https://www.linkedin.com/in/mohammad-iqbal-jaffar-091939290" }
-                 ].map((social, idx) => (
-                   <a 
+              </motion.p>
+
+              <motion.div
+                variants={staggerContainer}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                {[
+                  { icon: <Mail size={20} />, label: "Email Me", href: "mailto:iqbaljaffar1108@gmail.com" },
+                  { icon: <Github size={20} />, label: "Github", href: "https://github.com/miqbaljaffar" },
+                  {
+                    icon: <Linkedin size={20} />,
+                    label: "LinkedIn",
+                    href: "https://www.linkedin.com/in/mohammad-iqbal-jaffar-091939290",
+                  },
+                ].map((social, idx) => (
+                  <motion.a
                     key={idx}
+                    variants={staggerItem}
+                    whileHover={{ y: -4, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
-                   >
-                     <span className="text-gray-500 group-hover:text-blue-600 transition-colors">{social.icon}</span>
-                     <span className="font-semibold text-gray-700 dark:text-gray-200">{social.label}</span>
-                   </a>
-                 ))}
-              </div>
-            </div>
+                    className="flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-900 rounded-full shadow-md hover:shadow-xl hover:shadow-blue-500/10 transition-shadow duration-300 border border-gray-100 dark:border-gray-800 group"
+                  >
+                    <span className="text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {social.icon}
+                    </span>
+                    <span className="font-semibold text-gray-700 dark:text-gray-200">{social.label}</span>
+                  </motion.a>
+                ))}
+              </motion.div>
+            </AnimatedSection>
           </div>
         </section>
-
       </main>
 
-      {/* ===== FOOTER ===== */}
+      {/* ─── FOOTER ─── */}
       <footer className="py-8 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black relative z-10">
         <div className="container mx-auto text-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar. 
-            <span className="mx-2">|</span>
-            Built with Next.js, Tailwind & GSAP.
+          <p className="text-sm text-gray-400 dark:text-gray-600">
+            &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar.{" "}
+            <span className="mx-2 text-gray-300 dark:text-gray-700">|</span>
+            Built with Next.js, Tailwind & Framer Motion.
           </p>
         </div>
       </footer>
-      
-      {/* ===== SCROLL TO TOP BUTTON ===== */}
+
+      {/* ─── SCROLL TO TOP ─── */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
+            exit={{ opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 p-3 bg-blue-600 text-white rounded-full shadow-lg z-40 hover:bg-blue-700 transition-colors"
+            aria-label="Scroll to top"
+            className="fixed bottom-8 right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-xl shadow-blue-500/30 z-40 transition-colors"
           >
-            <ArrowUp size={24} />
+            <ArrowUp size={20} />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* ===== MODAL (Framer Motion for ease of mount/unmount) ===== */}
+      {/* ─── CERT MODAL ─── */}
       <AnimatePresence>
         {selectedCert && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-black/90 backdrop-blur-sm flex justify-center items-center z-[100] p-4"
             onClick={() => setSelectedCert(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 20 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", damping: 22, stiffness: 300 }}
               className="relative max-w-5xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative aspect-[4/3] w-full bg-white rounded-lg overflow-hidden shadow-2xl">
-                <img 
-                  src={selectedCert} 
-                  alt="Sertifikat Full" 
-                  className="object-contain w-full h-full"
-                />
+              <div className="relative aspect-[4/3] w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
+                <img src={selectedCert} alt="Sertifikat" className="object-contain w-full h-full" />
               </div>
-              <button 
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setSelectedCert(null)}
-                className="absolute -top-12 right-0 md:-right-12 text-white hover:text-gray-300 transition-colors p-2"
+                className="absolute -top-12 right-0 md:-right-12 text-white/70 hover:text-white transition-colors p-2"
+                aria-label="Tutup"
               >
-                <X size={32} />
-              </button>
+                <X size={28} />
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
