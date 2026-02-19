@@ -280,7 +280,7 @@ function SectionHeading({ title, withBar = true }: { title: string; withBar?: bo
       <motion.h2
         variants={fadeUp}
         custom={0}
-        className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
+        className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
       >
         {title}
       </motion.h2>
@@ -312,7 +312,7 @@ function SkillCard({
       variants={staggerItem}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="relative group bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300 overflow-hidden cursor-default"
+      className="relative group bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300 overflow-hidden cursor-default"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
       <motion.div
@@ -465,7 +465,7 @@ export default function PortfolioPage() {
                     key={item}
                     href={`#${item.toLowerCase()}`}
                     onClick={() => setMobileNavOpen(false)}
-                    className="px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg transition-colors"
+                    className="px-4 py-3.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-xl transition-colors active:scale-[0.98]"
                   >
                     {item}
                   </a>
@@ -473,7 +473,7 @@ export default function PortfolioPage() {
                 <a
                   href="#contact"
                   onClick={() => setMobileNavOpen(false)}
-                  className="mt-2 px-4 py-3 text-sm font-bold text-center text-white bg-blue-600 hover:bg-blue-700 rounded-full transition-colors"
+                  className="mt-2 px-4 py-3.5 text-sm font-bold text-center text-white bg-blue-600 hover:bg-blue-700 rounded-full transition-colors active:scale-[0.98]"
                 >
                   Hire Me
                 </a>
@@ -487,7 +487,7 @@ export default function PortfolioPage() {
       <main className="relative z-10 pt-20">
 
         {/* ══════════ HERO ══════════ */}
-        <section className="min-h-[92vh] flex flex-col items-center justify-center text-center px-4 relative">
+        <section className="min-h-[92vh] flex flex-col items-center justify-center text-center px-4 sm:px-8 relative">
           <motion.div
             style={{ y: heroY, opacity: heroOpacity }}
             className="container mx-auto max-w-4xl"
@@ -513,7 +513,7 @@ export default function PortfolioPage() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.9, ease: EASE_OUT_EXPO, delay: 0.5 }}
-              className="text-5xl md:text-8xl font-extrabold mb-4 tracking-tight text-gray-900 dark:text-white leading-none"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-4 tracking-tight text-gray-900 dark:text-white leading-none"
             >
               Hi, I&apos;m{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
@@ -525,7 +525,7 @@ export default function PortfolioPage() {
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.65 }}
-              className="text-xl md:text-3xl text-gray-500 dark:text-gray-400 font-medium mb-6 tracking-wide"
+              className="text-lg sm:text-xl md:text-3xl text-gray-500 dark:text-gray-400 font-medium mb-6 tracking-wide"
             >
               Machine Learning Engineer
             </motion.h2>
@@ -583,7 +583,7 @@ export default function PortfolioPage() {
         <TechMarquee />
 
         {/* ══════════ ABOUT ══════════ */}
-        <section id="about" className="py-24 relative">
+        <section id="about" className="py-16 md:py-24 relative">
           <div className="container mx-auto px-4">
             <SectionHeading title="Tentang Saya" />
 
@@ -599,7 +599,7 @@ export default function PortfolioPage() {
               </motion.p>
             </AnimatedSection>
 
-            <AnimatedSection className="grid md:grid-cols-3 gap-6 md:gap-8">
+            <AnimatedSection className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
               <SkillCard icon={<Code size={36} />} title="Frontend Wizardry">
                 Menciptakan antarmuka yang responsif dan smooth dengan ekosistem React, Next.js, dan Tailwind CSS.
               </SkillCard>
@@ -614,13 +614,12 @@ export default function PortfolioPage() {
         </section>
 
         {/* ══════════ EXPERIENCE ══════════ */}
-        <section id="experience" className="py-24 bg-white dark:bg-gray-950/60">
-          <div className="container mx-auto px-4">
-            <SectionHeading title="Pengalaman & Aktivitas" />
+        <section id="experience" className="py-16 md:py-24 bg-white dark:bg-gray-950/60">
+          <div className="container mx-auto px-4 sm:px-6">
 
             <div className="max-w-3xl mx-auto relative">
               {/* Timeline vertical line */}
-              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/40 via-purple-500/30 to-transparent md:-translate-x-1/2" />
+              <div className="absolute left-[18px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/40 via-purple-500/30 to-transparent md:-translate-x-1/2" />
 
               {experiences.map((exp, index) => {
                 const isEven = index % 2 === 0;
@@ -630,15 +629,15 @@ export default function PortfolioPage() {
                     className={`relative mb-10 flex flex-col md:flex-row ${isEven ? "md:flex-row-reverse" : ""} items-start`}
                   >
                     {/* Dot */}
-                    <div className="absolute left-4 md:left-1/2 top-5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-950 shadow-md transform -translate-x-1/2 z-10" />
+                    <div className="absolute left-[18px] md:left-1/2 top-6 w-3.5 h-3.5 rounded-full bg-blue-500 border-[3px] border-white dark:border-gray-950 shadow-md transform -translate-x-1/2 z-10" />
 
-                    {/* Spacer */}
+                    {/* Spacer desktop only */}
                     <div className="hidden md:block w-1/2" />
 
                     {/* Card */}
                     <motion.div
                       variants={staggerItem}
-                      className="w-full md:w-1/2 pl-12 md:pl-0 md:px-8"
+                      className="w-full md:w-1/2 pl-10 md:pl-0 md:px-8"
                     >
                       <motion.div
                         whileHover={{ y: -4 }}
@@ -668,7 +667,7 @@ export default function PortfolioPage() {
         </section>
 
         {/* ══════════ PROJECTS ══════════ */}
-        <section id="projects" className="py-24">
+        <section id="projects" className="py-16 md:py-24">
           <div className="container mx-auto px-4">
             <SectionHeading title="Proyek Unggulan" />
 
@@ -677,7 +676,7 @@ export default function PortfolioPage() {
                 <Carousel opts={{ align: "start", loop: true }}>
                   <CarouselContent>
                     {featuredProjects.map((project, index) => (
-                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2 pl-4 pb-4">
+                      <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4 pb-4">
                         <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.25 }} className="h-full">
                           <a
                             href={project.link}
@@ -734,7 +733,7 @@ export default function PortfolioPage() {
         </section>
 
         {/* ══════════ CERTIFICATIONS ══════════ */}
-        <section id="certifications" className="py-24 bg-white dark:bg-gray-950/60">
+        <section id="certifications" className="py-16 md:py-24 bg-white dark:bg-gray-950/60">
           <div className="container mx-auto px-4">
             <SectionHeading title="Sertifikasi" />
 
@@ -743,7 +742,7 @@ export default function PortfolioPage() {
                 <Carousel opts={{ align: "start", loop: true }}>
                   <CarouselContent>
                     {certifications.map((cert, index) => (
-                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
+                      <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4">
                         <motion.div
                           whileHover={{ y: -5 }}
                           transition={{ duration: 0.2 }}
@@ -789,7 +788,7 @@ export default function PortfolioPage() {
         </section>
 
         {/* ══════════ CONTACT ══════════ */}
-        <section id="contact" className="py-32 relative overflow-hidden">
+        <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-gray-100/60 to-transparent dark:from-gray-900/60 dark:to-transparent pointer-events-none" />
           <div className="container mx-auto text-center px-4 relative">
             <SectionHeading title="Let's Work Together" withBar={false} />
@@ -861,7 +860,7 @@ export default function PortfolioPage() {
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="fixed bottom-8 right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-xl shadow-blue-500/30 z-40 transition-colors"
+            className="fixed bottom-6 right-6 md:bottom-8 md:right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-xl shadow-blue-500/30 z-40 transition-colors"
           >
             <ArrowUp size={20} />
           </motion.button>
