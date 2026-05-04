@@ -85,6 +85,14 @@ const featuredProjects: Project[] = [
     imageUrl: "/projects/ztyle.JPG",
   },
   {
+    title: "Kanji Master N4",
+    description:
+      "Aplikasi pembelajaran basic hiragana, katakana, dan kanji untuk tingkat N4 dengan fitur latihan, ujian, dan progress tracking.",
+    tech: ["Next.js"],
+    link: "https://kanji-game-mocha.vercel.app",
+    imageUrl: "/projects/kanji.JPG",
+  },
+  {
     title: "Aurora Haven Hotel",
     description:
       "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
@@ -112,10 +120,10 @@ const featuredProjects: Project[] = [
 
 const experiences: Experience[] = [
   {
-    title: "Tax Iwaaki (Remote Internship)",
+    title: "Iwasaki Keiei (Remote Internship)",
     role: "Programmer",
-    company: "Tax Iwaaki",
-    date: "Jun 2025 – Present",
+    company: "Iwasaki Keiei",
+    date: "Jun 2025 – Apr 2026",
     type: "work",
     description:
       "Mendigitalisasi alur kerja manual divisi Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
@@ -139,6 +147,12 @@ const techStack = [
 ];
 
 const certifications: Certification[] = [
+  {
+    title: "Certification JFT A2 Basic",
+    issuer: "Japan Foundation",
+    description: "Sertifikasi kemampuan bahasa Jepang tingkat dasar (A2) dengan fokus pada komunikasi sehari-hari.",
+    imageUrl: "/certs/cert_JFT.jpg",
+  },
   {
     title: "Bangkit Academy Graduate (Distinction)",
     issuer: "Google, GoTo, Traveloka",
@@ -593,21 +607,20 @@ export default function PortfolioPage() {
                 custom={0}
                 className="text-base md:text-lg text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
               >
-                Dengan fondasi kuat di Full-Stack Development dan semangat pada Machine Learning,
-                saya tidak hanya membuat aplikasi — tapi juga memberinya{" "}
-                <span className="font-semibold text-gray-900 dark:text-white">&quot;otak&quot;</span>.
+                Sebagai lulusan Teknik Informatika dengan spesialisasi di Backend Development dan Machine Learning, saya berdedikasi untuk membangun sistem yang tangguh sekaligus memberinya{" "}
+                <span className="font-semibold text-gray-900 dark:text-white">&quot;otak&quot;</span> lewat kapabilitas kecerdasan buatan.
               </motion.p>
             </AnimatedSection>
 
             <AnimatedSection className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-              <SkillCard icon={<Code size={36} />} title="Frontend Wizardry">
-                Menciptakan antarmuka yang responsif dan smooth dengan ekosistem React, Next.js, dan Tailwind CSS.
+              <SkillCard icon={<Code size={36} />} title="Interactive Frontend">
+                Membangun antarmuka web yang fungsional dan interaktif menggunakan JavaScript, jQuery, dan integrasi view yang efisien.
               </SkillCard>
               <SkillCard icon={<Database size={36} />} title="Robust Backend">
-                Arsitektur API yang efisien, manajemen database SQL/NoSQL, dan deployment scalable dengan Docker.
+                Merancang arsitektur server dan API yang handal menggunakan ekosistem PHP, Node.js, Express.js, serta manajemen database yang terstruktur.
               </SkillCard>
               <SkillCard icon={<BrainCircuit size={36} />} title="AI & ML Integration">
-                Membangun model Deep Learning untuk Computer Vision dan NLP, serta mengintegrasikannya ke aplikasi web.
+                Mengembangkan model Machine Learning, khususnya Computer Vision (CNN & OCR), dan menanamkan kapabilitas AI tersebut ke dalam sistem.
               </SkillCard>
             </AnimatedSection>
           </div>
@@ -841,9 +854,7 @@ export default function PortfolioPage() {
       <footer className="py-8 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black relative z-10">
         <div className="container mx-auto text-center">
           <p className="text-sm text-gray-400 dark:text-gray-600">
-            &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar.{" "}
-            <span className="mx-2 text-gray-300 dark:text-gray-700">|</span>
-            Built with Next.js, Tailwind & Framer Motion.
+            &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar
           </p>
         </div>
       </footer>
