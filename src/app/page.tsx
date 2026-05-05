@@ -188,8 +188,8 @@ export default function PortfolioPage() {
               transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.78 }}
               className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
             >
-              Mahasiswa Teknik Informatika UTB (Semester 7) yang berfokus pada Machine Learning,
-              Data Science, dan pengembangan aplikasi web yang skalabel serta sistem backend yang handal.
+              Lulusan Teknik Informatika UTB yang berfokus pada Machine Learning dan pengembangan aplikasi berbasis data.
+              Berpengalaman membangun solusi end-to-end, mulai dari data processing, modeling, hingga integrasi ke dalam aplikasi web yang siap digunakan.
             </motion.p>
 
             <motion.div
