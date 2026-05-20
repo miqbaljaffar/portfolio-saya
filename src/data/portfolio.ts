@@ -45,13 +45,6 @@ export const featuredProjects: Project[] = [
     imageUrl: "/projects/jlpt.JPG",
   },
   {
-    title: "Aurora Haven Hotel",
-    description: "Aplikasi booking hotel lengkap dengan pencarian, filter, pembayaran online, dan dashboard admin untuk manajemen penuh.",
-    tech: ["Laravel", "PHP", "MySQL", "Bootstrap"],
-    link: "https://miqbalj.pweb-utb.cloud",
-    imageUrl: "/projects/hotel.JPG",
-  },
-  {
     title: "Analisis Sentimen M-Pajak",
     description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
     tech: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
