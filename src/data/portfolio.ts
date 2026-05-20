@@ -88,9 +88,15 @@ export const techStack = [
 
 export const certifications: Certification[] = [
   {
-    title: "Certification JFT A2 Basic",
+    title: "SSW – Perawatan Kendaraan (Automotive Maintenance)",
+    issuer: "Program Specified Skilled Worker Jepang",
+    description: "Sertifikasi kemampuan teknis dalam inspeksi, perawatan, dan perbaikan kendaraan di bawah sistem SSW Jepang.",
+    imageUrl: "/certs/ssw.jpg",
+  },
+  {
+    title: "JFT-Basic (Tes Bahasa Jepang)",
     issuer: "Japan Foundation",
-    description: "Sertifikasi kemampuan bahasa Jepang tingkat dasar (A2) dengan fokus pada komunikasi sehari-hari.",
+    description: "Sertifikasi kemampuan bahasa Jepang dasar untuk komunikasi sehari-hari (setara A2).",
     imageUrl: "/certs/cert_JFT.jpg",
   },
   {
