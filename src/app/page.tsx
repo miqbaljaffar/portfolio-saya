@@ -469,20 +469,35 @@ export default function PortfolioPage() {
       {/* CERT MODAL */}
       <AnimatePresence>
         {selectedCert && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="fixed inset-0 bg-black/90 backdrop-blur-sm flex justify-center items-center z-[100] p-4" onClick={() => setSelectedCert(null)}>
-            <motion.div initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.85, opacity: 0 }} transition={{ type: "spring", damping: 22, stiffness: 300 }} className="relative max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-              <div className="relative aspect-[4/3] w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="fixed inset-0 bg-black/95 backdrop-blur-md flex justify-center items-center z-[100] p-4 sm:p-8" onClick={() => setSelectedCert(null)}>
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} transition={{ type: "spring", damping: 25, stiffness: 300 }} className="relative max-w-5xl w-full h-[85vh] flex flex-col justify-center items-center" onClick={(e) => e.stopPropagation()}>
+              
+              {/* Action Buttons */}
+              <div className="absolute -top-14 right-0 md:-top-4 md:-right-16 flex items-center gap-3">
+                <a href={selectedCert} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-white/10 hover:bg-white/25 text-white rounded-full backdrop-blur-sm transition-all hover:scale-110" aria-label="Lihat Ukuran Penuh" title="Buka dan Zoom Ukuran Asli">
+                  <ExternalLink size={22} />
+                </a>
+                <button onClick={() => setSelectedCert(null)} className="p-2.5 bg-red-500/80 hover:bg-red-500 text-white rounded-full backdrop-blur-sm transition-all hover:scale-110" aria-label="Tutup" title="Tutup">
+                  <X size={22} />
+                </button>
+              </div>
+
+              {/* Image Container (No forced aspect ratio, pure object-contain) */}
+              <div className="relative w-full h-full rounded-lg overflow-hidden flex justify-center items-center">
                 <Image 
                   src={selectedCert} 
-                  alt="Sertifikat" 
+                  alt="Sertifikat Resolusi Tinggi" 
                   fill
-                  sizes="100vw"
-                  className="object-contain" 
+                  quality={100}
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  className="object-contain drop-shadow-2xl" 
                 />
               </div>
-              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setSelectedCert(null)} className="absolute -top-12 right-0 md:-right-12 text-white/70 hover:text-white transition-colors p-2" aria-label="Tutup">
-                <X size={28} />
-              </motion.button>
+
+              {/* Helper Text */}
+              <p className="absolute -bottom-8 text-white/50 text-sm hidden sm:flex items-center gap-1">
+                Klik tombol <ExternalLink size={14} /> di atas untuk memperbesar (zoom) ukuran asli
+              </p>
             </motion.div>
           </motion.div>
         )}
