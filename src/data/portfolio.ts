@@ -38,11 +38,11 @@ export const featuredProjects: Project[] = [
     imageUrl: "/projects/ztyle.JPG",
   },
   {
-    title: "Kanji Master N4",
-    description: "Aplikasi pembelajaran basic hiragana, katakana, dan kanji untuk tingkat N4 dengan fitur latihan, ujian, dan progress tracking.",
-    tech: ["Next.js"],
-    link: "https://kanji-game-mocha.vercel.app",
-    imageUrl: "/projects/kanji.JPG",
+    title: "JLPT Arcade",
+    description: "Platform belajar bahasa Jepang yang dirancang khusus untuk persiapan JLPT N5-N1. Dilengkapi dengan sistem latihan adaptif, modul kosakata, grammar, dan simulasi ujian resmi.",
+    tech: ["Next.js", "Tailwind CSS", "Firebase", "Ai Gemini", "Vite"],
+    link: "https://kanjivibe-app-1090346603455.asia-southeast2.run.app/",
+    imageUrl: "/projects/jlpt.JPG",
   },
   {
     title: "Aurora Haven Hotel",
