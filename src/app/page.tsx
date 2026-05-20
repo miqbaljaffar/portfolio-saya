@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
@@ -14,8 +16,10 @@ import { featuredProjects, experiences, certifications, navItems } from "../data
 import { EASE_OUT_EXPO, fadeUp, staggerContainer, staggerItem } from "../lib/animations";
 import { AnimatedSection } from "../components/animated-section";
 import { SectionHeading } from "../components/section-heading";
-import { TechMarquee } from "../components/tech-marquee";
 import { SkillCard } from "../components/skill-card";
+
+// Dynamic Import untuk mengurangi unused JS pada render awal (memperbaiki TBT Lighthouse)
+const TechMarquee = dynamic(() => import("../components/tech-marquee").then((mod) => mod.TechMarquee), { ssr: false });
 
 export default function PortfolioPage() {
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
@@ -161,7 +165,14 @@ export default function PortfolioPage() {
               className="mb-8 relative inline-block"
             >
               <div className="absolute inset-[-8px] bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-2xl opacity-40 animate-pulse" />
-              <img src="/img/profile.jpg" alt="Mohammad Iqbal Jaffar" className="rounded-full relative z-10 border-4 border-white dark:border-gray-900 shadow-2xl object-cover w-[160px] h-[160px]" />
+              <Image 
+                src="/img/profile.jpg" 
+                alt="Mohammad Iqbal Jaffar" 
+                width={160} 
+                height={160} 
+                priority // Mempercepat render LCP pada viewport awal
+                className="rounded-full relative z-10 border-4 border-white dark:border-gray-900 shadow-2xl object-cover w-[160px] h-[160px]" 
+              />
             </motion.div>
 
             <motion.h1
@@ -282,7 +293,13 @@ export default function PortfolioPage() {
                             <Card className="h-full border border-gray-100 dark:border-gray-800 shadow-sm bg-white dark:bg-gray-900 overflow-hidden rounded-2xl hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300">
                               <div className="relative w-full h-56 overflow-hidden bg-gray-100 dark:bg-gray-800">
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300 z-10" />
-                                <img src={project.imageUrl} alt={project.title} className="object-cover transition-transform duration-700 group-hover:scale-105 w-full h-full" />
+                                <Image 
+                                  src={project.imageUrl} 
+                                  alt={project.title} 
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                  className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                                />
                               </div>
                               <CardHeader className="pb-2">
                                 <div className="flex justify-between items-start gap-2">
@@ -328,7 +345,13 @@ export default function PortfolioPage() {
                           <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-shadow duration-300 h-full flex flex-col group">
                             <div className="relative h-44 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
                               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10" />
-                              <img src={cert.imageUrl} alt={cert.title} className="object-cover object-top transition-transform duration-500 group-hover:scale-105 w-full h-full" />
+                              <Image 
+                                src={cert.imageUrl} 
+                                alt={cert.title} 
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                className="object-cover object-top transition-transform duration-500 group-hover:scale-105" 
+                              />
                               <div className="absolute bottom-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-xs px-2 py-1 rounded-lg">
                                 Klik untuk memperbesar
                               </div>
@@ -411,7 +434,13 @@ export default function PortfolioPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="fixed inset-0 bg-black/90 backdrop-blur-sm flex justify-center items-center z-[100] p-4" onClick={() => setSelectedCert(null)}>
             <motion.div initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.85, opacity: 0 }} transition={{ type: "spring", damping: 22, stiffness: 300 }} className="relative max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
               <div className="relative aspect-[4/3] w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
-                <img src={selectedCert} alt="Sertifikat" className="object-contain w-full h-full" />
+                <Image 
+                  src={selectedCert} 
+                  alt="Sertifikat" 
+                  fill
+                  sizes="100vw"
+                  className="object-contain" 
+                />
               </div>
               <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setSelectedCert(null)} className="absolute -top-12 right-0 md:-right-12 text-white/70 hover:text-white transition-colors p-2" aria-label="Tutup">
                 <X size={28} />
