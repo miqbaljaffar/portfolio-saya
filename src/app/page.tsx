@@ -74,7 +74,7 @@ export default function PortfolioPage() {
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.1 }}
+        transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.05 }}
         className="fixed top-0 left-0 w-full z-50 bg-white/75 dark:bg-black/75 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-800/60"
       >
         <div className="container mx-auto flex justify-between items-center px-4 py-3">
@@ -161,7 +161,7 @@ export default function PortfolioPage() {
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.3 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.05 }}
               className="mb-8 relative inline-block"
             >
               <div className="absolute inset-[-8px] bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-2xl opacity-40 animate-pulse" />
@@ -178,7 +178,7 @@ export default function PortfolioPage() {
             <motion.h1
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.9, ease: EASE_OUT_EXPO, delay: 0.5 }}
+              transition={{ duration: 0.9, ease: EASE_OUT_EXPO, delay: 0.1 }}
               className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-4 tracking-tight text-gray-900 dark:text-white leading-none"
             >
               Hi, I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Iqbal</span>
@@ -187,7 +187,7 @@ export default function PortfolioPage() {
             <motion.h2
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.65 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.15 }}
               className="text-lg sm:text-xl md:text-3xl text-gray-500 dark:text-gray-400 font-medium mb-6 tracking-wide"
             >
               Machine Learning Engineer
@@ -196,7 +196,7 @@ export default function PortfolioPage() {
             <motion.p
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.78 }}
+              transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.2 }}
               className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
             >
               Lulusan Teknik Informatika UTB yang berfokus pada Machine Learning dan pengembangan aplikasi berbasis data.
@@ -206,7 +206,7 @@ export default function PortfolioPage() {
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.7, ease: EASE_OUT_EXPO, delay: 0.9 }}
+              transition={{ duration: 0.7, ease: EASE_OUT_EXPO, delay: 0.25 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <a href="#projects" className="w-full sm:w-auto">
@@ -297,6 +297,7 @@ export default function PortfolioPage() {
                                   src={project.imageUrl} 
                                   alt={project.title} 
                                   fill
+                                  quality={60} // Turunkan quality untuk optimasi Lighthouse
                                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                   className="object-cover transition-transform duration-700 group-hover:scale-105" 
                                 />
@@ -349,6 +350,7 @@ export default function PortfolioPage() {
                                 src={cert.imageUrl} 
                                 alt={cert.title} 
                                 fill
+                                quality={60} // Turunkan quality untuk optimasi Lighthouse
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 className="object-cover object-top transition-transform duration-500 group-hover:scale-105" 
                               />
