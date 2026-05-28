@@ -190,7 +190,7 @@ export default function PortfolioPage() {
               transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.15 }}
               className="text-lg sm:text-xl md:text-3xl text-gray-500 dark:text-gray-400 font-medium mb-6 tracking-wide"
             >
-              Machine Learning Engineer
+              Full-Stack Web Development
             </motion.h2>
 
             <motion.p
@@ -199,8 +199,8 @@ export default function PortfolioPage() {
               transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.2 }}
               className="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
             >
-              Lulusan Teknik Informatika UTB yang berfokus pada Machine Learning dan pengembangan aplikasi berbasis data.
-              Berpengalaman membangun solusi end-to-end, mulai dari data processing, modeling, hingga integrasi ke dalam aplikasi web yang siap digunakan.
+              Lulusan Teknik Informatika UTB yang berfokus pada Full-Stack Web Development dan pengembangan aplikasi berbasis web.
+              Berpengalaman membangun solusi end-to-end, mulai dari frontend, backend, hingga integrasi ke dalam aplikasi web yang siap digunakan.
             </motion.p>
 
             <motion.div
@@ -214,7 +214,7 @@ export default function PortfolioPage() {
                   Lihat Karya Saya <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-              <a href="/cv/CV-MOHAMMAD-IQBAL-JAFFAR.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 <Button variant="outline" className="font-bold py-6 px-8 rounded-full text-base w-full border-2 hover:bg-gray-100 dark:hover:bg-gray-900 transition-transform hover:scale-105">
                   Unduh CV <FileText className="ml-2 h-5 w-5" />
                 </Button>
@@ -235,7 +235,7 @@ export default function PortfolioPage() {
             <SectionHeading title="Tentang Saya" />
             <AnimatedSection className="mb-12">
               <motion.p variants={fadeUp} custom={0} className="text-base md:text-lg text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                Sebagai lulusan Teknik Informatika dengan spesialisasi di Backend Development dan Machine Learning, saya berdedikasi untuk membangun sistem yang tangguh sekaligus memberinya <span className="font-semibold text-gray-900 dark:text-white">&quot;otak&quot;</span> lewat kapabilitas kecerdasan buatan.
+                Sebagai lulusan Teknik Informatika dengan spesialisasi di Backend Development dan Full-Stack Web Development, saya berdedikasi untuk membangun sistem yang tangguh sekaligus memberinya <span className="font-semibold text-gray-900 dark:text-white">&quot;otak&quot;</span> lewat kapabilitas kecerdasan buatan.
               </motion.p>
             </AnimatedSection>
             <AnimatedSection className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">

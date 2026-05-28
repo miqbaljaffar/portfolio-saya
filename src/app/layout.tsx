@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Mohammad Iqbal Jaffar | Machine Learning Engineer",
-  description: "Portfolio Mohammad Iqbal Jaffar, seorang Machine Learning Engineer yang bersemangat dalam membangun aplikasi cerdas dan berbasis data.",
+  title: "Mohammad Iqbal Jaffar | Full-Stack Web Development",
+  description: "Portfolio Mohammad Iqbal Jaffar, seorang Full-Stack Web Developer yang bersemangat dalam membangun aplikasi modern dan berbasis web.",
 };
 
 export default function RootLayout({
