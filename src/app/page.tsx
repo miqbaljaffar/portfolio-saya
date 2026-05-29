@@ -1,5 +1,4 @@
-﻿import dynamic from "next/dynamic";
-import { Header } from "@/components/sections/Header";
+﻿import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
@@ -8,8 +7,7 @@ import { CertificationsSection } from "@/components/sections/CertificationsSecti
 import { ContactSection } from "@/components/sections/ContactSection";
 import { Footer } from "@/components/sections/Footer";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
-
-const TechMarquee = dynamic(() => import("@/components/tech-marquee").then((mod) => mod.TechMarquee), { ssr: false });
+import { TechMarqueeClient } from "@/components/TechMarqueeClient";
 
 export default function PortfolioPage() {
   return (
@@ -17,7 +15,7 @@ export default function PortfolioPage() {
       <Header />
       <main className="relative z-10 pt-20">
         <HeroSection />
-        <TechMarquee />
+        <TechMarqueeClient />
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />

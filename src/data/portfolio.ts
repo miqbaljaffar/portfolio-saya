@@ -24,6 +24,13 @@ export type Experience = {
 
 export const featuredProjects: Project[] = [
   {
+    title: "MeowCare – Solusi Digital Klinik Hewan",
+    description: "Aplikasi web full-stack untuk manajemen klinik hewan yang dilengkapi dengan sistem antrian real-time, rekam medis pasien (kucing), dan dasbor admin interaktif.",
+    tech: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS", "Supabase"],
+    link: "https://meow-care-one.vercel.app", 
+    imageUrl: "/projects/meow-care.JPG",
+  },
+  {
     title: "Automated Nutrition Fact Recognition",
     description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
     tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
