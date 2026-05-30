@@ -24,10 +24,17 @@ export type Experience = {
 
 export const featuredProjects: Project[] = [
   {
+    title: "LexAI",
+    description: "Aplikasi full-stack kecerdasan buatan yang dirancang untuk mengubah narasi kasus hukum menjadi analisis penalaran hukum Indonesia terstruktur, mencakup klasifikasi pelanggaran, rujukan pasal, bedah unsur hukum, dan rekomendasi taktis.",
+    tech: ["React", "Vite", "Tailwind CSS", "Express", "TypeScript", "Gemini AI"],
+    link: "https://lexlaw-three.vercel.app",
+    imageUrl: "/projects/lexai.JPG",
+  },
+  {
     title: "MeowCare – Solusi Digital Klinik Hewan",
     description: "Aplikasi web full-stack untuk manajemen klinik hewan yang dilengkapi dengan sistem antrian real-time, rekam medis pasien (kucing), dan dasbor admin interaktif.",
     tech: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS", "Supabase"],
-    link: "https://meow-care-one.vercel.app", 
+    link: "https://meow-care-one.vercel.app",
     imageUrl: "/projects/meow-care.JPG",
   },
   {
