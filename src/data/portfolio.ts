@@ -54,7 +54,7 @@ export const featuredProjects: Project[] = [
   {
     title: "Ztyle - Modern E-Commerce",
     description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
-    tech: ["Next.js 14", "Prisma", "PostgreSQL", "Zustand"],
+    tech: ["Next.js", "Prisma", "PostgreSQL", "Zustand"],
     link: "https://ztyle-store.vercel.app",
     imageUrl: "/projects/ztyle.JPG",
   },
