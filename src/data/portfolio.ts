@@ -24,6 +24,13 @@ export type Experience = {
 
 export const featuredProjects: Project[] = [
   {
+  title: "HoaxLens AI",
+  description: "Sistem pengecekan fakta otonom untuk membongkar misinformasi. Aplikasi full-stack ini dapat memverifikasi validitas, mendeteksi bias dan clickbait, serta melacak sumber kredibel dari kutipan berita, tautan, atau tangkapan layar menggunakan Gemini AI dengan fitur Semantic Google Search Grounding dan Multimodal OCR.",
+  tech: ["React", "Vite", "Tailwind CSS", "Express", "TypeScript", "Gemini AI"],
+  link: "https://hoaxlens-ai.vercel.app",
+  imageUrl: "/projects/hoaxlens.JPG",  
+  },
+  {
     title: "LexAI",
     description: "Aplikasi full-stack kecerdasan buatan yang dirancang untuk mengubah narasi kasus hukum menjadi analisis penalaran hukum Indonesia terstruktur, mencakup klasifikasi pelanggaran, rujukan pasal, bedah unsur hukum, dan rekomendasi taktis.",
     tech: ["React", "Vite", "Tailwind CSS", "Express", "TypeScript", "Gemini AI"],
@@ -71,6 +78,13 @@ export const featuredProjects: Project[] = [
     tech: ["Python", "Streamlit", "Random Forest", "Pandas"],
     link: "https://github.com/miqbaljaffar/Student-Dropout",
     imageUrl: "/projects/dropout.jpg",
+  },
+  {
+    title: "GTR (Green Tech Recycle) - Smart Trash Bin",
+    description: "Purwarupa tong sampah pintar berbasis mikrokontroler Arduino yang dapat memilah sampah organik, anorganik, dan logam secara otomatis. Sistem ini mengintegrasikan sensor inframerah untuk deteksi objek, sensor cahaya (LDR), dan sensor induktif untuk klasifikasi material.",
+    tech: ["C++", "Arduino", "IoT", "Hardware Engineering"],
+    link: "https://github.com/miqbaljaffar/WasteTrash", 
+    imageUrl: "/projects/gtr.jpg",
   },
 ];
 
