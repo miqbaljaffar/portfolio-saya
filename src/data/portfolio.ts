@@ -122,7 +122,7 @@ export const certifications: Certification[] = [
     imageUrl: "/certs/ssw.jpg",
   },
   {
-    title: "JFT-Basic (Tes Bahasa Jepang)",
+    title: "JFT-Basic A2 (Tes Bahasa Jepang)",
     issuer: "Japan Foundation",
     description: "Sertifikasi kemampuan bahasa Jepang dasar untuk komunikasi sehari-hari (setara A2).",
     imageUrl: "/certs/cert_JFT.jpg",
