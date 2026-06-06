@@ -181,7 +181,8 @@ export function ProjectsSection() {
                             <Button
                               variant="link"
                               size="sm"
-                              className="mt-3 text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 p-0 h-auto font-bold text-xs"
+                              className="mt-3 text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 p-0 h-auto font-bold text-xs min-h-[44px] min-w-[44px] px-2"
+                              aria-label={isExpanded ? `Tutup deskripsi ${project.title}` : `Lihat deskripsi lengkap ${project.title}`}
                               onClick={(event) => {
                                 event.preventDefault();
                                 event.stopPropagation();

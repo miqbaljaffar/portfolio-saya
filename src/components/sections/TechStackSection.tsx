@@ -128,7 +128,7 @@ export function TechStackSection() {
             >
               {filteredCategories.map((category, catIdx) => (
                 <div key={catIdx} className="space-y-4">
-                  <h3 className="text-xs font-semibold tracking-wider text-gray-400 dark:text-gray-500 uppercase px-1 font-mono">
+                  <h3 className="text-xs font-semibold tracking-wider text-gray-600 dark:text-gray-400 uppercase px-1 font-mono">
                     {category.title}
                   </h3>
                   
@@ -146,12 +146,17 @@ export function TechStackSection() {
                             boxShadow: `0 10px 20px -5px ${item.shadowColor || 'rgba(59,130,246,0.1)'}`
                           }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className={`group flex flex-col items-center justify-center p-4 rounded-xl border border-gray-200/40 dark:border-gray-800 bg-white dark:bg-gray-900/40 hover:bg-white dark:hover:bg-gray-900/90 transition-all duration-300 cursor-default ${hoverClassString}`}
+                          className={`group flex flex-col items-center justify-center p-4 min-h-[80px] rounded-xl border border-gray-200/40 dark:border-gray-800 bg-white dark:bg-gray-900/40 hover:bg-white dark:hover:bg-gray-900/90 transition-all duration-300 cursor-default ${hoverClassString}`}
+                          role="img"
+                          aria-label={item.name}
                         >
                           <div className="mb-2.5 transition-transform duration-300 group-hover:scale-110">
-                            <Icon className="w-8 h-8 md:w-9 md:h-9 text-gray-400 dark:text-gray-600 transition-colors duration-300 group-hover:text-inherit" />
+                            <Icon
+                              className="w-8 h-8 md:w-9 md:h-9 text-gray-400 dark:text-gray-600 transition-colors duration-300 group-hover:text-inherit"
+                              aria-hidden="true"
+                            />
                           </div>
-                          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
                             {item.name}
                           </span>
                         </motion.div>
