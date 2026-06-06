@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/sections/Header";
+import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
@@ -7,7 +7,7 @@ import { CertificationsSection } from "@/components/sections/CertificationsSecti
 import { ContactSection } from "@/components/sections/ContactSection";
 import { Footer } from "@/components/sections/Footer";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
-import { TechMarqueeClient } from "@/components/TechMarqueeClient";
+import { TechStackSection } from "@/components/sections/TechStackSection";
 
 export default function PortfolioPage() {
   return (
@@ -15,7 +15,7 @@ export default function PortfolioPage() {
       <Header />
       <main className="relative z-10 pt-20">
         <HeroSection />
-        <TechMarqueeClient />
+        <TechStackSection />
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />
