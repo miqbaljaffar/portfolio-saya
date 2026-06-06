@@ -35,10 +35,10 @@ export function AboutSection() {
                   Mengintegrasikan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-cyan-400 dark:to-blue-500">Sistem Web</span> dengan <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-500">Kecerdasan Buatan</span>
                 </h3>
                 <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                  Sebagai lulusan Teknik Informatika dengan spesialisasi di **Backend Development** dan **Full-Stack Web**, saya memiliki ketertarikan mendalam dalam membangun infrastruktur aplikasi web yang kokoh sekaligus memberikan kapabilitas analitis cerdas menggunakan model **Machine Learning**.
+                  Sebagai lulusan Teknik Informatika dengan spesialisasi di <strong className="font-semibold text-gray-900 dark:text-white">Backend Development</strong> dan <strong className="font-semibold text-gray-900 dark:text-white">Full-Stack Web</strong>, saya memiliki ketertarikan mendalam dalam membangun infrastruktur aplikasi web yang kokoh sekaligus memberikan kapabilitas analitis cerdas menggunakan model <strong className="font-semibold text-gray-900 dark:text-white">Machine Learning</strong>.
                 </p>
                 <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Saya senang bereksperimen dengan pustaka pengolahan citra (**OpenCV**, **PaddleOCR**) dan mengintegrasikannya ke dalam arsitektur API secara efisien. Saya percaya, aplikasi web masa depan bukan sekadar wadah penyimpanan data, melainkan entitas pintar yang mampu menyederhanakan keputusan pengguna.
+                  Saya senang bereksperimen dengan pustaka pengolahan citra (<strong className="font-semibold text-gray-900 dark:text-white">OpenCV</strong>, <strong className="font-semibold text-gray-900 dark:text-white">PaddleOCR</strong>) dan mengintegrasikannya ke dalam arsitektur API secara efisien. Saya percaya, aplikasi web masa depan bukan sekadar wadah penyimpanan data, melainkan entitas pintar yang mampu menyederhanakan keputusan pengguna.
                 </p>
               </div>
 
