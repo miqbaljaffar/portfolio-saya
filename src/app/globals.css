@@ -182,3 +182,89 @@
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.55 0.08 260);
 }
+
+/* =============================================
+   CUSTOM BACKGROUND PATTERNS
+   ============================================= */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+}
+
+.dark .bg-grid-pattern {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+}
+
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* =============================================
+   COMPUTER VISION SCANNER ANIMATION
+   ============================================= */
+@keyframes scan {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.animate-scan {
+  animation: scan 4s ease-in-out infinite;
+}
+
+/* =============================================
+   DYNAMIC GLOWING BORDERS
+   ============================================= */
+@keyframes border-glow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #3b82f6, #a855f7, #6366f1, #3b82f6);
+  background-size: 300% 300%;
+  z-index: 0;
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: border-glow 8s ease infinite;
+}
+
+.glow-border:hover::before {
+  opacity: 0.4;
+}
+
+/* Selection Highlight Color */
+::selection {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: inherit;
+}
