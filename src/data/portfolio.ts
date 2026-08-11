@@ -90,16 +90,24 @@ export const featuredProjects: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    title: "Program Kelas Bahasa Jepang UTB",
-    role: "Pengajar Bahasa Jepang",
-    company: "Universitas Teknologi Bandung (SMA Bina Putra, Banjar)",
-    date: "Jun 2026 – Sekarang",
+    title: "Iwasaki Keiei",
+    role: "Programmer & Technical Mentor (Remote)",
+    company: "Iwasaki Keiei",
+    date: "Agu 2026 – Sekarang",
     type: "work",
-    description: "Mengajar kelas bahasa Jepang dalam program kelas bahasa Jepang kerja sama Universitas Teknologi Bandung (UTB) yang berlokasi di SMA Bina Putra, Banjar, Jawa Barat.",
+    description: "Mengembangkan & memelihara sistem aplikasi perusahaan secara remote, sekaligus menjadi Technical Mentor yang mengarahkan dan membimbing peserta internship baru di Iwasaki Keiei.",
+  },
+  {
+    title: "Program Kelas Bahasa Jepang UTB",
+    role: "Pengajar Bahasa Jepang (Sensei)",
+    company: "Universitas Teknologi Bandung (SMA Bina Putra, Banjar)",
+    date: "Jun 2026 – Jul 2026",
+    type: "work",
+    description: "Mengajar kelas bahasa Jepang dalam program kerja sama Universitas Teknologi Bandung (UTB) yang berlokasi di SMA Bina Putra, Banjar, Jawa Barat.",
   },
   {
     title: "Iwasaki Keiei (Remote Internship)",
-    role: "Programmer",
+    role: "Programmer Intern",
     company: "Iwasaki Keiei",
     date: "Jun 2025 – Apr 2026",
     type: "work",
