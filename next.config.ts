@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
   generateEtags: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
-  swcMinify: true,
   experimental: {
     optimizePackageImports: [
       "lucide-react",

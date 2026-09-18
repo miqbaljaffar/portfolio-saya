@@ -1,4 +1,5 @@
-import type { ReactElement } from "react";
+import type { ComponentType } from "react";
+import type { IconType } from "react-icons";
 import {
   SiPython,
   SiJavascript,
@@ -23,7 +24,6 @@ import {
   SiSupabase,
   SiFirebase,
   SiArduino,
-  SiTableau,
   SiStreamlit,
 } from "react-icons/si";
 
@@ -59,7 +59,7 @@ export type Certification = {
 export type TechItem = {
   name: string;
   level: string;
-  icon: ReactElement;
+  icon: IconType | ComponentType<{ size?: number; className?: string }>;
 };
 
 export type TechCategory = "Languages" | "AI/ML" | "Dev Tools";
@@ -250,45 +250,41 @@ export const certificationsData: Certification[] = [
 
 /* ==========================================================
    DATA — TECH STACK
+   Catatan: Icon disimpan sebagai COMPONENT REFERENCE.
+   SkillCard akan merender <item.icon size={...}/>.
+   (Tidak ada JSX di file .ts ini)
    ========================================================== */
-const ic = (icon: ReactElement, size = 20) => (
-  <span style={{ width: size, height: size, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-    {icon}
-  </span>
-);
-
 export const techStackData: TechStackData = {
   Languages: [
-    { name: "Python", level: "Advanced", icon: ic(<SiPython />) },
-    { name: "TypeScript", level: "Advanced", icon: ic(<SiTypescript />) },
-    { name: "JavaScript", level: "Advanced", icon: ic(<SiJavascript />) },
-    { name: "PHP", level: "Intermediate", icon: ic(<SiPhp />) },
-    { name: "SQL / PostgreSQL", level: "Advanced", icon: ic(<SiPostgresql />) },
-    { name: "MySQL / MariaDB", level: "Advanced", icon: ic(<SiMysql />) },
-    { name: "MongoDB", level: "Intermediate", icon: ic(<SiMongodb />) },
-    { name: "C++ (Arduino)", level: "Intermediate", icon: ic(<SiArduino />) },
+    { name: "Python", level: "Advanced", icon: SiPython },
+    { name: "TypeScript", level: "Advanced", icon: SiTypescript },
+    { name: "JavaScript", level: "Advanced", icon: SiJavascript },
+    { name: "PHP", level: "Intermediate", icon: SiPhp },
+    { name: "SQL / PostgreSQL", level: "Advanced", icon: SiPostgresql },
+    { name: "MySQL / MariaDB", level: "Advanced", icon: SiMysql },
+    { name: "MongoDB", level: "Intermediate", icon: SiMongodb },
+    { name: "C++ (Arduino)", level: "Intermediate", icon: SiArduino },
   ],
   "AI/ML": [
-    { name: "TensorFlow", level: "Advanced", icon: ic(<SiTensorflow />) },
-    { name: "Keras", level: "Advanced", icon: ic(<SiKeras />) },
-    { name: "Scikit-Learn", level: "Advanced", icon: ic(<SiScikitlearn />) },
-    { name: "OpenCV", level: "Intermediate", icon: ic(<SiOpencv />) },
-    { name: "PaddleOCR", level: "Intermediate", icon: ic(<SiTensorflow />) },
-    { name: "Roboflow", level: "Intermediate", icon: ic(<SiTensorflow />) },
+    { name: "TensorFlow", level: "Advanced", icon: SiTensorflow },
+    { name: "Keras", level: "Advanced", icon: SiKeras },
+    { name: "Scikit-Learn", level: "Advanced", icon: SiScikitlearn },
+    { name: "OpenCV", level: "Intermediate", icon: SiOpencv },
+    { name: "PaddleOCR", level: "Intermediate", icon: SiTensorflow },
+    { name: "Roboflow", level: "Intermediate", icon: SiTensorflow },
   ],
   "Dev Tools": [
-    { name: "Node.js", level: "Advanced", icon: ic(<SiNodedotjs />) },
-    { name: "Next.js", level: "Advanced", icon: ic(<SiNextdotjs />) },
-    { name: "React", level: "Advanced", icon: ic(<SiReact />) },
-    { name: "Tailwind CSS", level: "Advanced", icon: ic(<SiTailwindcss />) },
-    { name: "Prisma", level: "Intermediate", icon: ic(<SiPrisma />) },
-    { name: "Supabase", level: "Intermediate", icon: ic(<SiSupabase />) },
-    { name: "Firebase", level: "Intermediate", icon: ic(<SiFirebase />) },
-    { name: "Docker", level: "Intermediate", icon: ic(<SiDocker />) },
-    { name: "Vercel", level: "Advanced", icon: ic(<SiVercel />) },
-    { name: "Git", level: "Advanced", icon: ic(<SiGit />) },
-    { name: "Redis", level: "Intermediate", icon: ic(<SiRedis />) },
-    { name: "Streamlit", level: "Intermediate", icon: ic(<SiStreamlit />) },
-    { name: "Tableau", level: "Beginner", icon: ic(<SiTableau />) },
+    { name: "Node.js", level: "Advanced", icon: SiNodedotjs },
+    { name: "Next.js", level: "Advanced", icon: SiNextdotjs },
+    { name: "React", level: "Advanced", icon: SiReact },
+    { name: "Tailwind CSS", level: "Advanced", icon: SiTailwindcss },
+    { name: "Prisma", level: "Intermediate", icon: SiPrisma },
+    { name: "Supabase", level: "Intermediate", icon: SiSupabase },
+    { name: "Firebase", level: "Intermediate", icon: SiFirebase },
+    { name: "Docker", level: "Intermediate", icon: SiDocker },
+    { name: "Vercel", level: "Advanced", icon: SiVercel },
+    { name: "Git", level: "Advanced", icon: SiGit },
+    { name: "Redis", level: "Intermediate", icon: SiRedis },
+    { name: "Streamlit", level: "Intermediate", icon: SiStreamlit },
   ],
 };

@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useLockBodyScroll } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import type { Certification } from "@/data/portfolio";
 
@@ -11,7 +12,15 @@ interface CertModalProps {
 }
 
 export function CertModal({ item, onClose }: CertModalProps) {
-  useLockBodyScroll(!!item);
+  useEffect(() => {
+    if (item) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [item]);
 
   return (
     <AnimatePresence>

@@ -54,6 +54,7 @@ const Carousel = React.forwardRef<
       plugins,
       className,
       children,
+      ...props
     },
     ref
   ) => {
