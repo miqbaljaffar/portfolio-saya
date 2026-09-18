@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google"; // PERBAIKAN: Mengganti font Geist dengan Inter dari Google
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-// Menggunakan font Inter yang merupakan standar dan bekerja dengan baik
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans", // Menggunakan variabel standar untuk font sans-serif
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Mohammad Iqbal Jaffar | Full-Stack Web Development",
-  description: "Portfolio Mohammad Iqbal Jaffar, seorang Full-Stack Web Developer yang bersemangat dalam membangun aplikasi modern dan berbasis web.",
+  title: "Mohammad Iqbal Jaffar | Full-Stack & AI/ML Engineer",
+  description: "Portfolio Mohammad Iqbal Jaffar — Full-Stack Web Developer & AI/ML Engineer. Crafting intelligent systems end-to-end.",
 };
 
 export default function RootLayout({
@@ -21,9 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      {/* PERBAIKAN: Menerapkan variabel font dari Inter */}
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-washi-texture`}
       >
         <ThemeProvider
             attribute="class"

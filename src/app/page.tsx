@@ -11,7 +11,7 @@ import { TechStackSection } from "@/components/sections/TechStackSection";
 
 export default function PortfolioPage() {
   return (
-    <div className="bg-gray-50 dark:bg-[#0a0a0f] text-gray-800 dark:text-gray-200 antialiased min-h-screen selection:bg-blue-500 selection:text-white">
+    <div className="bg-background text-foreground antialiased min-h-screen selection:bg-vermillion/20 dark:selection:bg-accent/25 selection:text-inherit">
       <Header />
       <main className="relative z-10 pt-20">
         <HeroSection />

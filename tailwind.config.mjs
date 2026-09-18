@@ -9,7 +9,19 @@ const config = {
   theme: {
     extend: {
       colors: {
-        "royal-blue": "#4169E1",
+        washi: "#F7F2EA",
+        sumi: "#151823",
+        indigo: {
+          tokyo: "#2D4A6F",
+        },
+        vermillion: "#C8402E",
+        kincha: "#D4A04A",
+        "washi-border": "#B8A99A",
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "sans-serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
       },
     },
   },

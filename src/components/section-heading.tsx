@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { fadeUp, fadeIn } from "../lib/animations";
 
-export function SectionHeading({ title, withBar = true }: { title: string; withBar?: boolean }) {
+export function SectionHeading({ title, subTitle, withGate = true }: { title: string; subTitle?: string; withGate?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px 0px" });
 
@@ -13,21 +13,33 @@ export function SectionHeading({ title, withBar = true }: { title: string; withB
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="text-center mb-16"
+      className="text-center mb-14 md:mb-16"
     >
+      {subTitle && (
+        <motion.p
+          variants={fadeIn}
+          custom={0}
+          className="text-[11px] md:text-xs font-mono uppercase tracking-[0.25em] text-vermillion dark:text-accent mb-3 opacity-90"
+        >
+          {subTitle}
+        </motion.p>
+      )}
       <motion.h2
         variants={fadeUp}
-        custom={0}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
+        custom={0.1}
+        className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-5 text-foreground tracking-tight"
       >
         {title}
       </motion.h2>
-      {withBar && (
+      {withGate && (
         <motion.div
           variants={fadeIn}
           custom={0.2}
-          className="h-1 w-16 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
-        />
+        >
+          <div className="torii-divider">
+            <span className="gate">⛩</span>
+          </div>
+        </motion.div>
       )}
     </motion.div>
   );

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading } from "@/components/section-heading";
 import { AnimatedSection } from "@/components/animated-section";
-import { staggerContainer, staggerItem } from "@/lib/animations";
 import {
   SiPython,
   SiPhp,
@@ -22,12 +21,12 @@ import {
   SiVercel,
   SiGit,
 } from "react-icons/si";
-import { Database, ScanText, BarChart3 } from "lucide-react";
+import { Database, ScanText, BarChart3, Wrench } from "lucide-react";
 
-// Categorized tech stack items with their specific brand icons, colors, and hover effects
 const techCategories = [
   {
     title: "Languages & Databases",
+    jpTitle: "言語 & データベース",
     items: [
       { name: "Python", icon: SiPython, hoverClass: "hover:text-[#3776AB] hover:border-[#3776AB]/30 hover:shadow-[#3776AB]/10", shadowColor: "rgba(55,118,171,0.15)" },
       { name: "JavaScript", icon: SiJavascript, hoverClass: "hover:text-[#F7DF1E] hover:border-[#F7DF1E]/30 hover:shadow-[#F7DF1E]/10", shadowColor: "rgba(247,223,30,0.1)" },
@@ -40,6 +39,7 @@ const techCategories = [
   },
   {
     title: "AI, Machine Learning & Analytics",
+    jpTitle: "AI & 機械学習",
     items: [
       { name: "TensorFlow", icon: SiTensorflow, hoverClass: "hover:text-[#FF6F00] hover:border-[#FF6F00]/30 hover:shadow-[#FF6F00]/10", shadowColor: "rgba(255,111,0,0.15)" },
       { name: "Keras", icon: SiKeras, hoverClass: "hover:text-[#D00000] hover:border-[#D00000]/30 hover:shadow-[#D00000]/10", shadowColor: "rgba(208,0,0,0.15)" },
@@ -53,6 +53,7 @@ const techCategories = [
   },
   {
     title: "DevOps & Tools",
+    jpTitle: "開発ツール",
     items: [
       { name: "Docker", icon: SiDocker, hoverClass: "hover:text-[#2496ED] hover:border-[#2496ED]/30 hover:shadow-[#2496ED]/10", shadowColor: "rgba(36,150,237,0.15)" },
       { name: "Git", icon: SiGit, hoverClass: "hover:text-[#F05032] hover:border-[#F05032]/30 hover:shadow-[#F05032]/10", shadowColor: "rgba(240,80,50,0.15)" },
@@ -75,20 +76,18 @@ export function TechStackSection() {
   });
 
   return (
-    <section id="tech-stack" className="py-20 md:py-24 relative bg-gray-50/30 dark:bg-[#08080c]/20 border-y border-gray-100 dark:border-gray-900/60 overflow-hidden">
-      {/* Visual background element */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl pointer-events-none" />
+    <section id="tech-stack" className="py-20 md:py-24 relative border-y border-border overflow-hidden bg-asanoha">
+      <div className="absolute inset-0 bg-washi-texture pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <SectionHeading title="Tech Stack & Tools" />
-        
-        <AnimatedSection className="mb-8 -mt-2">
-          <p className="text-sm md:text-base text-center text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Teknologi, pustaka, dan alat bantu pengembangan yang saya gunakan untuk mendesain, membangun, serta menerapkan solusi web dan kecerdasan buatan.
+        <SectionHeading title="Tech Stack & Tools" subTitle="02 · Arsenal · 武器" />
+
+        <AnimatedSection className="mb-10 -mt-2">
+          <p className="text-sm md:text-base text-center text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Teknologi, pustaka, dan alat bantu pengembangan yang saya gunakan untuk mendesain, membangun, serta menerapkan solusi web dan kecerdasan buatan end-to-end.
           </p>
         </AnimatedSection>
 
-        {/* Sliding Pill Tab Selectors */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12 max-w-2xl mx-auto">
           {categories.map((cat) => {
             const isActive = activeTab === cat;
@@ -96,16 +95,16 @@ export function TechStackSection() {
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                className={`relative px-4 py-2 text-xs md:text-sm font-semibold rounded-full transition-colors cursor-pointer select-none ${
+                className={`relative px-4 py-2 text-xs md:text-sm font-display font-semibold rounded-[0.6rem] transition-all cursor-pointer select-none ${
                   isActive
-                    ? "text-white dark:text-gray-900"
-                    : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 bg-white/60 dark:bg-gray-900/50 border border-gray-200/50 dark:border-gray-800/80"
+                    ? "text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:text-foreground dark:hover:text-foreground bg-card/60 dark:bg-card/30 border border-border/80 backdrop-blur-sm hover:border-border"
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeTechTab"
-                    className="absolute inset-0 bg-gray-900 dark:bg-white rounded-full z-0"
+                    className="absolute inset-0 rounded-[0.6rem] bg-primary dark:bg-primary shadow-md"
                     transition={{ type: "spring", stiffness: 350, damping: 26 }}
                   />
                 )}
@@ -115,7 +114,6 @@ export function TechStackSection() {
           })}
         </div>
 
-        {/* Categories Grid Container */}
         <div className="space-y-12 max-w-5xl mx-auto min-h-[220px]">
           <AnimatePresence mode="wait">
             <motion.div
@@ -128,35 +126,40 @@ export function TechStackSection() {
             >
               {filteredCategories.map((category, catIdx) => (
                 <div key={catIdx} className="space-y-4">
-                  <h3 className="text-xs font-semibold tracking-wider text-gray-600 dark:text-gray-400 uppercase px-1 font-mono">
-                    {category.title}
-                  </h3>
-                  
+                  <div className="flex items-baseline gap-3 px-1">
+                    <h3 className="text-xs font-bold tracking-[0.2em] text-primary dark:text-primary uppercase font-mono">
+                      {category.title}
+                    </h3>
+                    <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+                      {category.jpTitle}
+                    </span>
+                    <div className="flex-1 h-px bg-gradient-to-r from-border/80 via-border/40 to-transparent" />
+                  </div>
+
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
                     {category.items.map((item, itemIdx) => {
                       const Icon = item.icon;
                       const hoverClassString = item.hoverClass;
-                      
+
                       return (
                         <motion.div
                           key={itemIdx}
-                          whileHover={{ 
+                          whileHover={{
                             y: -5,
                             scale: 1.03,
-                            boxShadow: `0 10px 20px -5px ${item.shadowColor || 'rgba(59,130,246,0.1)'}`
                           }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className={`group flex flex-col items-center justify-center p-4 min-h-[80px] rounded-xl border border-gray-200/40 dark:border-gray-800 bg-white dark:bg-gray-900/40 hover:bg-white dark:hover:bg-gray-900/90 transition-all duration-300 cursor-default ${hoverClassString}`}
+                          className={`group flex flex-col items-center justify-center p-4 min-h-[82px] rounded-[0.85rem] border-border bg-card dark:bg-card hover:bg-card hover:shadow-lg transition-all duration-300 cursor-default relative crafted-border ${hoverClassString}`}
                           role="img"
                           aria-label={item.name}
                         >
                           <div className="mb-2.5 transition-transform duration-300 group-hover:scale-110">
                             <Icon
-                              className="w-8 h-8 md:w-9 md:h-9 text-gray-400 dark:text-gray-600 transition-colors duration-300 group-hover:text-inherit"
+                              className="w-8 h-8 md:w-9 md:h-9 text-muted-foreground/70 dark:text-muted-foreground/60 transition-colors duration-300 group-hover:text-inherit"
                               aria-hidden="true"
                             />
                           </div>
-                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+                          <span className="text-[11px] font-semibold text-muted-foreground dark:text-muted-foreground group-hover:text-foreground dark:group-hover:text-foreground transition-colors duration-300 font-display tracking-wide">
                             {item.name}
                           </span>
                         </motion.div>
@@ -172,4 +175,3 @@ export function TechStackSection() {
     </section>
   );
 }
-
