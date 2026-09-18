@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Header from "@/components/sections/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import { ScrollTopLazy } from "@/components/ScrollTopLazy";
 
 /* ========= Sections below fold: lazy-loaded to reduce initial JS ========= */
 const TechStackSection = dynamic(
@@ -31,10 +32,6 @@ const ContactSection = dynamic(
 const Footer = dynamic(
   () => import("@/components/sections/Footer"),
   { ssr: true }
-);
-const ScrollTopButton = dynamic(
-  () => import("@/components/ScrollTopButton").then((mod) => mod.ScrollTopButton),
-  { ssr: false, loading: () => null }
 );
 
 function SectionSkeleton() {
@@ -81,7 +78,7 @@ export default function PortfolioPage() {
         </Suspense>
       </main>
       <Footer />
-      <ScrollTopButton />
+      <ScrollTopLazy />
     </div>
   );
 }
