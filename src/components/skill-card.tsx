@@ -1,37 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { staggerItem } from "../lib/animations";
+import type { TechItem } from "@/data/portfolio";
 
-export function SkillCard({
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) {
+interface SkillCardProps {
+  item: TechItem;
+  index: number;
+}
+
+export function SkillCard({ item, index }: SkillCardProps) {
   return (
     <motion.div
-      variants={staggerItem}
-      whileHover={{ y: -8, scale: 1.02 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="relative group bg-card dark:bg-card border-border p-6 md:p-8 rounded-[1.1rem] shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300 overflow-hidden cursor-default crafted-border"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -4 }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-vermillion/4 dark:from-primary/5 dark:to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[1.1rem]" />
-      <div className="absolute -right-4 -top-4 text-card-foreground/[0.04] dark:text-card-foreground/[0.06] text-[8rem] font-black select-none pointer-events-none leading-none font-display">
-        工
+      <div className="group relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-[0.9rem] bg-card border border-border hover:shadow-md transition-all duration-300 text-center">
+        <div className="size-11 md:size-12 flex items-center justify-center rounded-lg bg-muted text-foreground/80 group-hover:text-foreground transition-colors">
+          {item.icon}
+        </div>
+        <div className="space-y-0.5">
+          <h4 className="font-display font-semibold text-sm md:text-[15px] text-foreground">
+            {item.name}
+          </h4>
+          <p className="text-[10px] md:text-[11px] text-muted-foreground font-mono uppercase tracking-wide">
+            {item.level}
+          </p>
+        </div>
       </div>
-      <motion.div
-        className="flex justify-center mb-6 text-primary"
-        whileHover={{ scale: 1.15, rotate: 6 }}
-        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-      >
-        {icon}
-      </motion.div>
-      <h3 className="font-display text-xl font-extrabold mb-3 text-foreground relative z-10">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed text-sm relative z-10">{children}</p>
     </motion.div>
   );
 }

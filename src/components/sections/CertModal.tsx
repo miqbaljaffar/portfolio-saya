@@ -1,76 +1,80 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useLockBodyScroll } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
+import type { Certification } from "@/data/portfolio";
 
 interface CertModalProps {
-  selectedCert: string;
+  item: Certification | null;
   onClose: () => void;
 }
 
-export function CertModal({ selectedCert, onClose }: CertModalProps) {
+export function CertModal({ item, onClose }: CertModalProps) {
+  useLockBodyScroll(!!item);
+
   return (
     <AnimatePresence>
-      {selectedCert && (
+      {item && (
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={item.title}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          // z-[999] agar benar-benar menutupi semua elemen, termasuk navbar
-          className="fixed inset-0 bg-black/95 backdrop-blur-md flex justify-center items-center z-[999] p-4 sm:p-8"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[999] p-4 sm:p-8"
           onClick={onClose}
         >
+          <motion.button
+            type="button"
+            onClick={onClose}
+            aria-label="Tutup sertifikat"
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 bg-black/50 hover:bg-black/70 text-white rounded-full backdrop-blur-md transition-transform hover:scale-105 z-[1]"
+          >
+            <X className="size-5" />
+          </motion.button>
+
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.96, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            // Menggunakan flex-col untuk memisahkan tombol dan gambar secara struktural
-            className="relative max-w-5xl w-full h-[85vh] flex flex-col"
+            exit={{ scale: 0.96, opacity: 0, y: 20 }}
+            transition={{ type: "spring", damping: 28, stiffness: 280 }}
+            className="relative max-w-5xl w-full max-h-[88vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            
-            {/* AREA TOMBOL (Toolbar) - Posisi relatif di atas gambar, tidak akan terpotong */}
-            <div className="flex justify-end items-center gap-3 mb-4 shrink-0">
-              <a
-                href={selectedCert}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 bg-white/10 hover:bg-white/25 text-white rounded-full backdrop-blur-sm transition-transform hover:scale-110"
-                aria-label="Lihat Ukuran Penuh"
-                title="Buka dan Zoom Ukuran Asli"
-              >
-                <ExternalLink size={20} />
-              </a>
-              <button
-                onClick={onClose}
-                className="p-2.5 bg-red-500/80 hover:bg-red-500 text-white rounded-full backdrop-blur-sm transition-transform hover:scale-110"
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X size={20} />
-              </button>
+            <div className="flex items-start justify-between gap-4 mb-4 shrink-0 text-white">
+              <div className="min-w-0">
+                <h2 className="font-display font-bold text-lg md:text-xl leading-tight">{item.title}</h2>
+                <p className="text-xs md:text-sm text-white/60 mt-1">
+                  {item.issuer} &middot; {item.year}
+                </p>
+              </div>
+              {item.link && (
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 inline-flex items-center gap-1.5 p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-transform hover:scale-105"
+                  aria-label="Lihat ukuran penuh"
+                >
+                  <ExternalLink className="size-4" />
+                </a>
+              )}
             </div>
 
-            {/* AREA GAMBAR */}
-            <div className="relative w-full h-full rounded-lg overflow-hidden flex justify-center items-center">
+            <div className="relative w-full flex-1 rounded-lg overflow-hidden bg-black/30 min-h-[50vh]">
               <Image
-                src={selectedCert}
-                alt="Sertifikat Resolusi Tinggi"
+                src={item.image}
+                alt={item.title}
                 fill
-                quality={100}
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-contain drop-shadow-2xl"
+                priority={false}
+                quality={85}
+                className="object-contain"
               />
             </div>
-
-            {/* TEXT PETUNJUK DI BAWAH */}
-            <p className="text-center text-white/50 text-sm mt-4 hidden sm:block shrink-0">
-              Klik tombol <ExternalLink className="inline mb-1" size={14} /> di atas untuk memperbesar (zoom) ukuran asli
-            </p>
-
           </motion.div>
         </motion.div>
       )}

@@ -1,13 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { SectionHeading } from "@/components/section-heading";
-import { AnimatedSection } from "@/components/animated-section";
-import { certifications } from "@/data/portfolio";
-import { staggerItem } from "@/lib/animations";
-import { CertModal } from "@/components/sections/CertModal";
 import {
   Carousel,
   CarouselContent,
@@ -15,75 +10,90 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { SectionHeading } from "@/components/section-heading";
+import { CertModal } from "./CertModal";
 import { Award } from "lucide-react";
+import { certificationsData } from "@/data/portfolio";
+import { staggerContainer, fadeUp } from "@/lib/animations";
 
-export function CertificationsSection() {
-  const [selectedCert, setSelectedCert] = useState<string | null>(null);
+export default function CertificationsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [selected, setSelected] = useState<(typeof certificationsData)[number] | null>(null);
 
   return (
-    <section id="certifications" className="py-20 md:py-28 relative overflow-hidden bg-asanoha">
-      <div className="absolute inset-0 bg-washi-texture pointer-events-none" />
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeading title="Sertifikasi" subTitle="05 · Credentials · 資格" />
-        <AnimatedSection>
-          <motion.div variants={staggerItem} className="w-full max-w-6xl mx-auto">
+    <section id="certs" className="relative py-24 md:py-32 px-5 md:px-10">
+      <div className="container mx-auto max-w-6xl">
+        <SectionHeading
+          subtitle="05 · Credentials"
+          eyebrow="Certifications"
+          title="Sertifikasi dan penghargaan"
+          description="Pembuktian formal keahlian — mulai dari pengembangan software sampai sertifikasi profesi khusus."
+        />
 
-            <Carousel opts={{ align: "start", loop: true }}>
-              <CarouselContent>
-                {certifications.map((cert, index) => (
-                  <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4 pb-4">
-                    <motion.div
-                      whileHover={{ y: -5 }}
-                      transition={{ duration: 0.2 }}
-                      className="h-full cursor-pointer"
-                      onClick={() => setSelectedCert(cert.imageUrl)}
+        <motion.div
+          ref={ref}
+          variants={staggerContainer(0.05, 0)}
+          initial="hidden"
+          animate={inView ? "show" : "hidden"}
+          className="relative"
+        >
+          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {certificationsData.map((cert) => (
+                <CarouselItem
+                  key={cert.title}
+                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                >
+                  <motion.div
+                    variants={fadeUp(0)}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelected(cert)}
+                      className="group w-full text-left bg-card border border-border rounded-[1rem] overflow-hidden hover:shadow-md transition-shadow"
                     >
-                      <div className="rounded-[1.1rem] overflow-hidden border-border shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300 h-full flex flex-col group bg-card relative crafted-border">
-                        <div className="relative h-44 w-full overflow-hidden bg-muted">
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10" />
+                      <div className="relative">
+                        <div className="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] md:text-xs font-mono uppercase tracking-wider bg-[#D4A04A]/15 text-[#B8852A] border border-[#D4A04A]/30">
+                          <Award className="size-3" /> Certified
+                        </div>
+                        <div className="aspect-[16/10] overflow-hidden bg-muted">
                           <Image
-                            src={cert.imageUrl}
+                            src={cert.image}
                             alt={cert.title}
                             fill
-                            quality={60}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                           />
-                          <div className="absolute top-3 left-3 z-20">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-kincha/20 text-foreground text-[10px] font-bold border border-kincha/30 backdrop-blur-sm font-mono tracking-wider">
-                              <Award size={10} className="text-vermillion dark:text-accent" />
-                              認定 · Certified
-                            </span>
-                          </div>
-                          <div className="absolute bottom-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-all translate-y-1 group-hover:translate-y-0 bg-card/95 text-foreground text-[10px] font-semibold px-2.5 py-1 rounded-md border-border backdrop-blur-sm font-display shadow">
-                            クリックで拡大 · Click to enlarge
-                          </div>
-                        </div>
-                        <div className="p-5 flex-grow flex flex-col relative">
-                          <div className="absolute -top-3 left-5 hanko-stamp !text-[9px] !py-0.5 !px-1.5 !rounded-[3px]">
-                            証
-                          </div>
-                          <h3 className="font-display font-bold text-base mb-1 text-foreground group-hover:text-primary transition-colors leading-tight pt-1">{cert.title}</h3>
-                          <p className="text-[10px] font-semibold text-kincha dark:text-kincha mb-2 uppercase tracking-[0.18em] font-mono">{cert.issuer}</p>
-                          <p className="text-sm text-muted-foreground mt-auto leading-relaxed">{cert.description}</p>
                         </div>
                       </div>
-                    </motion.div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <div className="hidden md:block">
-                <CarouselPrevious className="left-[-52px] bg-card dark:bg-card border-border shadow-lg text-muted-foreground hover:text-foreground hover:bg-muted" />
-                <CarouselNext className="right-[-52px] bg-card dark:bg-card border-border shadow-lg text-muted-foreground hover:text-foreground hover:bg-muted" />
-              </div>
-            </Carousel>
-
-          </motion.div>
-        </AnimatedSection>
+                      <div className="p-5 md:p-6 space-y-2.5">
+                        <h3 className="font-display font-bold text-base md:text-lg leading-snug text-foreground line-clamp-2">
+                          {cert.title}
+                        </h3>
+                        <div className="flex items-center justify-between pt-1">
+                          <p className="text-xs font-mono uppercase tracking-wider text-[#B8852A]">
+                            {cert.issuer}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground">{cert.year}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex items-center justify-end gap-2 mt-6 md:mt-8">
+              <CarouselPrevious className="relative static translate-y-0 size-9 rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground" />
+              <CarouselNext className="relative static translate-y-0 size-9 rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground" />
+            </div>
+          </Carousel>
+        </motion.div>
       </div>
 
-      <CertModal selectedCert={selectedCert ?? ""} onClose={() => setSelectedCert(null)} />
+      <CertModal item={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }

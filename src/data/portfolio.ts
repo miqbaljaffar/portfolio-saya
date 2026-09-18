@@ -1,172 +1,294 @@
+import type { ReactElement } from "react";
+import {
+  SiPython,
+  SiJavascript,
+  SiTypescript,
+  SiPhp,
+  SiMysql,
+  SiPostgresql,
+  SiMongodb,
+  SiRedis,
+  SiTensorflow,
+  SiKeras,
+  SiScikitlearn,
+  SiOpencv,
+  SiDocker,
+  SiVercel,
+  SiGit,
+  SiNodedotjs,
+  SiNextdotjs,
+  SiReact,
+  SiTailwindcss,
+  SiPrisma,
+  SiSupabase,
+  SiFirebase,
+  SiArduino,
+  SiTableau,
+  SiStreamlit,
+} from "react-icons/si";
+
+/* ==========================================================
+   TYPES
+   ========================================================== */
 export type Project = {
   title: string;
   description: string;
-  tech: string[];
-  link: string;
-  imageUrl: string;
+  tags: string[];
+  category: "AI & ML" | "Full-Stack Web" | "IoT & Hardware";
+  link?: string;
+  github?: string;
+  image: string;
+};
+
+export type ExperienceItem = {
+  title: string;
+  organization: string;
+  description: string;
+  period: string;
+  type: "work" | "edu" | "org";
 };
 
 export type Certification = {
   title: string;
   issuer: string;
-  description: string;
-  imageUrl: string;
+  year: string;
+  image: string;
+  link?: string;
 };
 
-export type Experience = {
-  title: string;
-  role: string;
-  company: string;
-  description: string;
-  date: string;
-  type: "work" | "education" | "organization";
+export type TechItem = {
+  name: string;
+  level: string;
+  icon: ReactElement;
 };
 
-export const featuredProjects: Project[] = [
+export type TechCategory = "Languages" | "AI/ML" | "Dev Tools";
+
+export type TechStackData = Record<TechCategory, TechItem[]>;
+
+export type NavItem = { label: string; href: string };
+
+/* ==========================================================
+   DATA — NAVIGATION
+   ========================================================== */
+export const navItems: NavItem[] = [
+  { label: "Skills", href: "#skills" },
+  { label: "About", href: "#about" },
+  { label: "Journey", href: "#journey" },
+  { label: "Projects", href: "#projects" },
+  { label: "Certs", href: "#certs" },
+  { label: "Contact", href: "#contact" },
+];
+
+/* ==========================================================
+   DATA — PROJECTS
+   ========================================================== */
+export const projectsData: Project[] = [
   {
     title: "HoaxLens AI",
-    description: "Sistem pengecekan fakta otonom untuk membongkar misinformasi. Aplikasi full-stack ini dapat memverifikasi validitas, mendeteksi bias dan clickbait, serta melacak sumber kredibel dari kutipan berita, tautan, atau tangkapan layar menggunakan Gemini AI dengan fitur Semantic Google Search Grounding dan Multimodal OCR.",
-    tech: ["React", "Vite", "Tailwind CSS", "Express", "TypeScript", "Gemini AI"],
+    description:
+      "Sistem pengecekan fakta otonom untuk membongkar misinformasi. Memverifikasi validitas, mendeteksi bias dan clickbait, serta melacak sumber kredibel menggunakan Gemini AI dengan Google Search Grounding dan Multimodal OCR.",
+    tags: ["React", "Vite", "Tailwind", "Express", "TypeScript", "Gemini AI"],
+    category: "AI & ML",
     link: "https://hoaxlens-ai.vercel.app",
-    imageUrl: "/projects/hoaxlens.JPG",
+    github: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
+    image: "/projects/hoaxlens.JPG",
   },
   {
     title: "LexAI",
-    description: "Aplikasi full-stack kecerdasan buatan yang dirancang untuk mengubah narasi kasus hukum menjadi analisis penalaran hukum Indonesia terstruktur, mencakup klasifikasi pelanggaran, rujukan pasal, bedah unsur hukum, dan rekomendasi taktis.",
-    tech: ["React", "Vite", "Tailwind CSS", "Express", "TypeScript", "Gemini AI"],
+    description:
+      "Sistem kecerdasan buatan yang mengubah narasi kasus hukum menjadi analisis penalaran hukum Indonesia terstruktur, mencakup klasifikasi pelanggaran, rujukan pasal, bedah unsur hukum, dan rekomendasi taktis.",
+    tags: ["React", "Vite", "Tailwind", "Express", "TypeScript", "Gemini AI"],
+    category: "AI & ML",
     link: "https://lexlaw-three.vercel.app",
-    imageUrl: "/projects/lexai.JPG",
+    image: "/projects/lexai.JPG",
   },
   {
-    title: "MeowCare – Solusi Digital Klinik Hewan",
-    description: "Aplikasi web full-stack untuk manajemen klinik hewan yang dilengkapi dengan sistem antrian real-time, rekam medis pasien (kucing), dan dasbor admin interaktif.",
-    tech: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS", "Supabase"],
+    title: "MeowCare — Klinik Hewan Digital",
+    description:
+      "Aplikasi web full-stack untuk manajemen klinik hewan, dilengkapi dengan sistem antrian real-time, rekam medis pasien (kucing), dan dasbor admin interaktif untuk operasional klinik.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind", "Supabase"],
+    category: "Full-Stack Web",
     link: "https://meow-care-one.vercel.app",
-    imageUrl: "/projects/meow-care.JPG",
+    image: "/projects/meow-care.JPG",
   },
   {
-    title: "Automated Nutrition Fact Recognition",
-    description: "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar dengan bantuan OpenCV dan PaddleOCR untuk analisis kadar gula.",
-    tech: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
+    title: "GlucoScan — Nutrition Fact Recognition",
+    description:
+      "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar kemasan makanan menggunakan OpenCV dan PaddleOCR, dengan fokus pada analisis kadar gula untuk diabetes awareness.",
+    tags: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
+    category: "AI & ML",
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
-    imageUrl: "/projects/gluco.jpg",
+    image: "/projects/gluco.jpg",
   },
   {
-    title: "Ztyle - Modern E-Commerce",
-    description: "Platform e-commerce stylish dengan fitur katalog, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
-    tech: ["Next.js", "Prisma", "PostgreSQL", "Zustand"],
+    title: "Ztyle — Modern E-Commerce",
+    description:
+      "Platform e-commerce stylish dengan fitur katalog produk, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
+    tags: ["Next.js", "Prisma", "PostgreSQL", "Zustand", "Tailwind"],
+    category: "Full-Stack Web",
     link: "https://ztyle-store.vercel.app",
-    imageUrl: "/projects/ztyle.JPG",
+    image: "/projects/ztyle.JPG",
   },
   {
-    title: "JLPT Arcade",
-    description: "Platform belajar bahasa Jepang yang dirancang khusus untuk persiapan JLPT N5-N1. Dilengkapi dengan sistem latihan adaptif, modul kosakata, grammar, dan simulasi ujian resmi.",
-    tech: ["Next.js", "Tailwind CSS", "Firebase", "Ai Gemini", "Vite"],
-    link: "https://kanjivibe-app-1090346603455.asia-southeast2.run.app/",
-    imageUrl: "/projects/jlpt.JPG",
+    title: "JLPT Arcade — Bahasa Jepang",
+    description:
+      "Platform belajar bahasa Jepang untuk persiapan JLPT N5–N1. Dilengkapi sistem latihan adaptif, modul kosakata, grammar, dan simulasi ujian resmi.",
+    tags: ["Next.js", "Tailwind", "Firebase", "Gemini AI"],
+    category: "Full-Stack Web",
+    link: "https://kanjivibe-app-1090346603455.asia-southeast2.run.app",
+    image: "/projects/jlpt.JPG",
   },
   {
     title: "Analisis Sentimen M-Pajak",
-    description: "Analisis sentimen ulasan M-Pajak dengan NLP dan Machine Learning untuk menemukan insight serta rekomendasi perbaikan.",
-    tech: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
-    link: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
-    imageUrl: "/projects/mpajak.JPG",
+    description:
+      "Analisis sentimen ulasan aplikasi M-Pajak dengan NLP dan Machine Learning, untuk menemukan insight dan rekomendasi perbaikan UX.",
+    tags: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
+    category: "AI & ML",
+    github: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
+    image: "/projects/mpajak.JPG",
   },
   {
     title: "Prediksi Student Dropout",
-    description: "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
-    tech: ["Python", "Streamlit", "Random Forest", "Pandas"],
-    link: "https://github.com/miqbaljaffar/Student-Dropout",
-    imageUrl: "/projects/dropout.jpg",
+    description:
+      "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
+    tags: ["Python", "Streamlit", "Random Forest", "Pandas"],
+    category: "AI & ML",
+    github: "https://github.com/miqbaljaffar/Student-Dropout",
+    image: "/projects/dropout.jpg",
   },
   {
-    title: "GTR (Green Tech Recycle) - Smart Trash Bin",
-    description: "Purwarupa tong sampah pintar berbasis mikrokontroler Arduino yang dapat memilah sampah organik, anorganik, dan logam secara otomatis. Sistem ini mengintegrasikan sensor inframerah untuk deteksi objek, sensor cahaya (LDR), dan sensor induktif untuk klasifikasi material.",
-    tech: ["C++", "Arduino", "IoT", "Hardware Engineering"],
-    link: "https://github.com/miqbaljaffar/WasteTrash",
-    imageUrl: "/projects/gtr.jpg",
+    title: "GTR — Smart Trash Bin",
+    description:
+      "Purwarupa tong sampah pintar berbasis Arduino yang dapat memilah sampah organik, anorganik, dan logam secara otomatis dengan IR, LDR, dan sensor induktif.",
+    tags: ["C++", "Arduino", "IoT", "Hardware"],
+    category: "IoT & Hardware",
+    github: "https://github.com/miqbaljaffar/WasteTrash",
+    image: "/projects/gtr.jpg",
   },
 ];
 
-export const experiences: Experience[] = [
+/* ==========================================================
+   DATA — EXPERIENCE
+   ========================================================== */
+export const experienceData: ExperienceItem[] = [
   {
-    title: "Iwasaki Keiei",
-    role: "Programmer & Technical Mentor (Remote)",
-    company: "Iwasaki Keiei",
-    date: "Agu 2026 – Sekarang",
+    title: "Programmer & Technical Mentor",
+    organization: "Iwasaki Keiei (Remote)",
+    description:
+      "Mengembangkan & memelihara sistem aplikasi perusahaan secara remote, sekaligus menjadi Technical Mentor yang membimbing peserta internship baru.",
+    period: "Agu 2026 — Sekarang",
     type: "work",
-    description: "Mengembangkan & memelihara sistem aplikasi perusahaan secara remote, sekaligus menjadi Technical Mentor yang mengarahkan dan membimbing peserta internship baru di Iwasaki Keiei.",
   },
   {
-    title: "Program Kelas Bahasa Jepang UTB",
-    role: "Pengajar Bahasa Jepang (Sensei)",
-    company: "Universitas Teknologi Bandung (SMA Bina Putra, Banjar)",
-    date: "Jun 2026 – Jul 2026",
-    type: "work",
-    description: "Mengajar kelas bahasa Jepang dalam program kerja sama Universitas Teknologi Bandung (UTB) yang berlokasi di SMA Bina Putra, Banjar, Jawa Barat.",
+    title: "Pengajar Bahasa Jepang (Sensei)",
+    organization: "Universitas Teknologi Bandung",
+    description:
+      "Mengajar kelas bahasa Jepang dalam program kerja sama UTB yang berlokasi di SMA Bina Putra, Banjar, Jawa Barat.",
+    period: "Jun 2026 — Jul 2026",
+    type: "org",
   },
   {
-    title: "Iwasaki Keiei (Remote Internship)",
-    role: "Programmer Intern",
-    company: "Iwasaki Keiei",
-    date: "Jun 2025 – Apr 2026",
+    title: "Programmer Intern (Remote)",
+    organization: "Iwasaki Keiei",
+    description:
+      "Mendigitalisasi alur kerja Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
+    period: "Jun 2025 — Apr 2026",
     type: "work",
-    description: "Mendigitalisasi alur kerja manual divisi Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
   },
   {
-    title: "Bangkit Academy 2024 Batch 2",
-    role: "Machine Learning Cohort",
-    company: "Google, GoTo, Traveloka",
-    date: "Sep 2024 – Dec 2024",
-    type: "education",
-    description: "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan 'GlucoScan' (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
+    title: "Machine Learning Cohort · Distinction",
+    organization: "Bangkit Academy 2024 Batch 2",
+    description:
+      "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan GlucoScan (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
+    period: "Sep 2024 — Des 2024",
+    type: "edu",
   },
 ];
 
-export const techStack = [
-  "Python", "SQL", "PHP", "JavaScript", "TypeScript",
-  "TensorFlow", "Keras", "Scikit-Learn", "OpenCV", "PaddleOCR",
-  "MariaDB", "Firebase", "Roboflow", "Streamlit", "Tableau",
-  "Docker", "Vercel", "Git",
-];
-
-export const certifications: Certification[] = [
+/* ==========================================================
+   DATA — CERTIFICATIONS
+   ========================================================== */
+export const certificationsData: Certification[] = [
   {
     title: "SSW – Perawatan Kendaraan (Automotive Maintenance)",
     issuer: "Program Specified Skilled Worker Jepang",
-    description: "Sertifikasi kemampuan teknis dalam inspeksi, perawatan, dan perbaikan kendaraan di bawah sistem SSW Jepang.",
-    imageUrl: "/certs/ssw.jpg",
+    year: "2026",
+    image: "/certs/ssw.jpg",
   },
   {
-    title: "JFT-Basic A2 (Tes Bahasa Jepang)",
+    title: "JFT-Basic A2 — Tes Bahasa Jepang",
     issuer: "Japan Foundation",
-    description: "Sertifikasi kemampuan bahasa Jepang dasar untuk komunikasi sehari-hari (setara A2).",
-    imageUrl: "/certs/cert_JFT.jpg",
+    year: "2026",
+    image: "/certs/cert_JFT.jpg",
   },
   {
-    title: "Bangkit Academy Graduate (Distinction)",
+    title: "Bangkit Academy Graduate — Distinction",
     issuer: "Google, GoTo, Traveloka",
-    description: "Lulus Bangkit 2024 dengan predikat Distinction di jalur Machine Learning.",
-    imageUrl: "/certs/bangkit.jpg",
+    year: "2024",
+    image: "/certs/bangkit.jpg",
   },
   {
     title: "Dev Certified for ML with TensorFlow",
-    issuer: "dev.id with Dicoding",
-    description: "Tersertifikasi dalam TensorFlow, neural network, dan image classification.",
-    imageUrl: "/certs/dcml.jpg",
+    issuer: "dev.id · Dicoding",
+    year: "2024",
+    image: "/certs/dcml.jpg",
   },
   {
     title: "Machine Learning Operations (MLOps)",
     issuer: "Dicoding Indonesia",
-    description: "Menguasai pengembangan dan operasional sistem ML end-to-end.",
-    imageUrl: "/certs/mlops.JPG",
+    year: "2024",
+    image: "/certs/mlops.JPG",
   },
   {
     title: "Machine Learning Terapan",
     issuer: "Dicoding Indonesia",
-    description: "Menerapkan ML untuk predictive analytics dan sentiment analysis.",
-    imageUrl: "/certs/mlt.JPG",
+    year: "2024",
+    image: "/certs/mlt.JPG",
   },
 ];
 
-export const navItems = ["About", "Experience", "Projects", "Certifications"];
+/* ==========================================================
+   DATA — TECH STACK
+   ========================================================== */
+const ic = (icon: ReactElement, size = 20) => (
+  <span style={{ width: size, height: size, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+    {icon}
+  </span>
+);
+
+export const techStackData: TechStackData = {
+  Languages: [
+    { name: "Python", level: "Advanced", icon: ic(<SiPython />) },
+    { name: "TypeScript", level: "Advanced", icon: ic(<SiTypescript />) },
+    { name: "JavaScript", level: "Advanced", icon: ic(<SiJavascript />) },
+    { name: "PHP", level: "Intermediate", icon: ic(<SiPhp />) },
+    { name: "SQL / PostgreSQL", level: "Advanced", icon: ic(<SiPostgresql />) },
+    { name: "MySQL / MariaDB", level: "Advanced", icon: ic(<SiMysql />) },
+    { name: "MongoDB", level: "Intermediate", icon: ic(<SiMongodb />) },
+    { name: "C++ (Arduino)", level: "Intermediate", icon: ic(<SiArduino />) },
+  ],
+  "AI/ML": [
+    { name: "TensorFlow", level: "Advanced", icon: ic(<SiTensorflow />) },
+    { name: "Keras", level: "Advanced", icon: ic(<SiKeras />) },
+    { name: "Scikit-Learn", level: "Advanced", icon: ic(<SiScikitlearn />) },
+    { name: "OpenCV", level: "Intermediate", icon: ic(<SiOpencv />) },
+    { name: "PaddleOCR", level: "Intermediate", icon: ic(<SiTensorflow />) },
+    { name: "Roboflow", level: "Intermediate", icon: ic(<SiTensorflow />) },
+  ],
+  "Dev Tools": [
+    { name: "Node.js", level: "Advanced", icon: ic(<SiNodedotjs />) },
+    { name: "Next.js", level: "Advanced", icon: ic(<SiNextdotjs />) },
+    { name: "React", level: "Advanced", icon: ic(<SiReact />) },
+    { name: "Tailwind CSS", level: "Advanced", icon: ic(<SiTailwindcss />) },
+    { name: "Prisma", level: "Intermediate", icon: ic(<SiPrisma />) },
+    { name: "Supabase", level: "Intermediate", icon: ic(<SiSupabase />) },
+    { name: "Firebase", level: "Intermediate", icon: ic(<SiFirebase />) },
+    { name: "Docker", level: "Intermediate", icon: ic(<SiDocker />) },
+    { name: "Vercel", level: "Advanced", icon: ic(<SiVercel />) },
+    { name: "Git", level: "Advanced", icon: ic(<SiGit />) },
+    { name: "Redis", level: "Intermediate", icon: ic(<SiRedis />) },
+    { name: "Streamlit", level: "Intermediate", icon: ic(<SiStreamlit />) },
+    { name: "Tableau", level: "Beginner", icon: ic(<SiTableau />) },
+  ],
+};

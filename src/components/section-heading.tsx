@@ -1,45 +1,69 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { fadeUp, fadeIn } from "../lib/animations";
+import { useRef, ReactNode } from "react";
+import { staggerContainer, fadeUp } from "@/lib/animations";
 
-export function SectionHeading({ title, subTitle, withGate = true }: { title: string; subTitle?: string; withGate?: boolean }) {
+interface SectionHeadingProps {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: "center" | "left";
+  subtitle?: string;
+  withGate?: boolean;
+}
+
+export function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  align = "center",
+  subtitle,
+  withGate = true,
+}: SectionHeadingProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px 0px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <motion.div
       ref={ref}
+      variants={staggerContainer(0.05, 0)}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      className="text-center mb-14 md:mb-16"
+      animate={inView ? "show" : "hidden"}
+      className={`max-w-3xl mx-auto mb-12 md:mb-16 space-y-5 ${align === "left" ? "text-left mx-0" : "text-center"}`}
     >
-      {subTitle && (
+      {subtitle && (
         <motion.p
-          variants={fadeIn}
-          custom={0}
-          className="text-[11px] md:text-xs font-mono uppercase tracking-[0.25em] text-vermillion dark:text-accent mb-3 opacity-90"
+          variants={fadeUp(0)}
+          className="text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] text-accent"
         >
-          {subTitle}
+          {subtitle}
+        </motion.p>
+      )}
+      <motion.div variants={fadeUp(0.05)} className={withGate ? "torii-divider" : "hidden"}>
+        <span className="gate">⛩</span>
+      </motion.div>
+      {eyebrow && (
+        <motion.p
+          variants={fadeUp(0.1)}
+          className="text-xs md:text-sm font-mono text-muted-foreground uppercase tracking-[0.25em]"
+        >
+          {eyebrow}
         </motion.p>
       )}
       <motion.h2
-        variants={fadeUp}
-        custom={0.1}
-        className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-5 text-foreground tracking-tight"
+        variants={fadeUp(0.15)}
+        className="text-3xl md:text-5xl font-display font-bold text-foreground tracking-tight"
       >
         {title}
       </motion.h2>
-      {withGate && (
-        <motion.div
-          variants={fadeIn}
-          custom={0.2}
+      {description && (
+        <motion.p
+          variants={fadeUp(0.2)}
+          className={`text-muted-foreground text-sm md:text-base max-w-2xl leading-relaxed ${align === "left" ? "mx-0" : "mx-auto"}`}
         >
-          <div className="torii-divider">
-            <span className="gate">⛩</span>
-          </div>
-        </motion.div>
+          {description}
+        </motion.p>
       )}
     </motion.div>
   );

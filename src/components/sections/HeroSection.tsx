@@ -1,187 +1,110 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { MapPin, Briefcase, GraduationCap, FileText } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, FileText, ChevronDown } from "lucide-react";
-import { EASE_OUT_EXPO } from "@/lib/animations";
+import profilePic from "@/../public/img/profile.jpg";
 
-export function HeroSection() {
+export default function HeroSection() {
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 600], [0, -60]);
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const y1 = useTransform(scrollY, [0, 300], [0, -30]);
+  const y2 = useTransform(scrollY, [0, 300], [0, 80]);
+  const opacity = useTransform(scrollY, [0, 250], [1, 0.15]);
 
   return (
-    <section className="min-h-[92vh] flex flex-col items-center justify-center text-center px-4 sm:px-8 relative overflow-hidden bg-seigaiha bg-washi-texture grain-overlay">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent to-background pointer-events-none z-0" />
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-seigaiha">
+      <div className="absolute inset-0 pointer-events-none" />
+      <motion.div
+        style={{ y: y1, opacity }}
+        className="container mx-auto px-5 md:px-10 pt-32 pb-20 max-w-6xl relative z-10"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] items-center gap-14 lg:gap-16">
+          <div className="space-y-8 order-2 lg:order-1">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/70 text-xs font-mono uppercase tracking-widest text-foreground/70">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                </span>
+                Available for opportunities
+              </span>
+            </div>
 
-      <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto max-w-5xl relative z-10">
+            <div className="space-y-5">
+              <p className="text-sm font-mono text-muted-foreground tracking-widest uppercase">
+                Full-Stack &middot; AI/ML Engineer
+              </p>
+              <h1 className="text-4xl md:text-6xl font-display font-bold leading-[1.05] tracking-tight text-foreground">
+                Hi, saya <span className="text-accent font-black">Iqbal</span>.
+                <br />
+                Saya membangun web dan AI <br className="hidden md:block" />
+                yang <span className="italic font-medium text-primary">berdampak</span>.
+              </h1>
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl">
+                Mohammad Iqbal Jaffar &mdash; Full-Stack Web & AI/ML Engineer dengan spesialisasi
+                backend, machine learning, dan integrasi IoT. Berpengalaman membangun produk
+                untuk deteksi hoax, analisis medis, otomatisasi bisnis, dan otomotif.
+              </p>
+            </div>
 
-        {/* Top Row: Status Badge + Hanko Stamp */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-8"
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D4C8B5] dark:border-white/15 bg-white/60 dark:bg-white/5 text-primary text-xs font-semibold uppercase tracking-widest backdrop-blur-sm font-mono">
-            <span className="w-2 h-2 rounded-full bg-vermillion animate-pulse" />
-            Available for work · 求人募集中
-          </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 pt-2">
+              <Button asChild size="lg" className="h-11 px-6 text-sm font-medium bg-accent hover:bg-accent/90 text-accent-foreground rounded-[0.6rem] shadow-sm hover:shadow-md transition-all duration-300">
+                <a href="#projects">
+                  <FileText className="w-4 h-4" />
+                  Lihat Karya
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-11 px-6 text-sm font-medium rounded-[0.6rem] border-border hover:bg-muted/50 transition-all duration-300">
+                <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
+                  Download CV
+                </a>
+              </Button>
+            </div>
 
-          <div className="hanko-stamp text-[11px] tracking-widest">
-            謹製 · IQBAL
-          </div>
-        </motion.div>
-
-        {/* Profile Picture — Crafted Japanese Frame */}
-        <motion.div
-          initial={{ scale: 0.85, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.05 }}
-          className="mb-10 relative inline-block group select-none"
-        >
-          <div className="absolute inset-[-16px] rounded-[1.5rem] opacity-60 bg-gradient-to-br from-[#2D4A6F]/10 via-transparent to-[#C8402E]/10 dark:from-[#8FB3D4]/8 dark:to-[#E05A47]/8 pointer-events-none group-hover:opacity-100 transition-opacity duration-500" />
-
-          <div className="relative z-10 p-[3px] rounded-[1.25rem] bg-gradient-to-br from-[#2D4A6F] via-[#D4A04A] to-[#C8402E] dark:from-[#8FB3D4] dark:via-[#E8B860] dark:to-[#E05A47]">
-            <div className="rounded-[1rem] overflow-hidden w-[170px] h-[170px] sm:w-[180px] sm:h-[180px] bg-white dark:bg-[#1E2230] p-1">
-              <div className="rounded-[0.8rem] overflow-hidden w-full h-full relative">
-                <Image
-                  src="/img/profile.jpg"
-                  alt="Mohammad Iqbal Jaffar"
-                  width={180}
-                  height={180}
-                  priority
-                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 rounded-[0.8rem] ring-1 ring-inset ring-black/5 dark:ring-white/10 pointer-events-none" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-border/50 max-w-lg">
+              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
+                <span>Bekasi, Indonesia</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                <Briefcase className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
+                <span>3+ Tahun Pengalaman</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground col-span-2 sm:col-span-1">
+                <GraduationCap className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
+                <span>S1 Informatika</span>
               </div>
             </div>
           </div>
 
-          <div className="absolute -bottom-3 -right-3 z-20">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#C8402E] to-[#8B2A1F] dark:from-[#E05A47] dark:to-[#A63D30] flex items-center justify-center shadow-lg border-2 border-white dark:border-[#151823]">
-              <span className="text-white text-[10px] font-black tracking-tighter font-display leading-none">
-                情<br />熱
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Vertical Japanese Caption on side */}
-        <div className="hidden md:block absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-[#D4C8B5] dark:via-white/20 to-transparent" />
-            <span className="text-[10px] font-mono text-muted-foreground tracking-[0.25em] [writing-mode:vertical-rl]" style={{ writingMode: "vertical-rl" }}>
-              技 と 心 の 融 和
-            </span>
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-[#D4C8B5] dark:via-white/20 to-transparent" />
-          </div>
-        </div>
-
-        <div className="hidden md:block absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-[#D4C8B5] dark:via-white/20 to-transparent" />
-            <span className="text-[10px] font-mono text-muted-foreground tracking-[0.25em]" style={{ writingMode: "vertical-rl" }}>
-              CODE · CRAFT · CULTURE
-            </span>
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-[#D4C8B5] dark:via-white/20 to-transparent" />
+          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+            <motion.div
+              style={{ y: y2 }}
+              className="relative group"
+            >
+              <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-[1.8rem] overflow-hidden border border-border bg-card shadow-xl">
+                <Image
+                  src={profilePic}
+                  alt="Mohammad Iqbal Jaffar"
+                  fill
+                  sizes="(max-width: 768px) 280px, 320px"
+                  priority
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Title */}
-        <motion.h1
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.1 }}
-          className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold mb-4 tracking-tight text-foreground leading-[1.05]"
-        >
-          Hi, I&apos;m <span className="gradient-text-tokyo">Iqbal</span>
-        </motion.h1>
-
-        {/* Tagline — bilingual */}
         <motion.div
-          initial={{ y: 25, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.15 }}
-          className="mb-6"
+          style={{ opacity }}
+          className="absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center gap-2 text-muted-foreground"
         >
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-display text-foreground/90 font-semibold tracking-wide">
-            Code · Craft · Culture
-          </h2>
-          <p className="text-xs sm:text-sm mt-2 text-muted-foreground font-mono tracking-widest">
-            技 と 心 の 融 和 — Fusion of Skill & Heart
-          </p>
+          <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Scroll</span>
+          <div className="w-px h-10 bg-gradient-to-b from-accent/60 to-transparent" />
         </motion.div>
-
-        {/* Description */}
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.2 }}
-          className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Lulusan Teknik Informatika UTB — <strong className="font-semibold text-foreground">Full-Stack Web Developer</strong> &amp; <strong className="font-semibold text-foreground">AI/ML Engineer</strong>.
-          Menghubungkan sistem web modern dengan kecerdasan buatan, dengan presisi dan adaptabilitas global standar Jepang.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ y: 15, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: EASE_OUT_EXPO, delay: 0.25 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a href="#projects" className="w-full sm:w-auto group">
-            <Button className="group bg-primary text-primary-foreground hover:bg-primary/90 dark:bg-primary dark:text-primary-foreground font-display font-bold py-6 px-8 rounded-[0.75rem] text-base w-full hover:scale-[1.03] transition-all shadow-lg shadow-primary/15 border border-primary/20 relative overflow-hidden">
-              <span className="relative z-10 flex items-center">
-                Lihat Karya Saya
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-              </span>
-              <span className="absolute inset-0 bg-gradient-to-r from-[#C8402E]/0 via-[#C8402E]/15 to-[#C8402E]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-            </Button>
-          </a>
-          <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto group">
-            <Button variant="outline" className="font-display font-bold py-6 px-8 rounded-[0.75rem] text-base w-full border-2 hover:bg-muted transition-all hover:scale-[1.03] border-border bg-card/50 dark:bg-card/20 backdrop-blur-sm">
-              Unduh CV
-              <FileText className="ml-2 h-5 w-5" />
-            </Button>
-          </a>
-        </motion.div>
-
-        {/* Meta row */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE_OUT_EXPO, delay: 0.35 }}
-          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mt-10 max-w-xl mx-auto text-[11px] font-mono text-muted-foreground tracking-wider"
-        >
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-kincha" />
-            Based in Indonesia
-          </span>
-          <span className="w-px h-3 bg-border hidden sm:block" />
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-vermillion" />
-            Remote · Global
-          </span>
-          <span className="w-px h-3 bg-border hidden sm:block" />
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-            日本語 · A2
-          </span>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Down Indicator — styled as scroll not chevron */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted-foreground flex flex-col items-center gap-2"
-      >
-        <span className="text-[9px] font-mono tracking-[0.25em] uppercase opacity-60">Scroll</span>
-        <div className="w-[1px] h-8 bg-gradient-to-b from-current via-current to-transparent opacity-40" />
-        <ChevronDown size={18} className="opacity-50" />
       </motion.div>
     </section>
   );

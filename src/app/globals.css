@@ -47,7 +47,6 @@
 :root {
   --radius: 0.5rem;
 
-  /* Tokyo Neo-Craft Palette - Light Mode */
   --background: #F7F2EA;
   --foreground: #1A1A1A;
   --card: #FFFFFF;
@@ -74,14 +73,12 @@
   --input: #D4C8B5;
   --ring: #2D4A6F;
 
-  /* Chart Colors */
   --chart-1: #2D4A6F;
   --chart-2: #C8402E;
   --chart-3: #D4A04A;
   --chart-4: #4A6F2D;
   --chart-5: #6F2D4A;
 
-  /* Sidebar */
   --sidebar: #EDE6D8;
   --sidebar-foreground: #1A1A1A;
   --sidebar-primary: #2D4A6F;
@@ -90,15 +87,9 @@
   --sidebar-accent-foreground: #2D4A6F;
   --sidebar-border: #D4C8B5;
   --sidebar-ring: #2D4A6F;
-
-  /* Custom tokens */
-  --vermillion: #C8402E;
-  --gold: #D4A04A;
-  --washi: #F7F2EA;
 }
 
 .dark {
-  /* Tokyo Neo-Craft Palette - Dark Mode (Sumi Ink) */
   --background: #151823;
   --foreground: #E8E4DC;
   --card: #1E2230;
@@ -125,14 +116,12 @@
   --input: rgba(184, 169, 154, 0.22);
   --ring: #8FB3D4;
 
-  /* Chart Colors Dark */
   --chart-1: #8FB3D4;
   --chart-2: #E05A47;
   --chart-3: #E8B860;
   --chart-4: #7FB069;
   --chart-5: #C586C0;
 
-  /* Sidebar Dark */
   --sidebar: #1E2230;
   --sidebar-foreground: #E8E4DC;
   --sidebar-primary: #8FB3D4;
@@ -145,7 +134,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/40;
+    @apply border-border outline-ring/30;
   }
   body {
     @apply bg-background text-foreground;
@@ -159,41 +148,28 @@
    MARQUEE ANIMATION
    ============================================= */
 @keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-
 .animate-marquee {
   animation: marquee 35s linear infinite;
 }
-
 .animate-marquee:hover {
   animation-play-state: paused;
 }
 
 /* =============================================
-   GRADIENT TEXT — TOKYO NEO-CRAFT
+   HIGHLIGHT TEXT ACCENT (solid, NO gradient)
    ============================================= */
-.gradient-text-tokyo {
-  background: linear-gradient(135deg, #2D4A6F 0%, #C8402E 50%, #D4A04A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.accent-text {
+  color: var(--accent);
 }
-
-.dark .gradient-text-tokyo {
-  background: linear-gradient(135deg, #8FB3D4 0%, #E05A47 50%, #E8B860 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.dark .accent-text {
+  color: var(--accent);
 }
 
 /* =============================================
-   SCROLLBAR CUSTOM STYLING — WASHI/SUMI
+   SCROLLBAR
    ============================================= */
 ::-webkit-scrollbar {
   width: 6px;
@@ -202,80 +178,34 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(184, 169, 154, 0.5);
+  background: rgba(184, 169, 154, 0.4);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C8402E;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #E05A47;
+  background: var(--accent);
 }
 
 /* =============================================
-   SEIGAIHA (青海波) — Traditional Japanese Wave Pattern
+   SEIGAIHA (subtle, only for hero)
    ============================================= */
 .bg-seigaiha {
   background-color: transparent;
   background-image:
-    radial-gradient(circle at 100% 150%, var(--background) 24%, rgba(45, 74, 111, 0.06) 24%, rgba(45, 74, 111, 0.06) 28%, var(--background) 28%, var(--background) 36%, rgba(45, 74, 111, 0.06) 36%, rgba(45, 74, 111, 0.06) 40%, var(--background) 40%, var(--background) 48%, rgba(45, 74, 111, 0.06) 48%, rgba(45, 74, 111, 0.06) 52%, var(--background) 52%, var(--background) 60%, rgba(45, 74, 111, 0.06) 60%, rgba(45, 74, 111, 0.06) 64%, var(--background) 64%, var(--background) 72%, rgba(45, 74, 111, 0.06) 72%, rgba(45, 74, 111, 0.06) 76%, var(--background) 76%, var(--background) 84%, rgba(45, 74, 111, 0.06) 84%, rgba(45, 74, 111, 0.06) 88%, var(--background) 88%, var(--background) 96%, rgba(45, 74, 111, 0.06) 96%),
-    radial-gradient(circle at 0 150%, var(--background) 24%, rgba(45, 74, 111, 0.06) 24%, rgba(45, 74, 111, 0.06) 28%, var(--background) 28%, var(--background) 36%, rgba(45, 74, 111, 0.06) 36%, rgba(45, 74, 111, 0.06) 40%, var(--background) 40%, var(--background) 48%, rgba(45, 74, 111, 0.06) 48%, rgba(45, 74, 111, 0.06) 52%, var(--background) 52%, var(--background) 60%, rgba(45, 74, 111, 0.06) 60%, rgba(45, 74, 111, 0.06) 64%, var(--background) 64%, var(--background) 72%, rgba(45, 74, 111, 0.06) 72%, rgba(45, 74, 111, 0.06) 76%, var(--background) 76%, var(--background) 84%, rgba(45, 74, 111, 0.06) 84%, rgba(45, 74, 111, 0.06) 88%, var(--background) 88%, var(--background) 96%, rgba(45, 74, 111, 0.06) 96%),
-    radial-gradient(circle at 50% 100%, var(--background) 10%, rgba(45, 74, 111, 0.05) 10%, rgba(45, 74, 111, 0.05) 14%, var(--background) 14%, var(--background) 24%, rgba(45, 74, 111, 0.05) 24%, rgba(45, 74, 111, 0.05) 28%, var(--background) 28%, var(--background) 38%, rgba(45, 74, 111, 0.05) 38%, rgba(45, 74, 111, 0.05) 42%, var(--background) 42%, var(--background) 52%, rgba(45, 74, 111, 0.05) 52%, rgba(45, 74, 111, 0.05) 56%, var(--background) 56%, var(--background) 66%, rgba(45, 74, 111, 0.05) 66%, rgba(45, 74, 111, 0.05) 70%, var(--background) 70%, var(--background) 80%, rgba(45, 74, 111, 0.05) 80%, rgba(45, 74, 111, 0.05) 84%, var(--background) 84%, var(--background) 94%, rgba(45, 74, 111, 0.05) 94%),
-    radial-gradient(circle at 100% 50%, var(--background) 9%, rgba(45, 74, 111, 0.05) 9%, rgba(45, 74, 111, 0.05) 13%, var(--background) 13%, var(--background) 23%, rgba(45, 74, 111, 0.05) 23%, rgba(45, 74, 111, 0.05) 27%, var(--background) 27%, var(--background) 37%, rgba(45, 74, 111, 0.05) 37%, rgba(45, 74, 111, 0.05) 41%, var(--background) 41%, var(--background) 51%, rgba(45, 74, 111, 0.05) 51%, rgba(45, 74, 111, 0.05) 55%, var(--background) 55%, var(--background) 65%, rgba(45, 74, 111, 0.05) 65%, rgba(45, 74, 111, 0.05) 69%, var(--background) 69%, var(--background) 79%, rgba(45, 74, 111, 0.05) 79%, rgba(45, 74, 111, 0.05) 83%, var(--background) 83%, var(--background) 93%, rgba(45, 74, 111, 0.05) 93%),
-    radial-gradient(circle at 0 50%, var(--background) 9%, rgba(45, 74, 111, 0.05) 9%, rgba(45, 74, 111, 0.05) 13%, var(--background) 13%, var(--background) 23%, rgba(45, 74, 111, 0.05) 23%, rgba(45, 74, 111, 0.05) 27%, var(--background) 27%, var(--background) 37%, rgba(45, 74, 111, 0.05) 37%, rgba(45, 74, 111, 0.05) 41%, var(--background) 41%, var(--background) 51%, rgba(45, 74, 111, 0.05) 51%, rgba(45, 74, 111, 0.05) 55%, var(--background) 55%, var(--background) 65%, rgba(45, 74, 111, 0.05) 65%, rgba(45, 74, 111, 0.05) 69%, var(--background) 69%, var(--background) 79%, rgba(45, 74, 111, 0.05) 79%, rgba(45, 74, 111, 0.05) 83%, var(--background) 83%, var(--background) 93%, rgba(45, 74, 111, 0.05) 93%);
+    radial-gradient(circle at 100% 150%, var(--background) 24%, rgba(45, 74, 111, 0.04) 24%, rgba(45, 74, 111, 0.04) 28%, var(--background) 28%, var(--background) 36%, rgba(45, 74, 111, 0.04) 36%, rgba(45, 74, 111, 0.04) 40%, var(--background) 40%, var(--background) 48%, rgba(45, 74, 111, 0.04) 48%, rgba(45, 74, 111, 0.04) 52%, var(--background) 52%, var(--background) 60%, rgba(45, 74, 111, 0.04) 60%, rgba(45, 74, 111, 0.04) 64%, var(--background) 64%, var(--background) 72%, rgba(45, 74, 111, 0.04) 72%, rgba(45, 74, 111, 0.04) 76%, var(--background) 76%, var(--background) 84%, rgba(45, 74, 111, 0.04) 84%, rgba(45, 74, 111, 0.04) 88%, var(--background) 88%, var(--background) 96%, rgba(45, 74, 111, 0.04) 96%),
+    radial-gradient(circle at 0 150%, var(--background) 24%, rgba(45, 74, 111, 0.04) 24%, rgba(45, 74, 111, 0.04) 28%, var(--background) 28%, var(--background) 36%, rgba(45, 74, 111, 0.04) 36%, rgba(45, 74, 111, 0.04) 40%, var(--background) 40%, var(--background) 48%, rgba(45, 74, 111, 0.04) 48%, rgba(45, 74, 111, 0.04) 52%, var(--background) 52%, var(--background) 60%, rgba(45, 74, 111, 0.04) 60%, rgba(45, 74, 111, 0.04) 64%, var(--background) 64%, var(--background) 72%, rgba(45, 74, 111, 0.04) 72%, rgba(45, 74, 111, 0.04) 76%, var(--background) 76%, var(--background) 84%, rgba(45, 74, 111, 0.04) 84%, rgba(45, 74, 111, 0.04) 88%, var(--background) 88%, var(--background) 96%, rgba(45, 74, 111, 0.04) 96%),
+    radial-gradient(circle at 50% 100%, var(--background) 10%, rgba(45, 74, 111, 0.03) 10%, rgba(45, 74, 111, 0.03) 14%, var(--background) 14%, var(--background) 24%, rgba(45, 74, 111, 0.03) 24%, rgba(45, 74, 111, 0.03) 28%, var(--background) 28%, var(--background) 38%, rgba(45, 74, 111, 0.03) 38%, rgba(45, 74, 111, 0.03) 42%, var(--background) 42%, var(--background) 52%, rgba(45, 74, 111, 0.03) 52%, rgba(45, 74, 111, 0.03) 56%, var(--background) 56%, var(--background) 66%, rgba(45, 74, 111, 0.03) 66%, rgba(45, 74, 111, 0.03) 70%, var(--background) 70%, var(--background) 80%, rgba(45, 74, 111, 0.03) 80%, rgba(45, 74, 111, 0.03) 84%, var(--background) 84%, var(--background) 94%, rgba(45, 74, 111, 0.03) 94%);
   background-size: 80px 40px;
 }
 
 .dark .bg-seigaiha {
   background-image:
-    radial-gradient(circle at 100% 150%, var(--background) 24%, rgba(143, 179, 212, 0.04) 24%, rgba(143, 179, 212, 0.04) 28%, var(--background) 28%, var(--background) 36%, rgba(143, 179, 212, 0.04) 36%, rgba(143, 179, 212, 0.04) 40%, var(--background) 40%, var(--background) 48%, rgba(143, 179, 212, 0.04) 48%, rgba(143, 179, 212, 0.04) 52%, var(--background) 52%, var(--background) 60%, rgba(143, 179, 212, 0.04) 60%, rgba(143, 179, 212, 0.04) 64%, var(--background) 64%, var(--background) 72%, rgba(143, 179, 212, 0.04) 72%, rgba(143, 179, 212, 0.04) 76%, var(--background) 76%, var(--background) 84%, rgba(143, 179, 212, 0.04) 84%, rgba(143, 179, 212, 0.04) 88%, var(--background) 88%, var(--background) 96%, rgba(143, 179, 212, 0.04) 96%),
-    radial-gradient(circle at 0 150%, var(--background) 24%, rgba(143, 179, 212, 0.04) 24%, rgba(143, 179, 212, 0.04) 28%, var(--background) 28%, var(--background) 36%, rgba(143, 179, 212, 0.04) 36%, rgba(143, 179, 212, 0.04) 40%, var(--background) 40%, var(--background) 48%, rgba(143, 179, 212, 0.04) 48%, rgba(143, 179, 212, 0.04) 52%, var(--background) 52%, var(--background) 60%, rgba(143, 179, 212, 0.04) 60%, rgba(143, 179, 212, 0.04) 64%, var(--background) 64%, var(--background) 72%, rgba(143, 179, 212, 0.04) 72%, rgba(143, 179, 212, 0.04) 76%, var(--background) 76%, var(--background) 84%, rgba(143, 179, 212, 0.04) 84%, rgba(143, 179, 212, 0.04) 88%, var(--background) 88%, var(--background) 96%, rgba(143, 179, 212, 0.04) 96%),
-    radial-gradient(circle at 50% 100%, var(--background) 10%, rgba(143, 179, 212, 0.03) 10%, rgba(143, 179, 212, 0.03) 14%, var(--background) 14%, var(--background) 24%, rgba(143, 179, 212, 0.03) 24%, rgba(143, 179, 212, 0.03) 28%, var(--background) 28%, var(--background) 38%, rgba(143, 179, 212, 0.03) 38%, rgba(143, 179, 212, 0.03) 42%, var(--background) 42%, var(--background) 52%, rgba(143, 179, 212, 0.03) 52%, rgba(143, 179, 212, 0.03) 56%, var(--background) 56%, var(--background) 66%, rgba(143, 179, 212, 0.03) 66%, rgba(143, 179, 212, 0.03) 70%, var(--background) 70%, var(--background) 80%, rgba(143, 179, 212, 0.03) 80%, rgba(143, 179, 212, 0.03) 84%, var(--background) 84%, var(--background) 94%, rgba(143, 179, 212, 0.03) 94%),
-    radial-gradient(circle at 100% 50%, var(--background) 9%, rgba(143, 179, 212, 0.03) 9%, rgba(143, 179, 212, 0.03) 13%, var(--background) 13%, var(--background) 23%, rgba(143, 179, 212, 0.03) 23%, rgba(143, 179, 212, 0.03) 27%, var(--background) 27%, var(--background) 37%, rgba(143, 179, 212, 0.03) 37%, rgba(143, 179, 212, 0.03) 41%, var(--background) 41%, var(--background) 51%, rgba(143, 179, 212, 0.03) 51%, rgba(143, 179, 212, 0.03) 55%, var(--background) 55%, var(--background) 65%, rgba(143, 179, 212, 0.03) 65%, rgba(143, 179, 212, 0.03) 69%, var(--background) 69%, var(--background) 79%, rgba(143, 179, 212, 0.03) 79%, rgba(143, 179, 212, 0.03) 83%, var(--background) 83%, var(--background) 93%, rgba(143, 179, 212, 0.03) 93%),
-    radial-gradient(circle at 0 50%, var(--background) 9%, rgba(143, 179, 212, 0.03) 9%, rgba(143, 179, 212, 0.03) 13%, var(--background) 13%, var(--background) 23%, rgba(143, 179, 212, 0.03) 23%, rgba(143, 179, 212, 0.03) 27%, var(--background) 27%, var(--background) 37%, rgba(143, 179, 212, 0.03) 37%, rgba(143, 179, 212, 0.03) 41%, var(--background) 41%, var(--background) 51%, rgba(143, 179, 212, 0.03) 51%, rgba(143, 179, 212, 0.03) 55%, var(--background) 55%, var(--background) 65%, rgba(143, 179, 212, 0.03) 65%, rgba(143, 179, 212, 0.03) 69%, var(--background) 69%, var(--background) 79%, rgba(143, 179, 212, 0.03) 79%, rgba(143, 179, 212, 0.03) 83%, var(--background) 83%, var(--background) 93%, rgba(143, 179, 212, 0.03) 93%);
+    radial-gradient(circle at 100% 150%, var(--background) 24%, rgba(143, 179, 212, 0.025) 24%, rgba(143, 179, 212, 0.025) 28%, var(--background) 28%, var(--background) 36%, rgba(143, 179, 212, 0.025) 36%, rgba(143, 179, 212, 0.025) 40%, var(--background) 40%, var(--background) 48%, rgba(143, 179, 212, 0.025) 48%, rgba(143, 179, 212, 0.025) 52%, var(--background) 52%, var(--background) 60%, rgba(143, 179, 212, 0.025) 60%, rgba(143, 179, 212, 0.025) 64%, var(--background) 64%, var(--background) 72%, rgba(143, 179, 212, 0.025) 72%, rgba(143, 179, 212, 0.025) 76%, var(--background) 76%, var(--background) 84%, rgba(143, 179, 212, 0.025) 84%, rgba(143, 179, 212, 0.025) 88%, var(--background) 88%, var(--background) 96%, rgba(143, 179, 212, 0.025) 96%),
+    radial-gradient(circle at 0 150%, var(--background) 24%, rgba(143, 179, 212, 0.025) 24%, rgba(143, 179, 212, 0.025) 28%, var(--background) 28%, var(--background) 36%, rgba(143, 179, 212, 0.025) 36%, rgba(143, 179, 212, 0.025) 40%, var(--background) 40%, var(--background) 48%, rgba(143, 179, 212, 0.025) 48%, rgba(143, 179, 212, 0.025) 52%, var(--background) 52%, var(--background) 60%, rgba(143, 179, 212, 0.025) 60%, rgba(143, 179, 212, 0.025) 64%, var(--background) 64%, var(--background) 72%, rgba(143, 179, 212, 0.025) 72%, rgba(143, 179, 212, 0.025) 76%, var(--background) 76%, var(--background) 84%, rgba(143, 179, 212, 0.025) 84%, rgba(143, 179, 212, 0.025) 88%, var(--background) 88%, var(--background) 96%, rgba(143, 179, 212, 0.025) 96%),
+    radial-gradient(circle at 50% 100%, var(--background) 10%, rgba(143, 179, 212, 0.02) 10%, rgba(143, 179, 212, 0.02) 14%, var(--background) 14%, var(--background) 24%, rgba(143, 179, 212, 0.02) 24%, rgba(143, 179, 212, 0.02) 28%, var(--background) 28%, var(--background) 38%, rgba(143, 179, 212, 0.02) 38%, rgba(143, 179, 212, 0.02) 42%, var(--background) 42%, var(--background) 52%, rgba(143, 179, 212, 0.02) 52%, rgba(143, 179, 212, 0.02) 56%, var(--background) 56%, var(--background) 66%, rgba(143, 179, 212, 0.02) 66%, rgba(143, 179, 212, 0.02) 70%, var(--background) 70%, var(--background) 80%, rgba(143, 179, 212, 0.02) 80%, rgba(143, 179, 212, 0.02) 84%, var(--background) 84%, var(--background) 94%, rgba(143, 179, 212, 0.02) 94%);
 }
 
 /* =============================================
-   ASA-NO-HA (麻の葉) — Hemp Leaf Pattern (Subtle)
-   ============================================= */
-.bg-asanoha {
-  background-color: transparent;
-  background-image:
-    linear-gradient(30deg, rgba(200, 64, 46, 0.035) 12%, transparent 12.5%, transparent 87%, rgba(200, 64, 46, 0.035) 87.5%, rgba(200, 64, 46, 0.035)),
-    linear-gradient(150deg, rgba(200, 64, 46, 0.035) 12%, transparent 12.5%, transparent 87%, rgba(200, 64, 46, 0.035) 87.5%, rgba(200, 64, 46, 0.035)),
-    linear-gradient(30deg, rgba(200, 64, 46, 0.035) 12%, transparent 12.5%, transparent 87%, rgba(200, 64, 46, 0.035) 87.5%, rgba(200, 64, 46, 0.035)),
-    linear-gradient(150deg, rgba(200, 64, 46, 0.035) 12%, transparent 12.5%, transparent 87%, rgba(200, 64, 46, 0.035) 87.5%, rgba(200, 64, 46, 0.035)),
-    linear-gradient(60deg, rgba(45, 74, 111, 0.04) 25%, transparent 25.5%, transparent 75%, rgba(45, 74, 111, 0.04) 75%, rgba(45, 74, 111, 0.04)),
-    linear-gradient(60deg, rgba(45, 74, 111, 0.04) 25%, transparent 25.5%, transparent 75%, rgba(45, 74, 111, 0.04) 75%, rgba(45, 74, 111, 0.04));
-  background-size: 60px 104px;
-  background-position: 0 0, 0 0, 30px 52px, 30px 52px, 0 0, 30px 52px;
-}
-
-.dark .bg-asanoha {
-  background-image:
-    linear-gradient(30deg, rgba(224, 90, 71, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(224, 90, 71, 0.025) 87.5%, rgba(224, 90, 71, 0.025)),
-    linear-gradient(150deg, rgba(224, 90, 71, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(224, 90, 71, 0.025) 87.5%, rgba(224, 90, 71, 0.025)),
-    linear-gradient(30deg, rgba(224, 90, 71, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(224, 90, 71, 0.025) 87.5%, rgba(224, 90, 71, 0.025)),
-    linear-gradient(150deg, rgba(224, 90, 71, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(224, 90, 71, 0.025) 87.5%, rgba(224, 90, 71, 0.025)),
-    linear-gradient(60deg, rgba(143, 179, 212, 0.025) 25%, transparent 25.5%, transparent 75%, rgba(143, 179, 212, 0.025) 75%, rgba(143, 179, 212, 0.025)),
-    linear-gradient(60deg, rgba(143, 179, 212, 0.025) 25%, transparent 25.5%, transparent 75%, rgba(143, 179, 212, 0.025) 75%, rgba(143, 179, 212, 0.025));
-}
-
-/* =============================================
-   WASHI PAPER TEXTURE (subtle paper grain)
-   ============================================= */
-.bg-washi-texture {
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-}
-
-.dark .bg-washi-texture {
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
-}
-
-/* =============================================
-   HANKO (印鑑) — Japanese Seal Stamp Style
+   HANKO STAMP (only for logo, minimal use)
    ============================================= */
 .hanko-stamp {
   display: inline-flex;
@@ -284,119 +214,53 @@
   font-family: var(--font-display);
   font-weight: 900;
   color: #C8402E;
-  border: 2px solid #C8402E;
-  border-radius: 4px;
-  padding: 4px 8px;
+  border: 1.5px solid #C8402E;
+  border-radius: 3px;
+  padding: 3px 7px;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   background: rgba(200, 64, 46, 0.04);
-  transform: rotate(-2deg);
-  box-shadow:
-    inset 0 0 0 1px rgba(200, 64, 46, 0.15),
-    1px 1px 0 rgba(200, 64, 46, 0.1);
 }
-
 .dark .hanko-stamp {
   color: #E05A47;
   border-color: #E05A47;
-  background: rgba(224, 90, 71, 0.08);
-  box-shadow:
-    inset 0 0 0 1px rgba(224, 90, 71, 0.2),
-    1px 1px 0 rgba(224, 90, 71, 0.12);
+  background: rgba(224, 90, 71, 0.07);
 }
 
 /* =============================================
-   TORII GATE DIVIDER
+   TORII DIVIDER (minimal)
    ============================================= */
 .torii-divider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  max-width: 200px;
+  max-width: 160px;
   margin: 0 auto;
 }
-
 .torii-divider::before,
 .torii-divider::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  background: var(--border);
+  opacity: 0.7;
 }
-
 .torii-divider .gate {
-  color: #C8402E;
-  font-size: 18px;
+  color: var(--accent);
+  font-size: 14px;
   font-weight: 900;
-  letter-spacing: -0.05em;
-  opacity: 0.85;
-}
-
-.dark .torii-divider .gate {
-  color: #E05A47;
+  opacity: 0.7;
 }
 
 /* =============================================
-   CRAFTED CARD BORDER (not glow, but layered ink border)
-   ============================================= */
-.crafted-border {
-  position: relative;
-}
-
-.crafted-border::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(45, 74, 111, 0.15), transparent 30%, transparent 70%, rgba(200, 64, 46, 0.15));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  transition: all 0.4s ease;
-  opacity: 0.6;
-}
-
-.crafted-border:hover::before {
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(45, 74, 111, 0.35), transparent 30%, transparent 70%, rgba(200, 64, 46, 0.35));
-}
-
-/* =============================================
-   Selection Highlight — Vermillion
+   Selection
    ============================================= */
 ::selection {
-  background-color: rgba(200, 64, 46, 0.2);
+  background-color: rgba(200, 64, 46, 0.18);
   color: inherit;
 }
-
 .dark ::selection {
-  background-color: rgba(224, 90, 71, 0.25);
-}
-
-/* =============================================
-   SUBTLE TEXTURE OVERLAY
-   ============================================= */
-.grain-overlay {
-  position: relative;
-}
-
-.grain-overlay::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.4;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 2px,
-      rgba(45, 74, 111, 0.008) 2px,
-      rgba(45, 74, 111, 0.008) 4px
-    );
+  background-color: rgba(224, 90, 71, 0.22);
 }

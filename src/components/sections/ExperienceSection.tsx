@@ -1,57 +1,63 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { SectionHeading } from "@/components/section-heading";
-import { AnimatedSection } from "@/components/animated-section";
-import { experiences } from "@/data/portfolio";
-import { Terminal, Briefcase, GraduationCap, Users } from "lucide-react";
-import { staggerItem } from "@/lib/animations";
+import { Briefcase, GraduationCap, Users } from "lucide-react";
+import { experienceData } from "@/data/portfolio";
+import { staggerContainer, fadeUp } from "@/lib/animations";
 
-export function ExperienceSection() {
-  const getIcon = (type: "work" | "education" | "organization") => {
-    switch (type) {
-      case "education": return <Terminal size={13} />;
-      case "organization": return <Users size={13} />;
-      default: return <Briefcase size={13} />;
-    }
-  };
+export default function ExperienceSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" className="py-20 md:py-28 relative overflow-hidden bg-seigaiha">
-      <div className="absolute inset-0 bg-washi-texture pointer-events-none" />
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <SectionHeading title="Pengalaman" subTitle="03 · Journey · 経歴" />
+    <section id="journey" className="relative py-24 md:py-32 px-5 md:px-10 bg-muted/30">
+      <div className="container mx-auto max-w-4xl">
+        <SectionHeading
+          subtitle="03 · Journey"
+          eyebrow="Experience &amp; Education"
+          title="Perjalanan karier dan pendidikan"
+          description="Langkah demi langkah — dari kuliah sampai mengerjakan proyek nyata di industri."
+        />
 
-        <div className="max-w-3xl mx-auto relative">
-          <div className="absolute left-[18px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-vermillion/30 to-transparent md:-translate-x-1/2" />
-
-          {experiences.map((exp, index) => (
-            <AnimatedSection key={index} className={`relative mb-10 flex flex-col md:flex-row ${index % 2 === 0 ? "md:flex-row-reverse" : ""} items-start`}>
-              <div className="absolute left-[18px] md:left-1/2 top-6 w-3.5 h-3.5 rounded-full bg-vermillion dark:bg-accent border-[3px] border-card shadow-md transform -translate-x-1/2 z-10 ring-4 ring-vermillion/10 dark:ring-accent/15" />
-              <div className="hidden md:block w-1/2" />
-              <motion.div variants={staggerItem} className="w-full md:w-1/2 pl-10 md:pl-0 md:px-8">
-                <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="bg-card p-6 rounded-[1.1rem] border-border shadow-sm hover:shadow-md hover:shadow-primary/5 transition-shadow duration-300 relative overflow-hidden crafted-border">
-                  <div className="absolute top-0 right-0 text-card-foreground/[0.04] dark:text-card-foreground/[0.06] text-[7rem] font-black select-none pointer-events-none leading-none -translate-y-4 translate-x-4 font-display">
-                    {exp.type === "education" ? "学" : exp.type === "organization" ? "集" : "職"}
-                  </div>
-
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-kincha/15 dark:bg-kincha/10 text-foreground rounded-full text-[11px] font-bold mb-3 font-mono tracking-wider border border-kincha/25">
-                    {exp.date}
+        <motion.div
+          ref={ref}
+          variants={staggerContainer(0.08, 0)}
+          initial="hidden"
+          animate={inView ? "show" : "hidden"}
+          className="relative pl-5 md:pl-6"
+        >
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-border to-transparent" />
+          <ul className="space-y-8 md:space-y-10">
+            {experienceData.map((item, i) => {
+              const Icon =
+                item.type === "edu" ? GraduationCap : item.type === "org" ? Users : Briefcase;
+              return (
+                <motion.li key={`${item.title}-${i}`} variants={fadeUp(i * 0.08)} className="relative">
+                  <span className="absolute -left-[26px] md:-left-[30px] top-1 flex items-center justify-center size-5 md:size-6 rounded-full border-2 border-card bg-accent z-10 ring-4 ring-background">
+                    <Icon className="size-2.5 md:size-3 text-accent-foreground" />
                   </span>
 
-                  <h3 className="font-display text-lg font-extrabold text-foreground mb-1 leading-snug">{exp.title}</h3>
-
-                  <p className="text-vermillion dark:text-accent font-semibold text-sm mb-3 flex items-center gap-1.5 font-display">
-                    {getIcon(exp.type)}
-                    {exp.role} <span className="text-muted-foreground/50 mx-0.5">@</span> {exp.company}
-                  </p>
-
-                  <p className="text-muted-foreground text-sm leading-relaxed relative z-10">{exp.description}</p>
-                </motion.div>
-              </motion.div>
-            </AnimatedSection>
-          ))}
-        </div>
+                  <div className="bg-card border border-border rounded-[0.9rem] p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                      <div>
+                        <h3 className="font-display font-bold text-lg md:text-xl text-foreground">
+                          {item.title}
+                        </h3>
+                        <p className="text-accent text-sm font-medium">{item.organization}</p>
+                      </div>
+                      <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-muted text-muted-foreground whitespace-nowrap">
+                        {item.period}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                  </div>
+                </motion.li>
+              );
+            })}
+          </ul>
+        </motion.div>
       </div>
     </section>
   );
