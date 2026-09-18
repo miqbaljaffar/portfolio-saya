@@ -11,15 +11,17 @@ export function SkillCard({ item, index }: SkillCardProps) {
       style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
       className="animate-fade-up group"
     >
-      <div className="relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-none bg-spacex-dark border border-spacex-graphite hover:border-white transition-colors duration-200 text-center">
-        <div className="size-11 md:size-12 flex items-center justify-center rounded-none bg-spacex-void border border-spacex-graphite text-spacex-subtle group-hover:text-white group-hover:border-spacex-flame transition-colors duration-200">
-          <item.icon size={20} />
+      <div className="relative flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-none bg-spacex-dark border border-spacex-graphite hover:border-white transition-colors duration-200 text-center">
+        <div className="size-9 sm:size-11 md:size-12 flex items-center justify-center rounded-none bg-spacex-void border border-spacex-graphite text-spacex-subtle group-hover:text-white group-hover:border-spacex-flame transition-colors duration-200">
+          <item.icon size={18} className="sm:hidden" />
+          <item.icon size={20} className="hidden sm:block md:hidden" />
+          <item.icon size={22} className="hidden md:block" />
         </div>
         <div className="space-y-0.5">
-          <h4 className="font-display font-black uppercase text-sm md:text-[15px] text-white">
+          <h4 className="font-display font-black uppercase text-xs sm:text-sm md:text-[15px] text-white leading-tight">
             {item.name}
           </h4>
-          <p className="text-[10px] md:text-[11px] text-spacex-muted font-mono uppercase tracking-spacex-md">
+          <p className="text-[9px] sm:text-[10px] md:text-[11px] text-spacex-muted font-mono uppercase tracking-spacex-md">
             {item.level}
           </p>
         </div>

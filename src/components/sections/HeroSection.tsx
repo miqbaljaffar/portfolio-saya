@@ -28,28 +28,28 @@ export default function HeroSection() {
 
       <motion.div
         style={{ y: y1, opacity }}
-        className="container mx-auto px-5 md:px-8 lg:px-12 pt-32 pb-24 max-w-7xl relative z-10"
+        className="container mx-auto px-4 sm:px-5 md:px-8 lg:px-12 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 max-w-7xl relative z-10"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] items-center gap-12 lg:gap-16">
-          <div className="space-y-8 order-2 lg:order-1">
-            <div className="animate-slide-left flex items-center gap-3">
-              <span className="flex items-center gap-2 px-3 py-1 border border-spacex-graphite text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-subtle">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] items-center gap-10 sm:gap-12 lg:gap-16">
+          <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
+            <div className="animate-slide-left flex flex-wrap items-center gap-2 sm:gap-3">
+              <span className="flex items-center gap-2 px-2.5 sm:px-3 py-1 border border-spacex-graphite text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-subtle">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-spacex-flame opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-spacex-flame" />
                 </span>
                 SYSTEM ONLINE — AVAILABLE
               </span>
-              <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+              <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
                 v2.0.26 / BUILD STABLE
               </span>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <p className="eyebrow-label animate-fade-up delay-50">
                 FULL-STACK / AI-ML / ENGINEER
               </p>
-              <h1 className="animate-fade-up delay-100 text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
+              <h1 className="animate-fade-up delay-100 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-muted">
@@ -58,20 +58,20 @@ export default function HeroSection() {
                 <br />
                 SYSTEMS.
               </h1>
-              <div className="animate-fade-up delay-200 flex items-center gap-4">
-                <span className="h-px w-16 bg-spacex-flame" />
-                <p className="text-base md:text-lg text-spacex-silver leading-relaxed max-w-xl font-sans">
+              <div className="animate-fade-up delay-200 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <span className="h-px w-12 sm:w-16 bg-spacex-flame flex-shrink-0" />
+                <p className="text-sm sm:text-base md:text-lg text-spacex-silver leading-relaxed max-w-xl font-sans">
                   Mohammad Iqbal Jaffar — Engineering reliable backends, deploying
                   ML models to production, and connecting hardware to the cloud.
                 </p>
               </div>
             </div>
 
-            <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-start sm:items-center gap-3 pt-2">
+            <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Button
                 asChild
                 size="lg"
-                className="h-12 px-7 text-xs font-bold uppercase tracking-spacex-md bg-white hover:bg-spacex-silver text-black rounded-none border-2 border-white transition-all group"
+                className="h-11 sm:h-12 px-5 sm:px-7 text-[11px] sm:text-xs font-bold uppercase tracking-spacex-md bg-white hover:bg-spacex-silver text-black rounded-none border-2 border-white transition-all group justify-center"
               >
                 <a href="#projects">
                   <FileText className="w-4 h-4" />
@@ -83,7 +83,7 @@ export default function HeroSection() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="h-12 px-7 text-xs font-bold uppercase tracking-spacex-md bg-transparent hover:bg-spacex-steel text-white rounded-none border-2 border-spacex-graphite hover:border-white transition-all"
+                className="h-11 sm:h-12 px-5 sm:px-7 text-[11px] sm:text-xs font-bold uppercase tracking-spacex-md bg-transparent hover:bg-spacex-steel text-white rounded-none border-2 border-spacex-graphite hover:border-white transition-all justify-center"
               >
                 <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
                   DOWNLOAD CV
@@ -91,19 +91,19 @@ export default function HeroSection() {
               </Button>
             </div>
 
-            <div className="animate-fade-up delay-400 grid grid-cols-1 sm:grid-cols-3 gap-0 pt-6 border-t border-spacex-graphite/60 max-w-2xl">
-              <div className="flex items-center gap-3 py-3 sm:border-r border-spacex-graphite/60">
+            <div className="animate-fade-up delay-400 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-0 pt-5 sm:pt-6 border-t border-spacex-graphite/60 max-w-2xl">
+              <div className="flex items-center gap-3 py-2 sm:py-3 sm:border-r border-spacex-graphite/60">
                 <MapPin className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
                     LOCATION
                   </span>
                   <span className="text-sm font-medium text-white">
-                    Bekasi, ID
+                    Bandung, ID
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 py-3 sm:border-r border-spacex-graphite/60 sm:pl-4">
+              <div className="flex items-center gap-3 py-2 sm:py-3 sm:border-r border-spacex-graphite/60 sm:pl-4">
                 <Briefcase className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
@@ -114,7 +114,7 @@ export default function HeroSection() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 py-3 sm:pl-4">
+              <div className="flex items-center gap-3 py-2 sm:py-3 sm:pl-4">
                 <GraduationCap className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
@@ -139,31 +139,31 @@ export default function HeroSection() {
                 <div className="aero-corner bl" />
                 <div className="aero-corner br" />
               </div>
-              <div className="relative w-64 h-80 md:w-80 md:h-96 overflow-hidden border border-spacex-graphite bg-spacex-dark">
+              <div className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-80 md:h-96 overflow-hidden border border-spacex-graphite bg-spacex-dark">
                 <Image
                   src={profilePic}
                   alt="Mohammad Iqbal Jaffar"
                   fill
-                  sizes="(max-width: 768px) 280px, 360px"
+                  sizes="(max-width: 640px) 240px, (max-width: 1024px) 360px, 420px"
                   priority
                   className="object-cover object-center grayscale-[20%] contrast-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-spacex-graphite/60 bg-black/80">
+                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 border-t border-spacex-graphite/60 bg-black/80">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
                         OPERATIVE
                       </span>
-                      <span className="text-sm font-display font-bold uppercase tracking-spacex-xs text-white">
+                      <span className="text-xs sm:text-sm font-display font-bold uppercase tracking-spacex-xs text-white">
                         IQBAL J.
                       </span>
                     </div>
                     <div className="flex flex-col items-end">
-                      <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
                         STATUS
                       </span>
-                      <span className="text-[11px] font-mono font-bold text-spacex-flame">
+                      <span className="text-[10px] sm:text-[11px] font-mono font-bold text-spacex-flame">
                         ACTIVE
                       </span>
                     </div>

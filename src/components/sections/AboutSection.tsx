@@ -42,7 +42,7 @@ function ProgressRing({ value, label, color }: { value: number; label: string; c
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative py-24 md:py-32 px-5 md:px-10 bg-spacex-void">
+    <section id="about" className="relative py-20 sm:py-24 md:py-32 px-4 sm:px-5 md:px-10 bg-spacex-void">
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
           number="01"
@@ -51,16 +51,16 @@ export default function AboutSection() {
           description="Menyukai hal teknis, pemecahan masalah kompleks, dan mengubah ide menjadi produk yang benar-benar berfungsi."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-          <article className="animate-fade-up md:col-span-2 lg:col-span-2 bg-spacex-dark border border-spacex-graphite rounded-none p-6 md:p-8">
-            <div className="flex items-center gap-2 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+          <article className="animate-fade-up sm:col-span-2 lg:col-span-2 bg-spacex-dark border border-spacex-graphite rounded-none p-5 sm:p-6 md:p-8">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <Sparkles className="w-4 h-4 text-spacex-flame shrink-0" />
-              <p className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">PROFILE &amp; STORY</p>
+              <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">PROFILE &amp; STORY</p>
             </div>
-            <h3 className="text-2xl md:text-3xl font-display font-black uppercase leading-tight mb-5 text-white">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black uppercase leading-tight mb-4 sm:mb-5 text-white">
               SAYA FOKUS PADA <span className="text-spacex-flame">SOLUSI YANG TEPAT</span>, BUKAN SEKADAR BANYAK FITUR.
             </h3>
-            <p className="text-spacex-muted text-sm md:text-[15px] leading-relaxed">
+            <p className="text-spacex-muted text-sm sm:text-[15px] leading-relaxed">
               Sebagai Full-Stack &amp; AI/ML Engineer, saya menghubungkan ketelitian software engineering dengan
               kebutuhan manusia nyata. Setiap proyek saya tangani dengan pendekatan data-driven: merencanakan
               requirements dengan jelas, menulis kode yang maintainable, dan mengukur dampak setiap fitur yang
@@ -68,10 +68,10 @@ export default function AboutSection() {
             </p>
           </article>
 
-          <article className="animate-fade-up delay-100 bg-spacex-dark border border-spacex-graphite rounded-none p-6 md:p-8">
-            <div className="flex items-center gap-2 mb-6">
+          <article className="animate-fade-up delay-100 bg-spacex-dark border border-spacex-graphite rounded-none p-5 sm:p-6 md:p-8">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
               <Cpu className="w-4 h-4 text-spacex-flame shrink-0" />
-              <p className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">ENGINEERING STATS</p>
+              <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">ENGINEERING STATS</p>
             </div>
             <div className="grid grid-cols-3 gap-2">
               {stats.map((s) => (
@@ -80,10 +80,10 @@ export default function AboutSection() {
             </div>
           </article>
 
-          <article className="animate-fade-up delay-200 bg-spacex-dark border border-spacex-graphite rounded-none p-6 md:p-8">
-            <div className="flex items-center gap-2 mb-5">
+          <article className="animate-fade-up delay-200 bg-spacex-dark border border-spacex-graphite rounded-none p-5 sm:p-6 md:p-8">
+            <div className="flex items-center gap-2 mb-4 sm:mb-5">
               <Shield className="w-4 h-4 text-spacex-flame shrink-0" />
-              <p className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">MY EDGE</p>
+              <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">MY EDGE</p>
             </div>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
