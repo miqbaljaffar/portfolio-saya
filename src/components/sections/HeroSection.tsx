@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Briefcase, GraduationCap, FileText, ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -7,10 +8,15 @@ import { Button } from "@/components/ui/button";
 import profilePic from "@/../public/img/profile.jpg";
 
 export default function HeroSection() {
+  const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 400], [0, -40]);
   const y2 = useTransform(scrollY, [0, 400], [0, 100]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0.1]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section
@@ -27,7 +33,7 @@ export default function HeroSection() {
       </div>
 
       <motion.div
-        style={{ y: y1, opacity }}
+        style={mounted ? { y: y1, opacity } : undefined}
         className="container mx-auto px-4 sm:px-5 md:px-8 lg:px-12 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 max-w-7xl relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] items-center gap-10 sm:gap-12 lg:gap-16">
@@ -52,7 +58,7 @@ export default function HeroSection() {
               <h1 className="animate-fade-up delay-100 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-muted">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-subtle">
                   PRODUCTION-GRADE
                 </span>
                 <br />
@@ -130,7 +136,7 @@ export default function HeroSection() {
 
           <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
             <motion.div
-              style={{ y: y2 }}
+              style={mounted ? { y: y2 } : undefined}
               className="relative group"
             >
               <div className="absolute -inset-3 border border-spacex-graphite/40 pointer-events-none">
@@ -175,7 +181,7 @@ export default function HeroSection() {
         </div>
 
         <motion.div
-          style={{ opacity }}
+          style={mounted ? { opacity } : undefined}
           className="absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center gap-3"
         >
           <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
@@ -184,7 +190,7 @@ export default function HeroSection() {
           <div className="relative w-px h-14 overflow-hidden bg-spacex-graphite">
             <motion.div
               className="absolute top-0 left-0 w-full h-4 bg-spacex-flame"
-              animate={{ y: ["0%", "300%"] }}
+              animate={mounted ? { y: ["0%", "300%"] } : undefined}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>

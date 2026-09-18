@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { staggerContainer } from "../lib/animations";
 
@@ -18,14 +18,19 @@ export function AnimatedSection({
   once = true,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const isInView = useInView(ref, { once, margin: "-80px 0px" });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <motion.div
       ref={ref}
       variants={variants}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={mounted && isInView ? "visible" : "hidden"}
       className={className}
     >
       {children}

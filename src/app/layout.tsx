@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/providers";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -165,8 +166,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning={true} className="dark">
+    <html lang="id" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='dark'}var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t)}catch(e){document.documentElement.classList.add('dark')}})();`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -183,13 +189,15 @@ export default function RootLayout({
       <body
         className={`${robotoCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-black text-white`}
       >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"
-        >
-          SKIP TO MAIN CONTENT
-        </a>
-        {children}
+        <Providers attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"
+          >
+            SKIP TO MAIN CONTENT
+          </a>
+          {children}
+        </Providers>
       </body>
     </html>
   );

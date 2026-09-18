@@ -5,9 +5,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
 export function ScrollTopButton() {
+  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setVisible(window.scrollY > 400);
     };
@@ -24,7 +26,7 @@ export function ScrollTopButton() {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {mounted && visible && (
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

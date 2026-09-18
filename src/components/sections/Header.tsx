@@ -9,8 +9,10 @@ import { navItems } from "@/data/portfolio";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -19,8 +21,8 @@ export default function Header() {
 
   return (
     <motion.header
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={false}
+      animate={mounted ? { y: 0, opacity: 1 } : { y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
