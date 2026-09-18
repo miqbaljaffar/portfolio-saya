@@ -11,7 +11,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -21,30 +21,34 @@ export default function Header() {
     <motion.header
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
-          ? "backdrop-blur-xl bg-background/80 border-b border-border shadow-[0_2px_20px_-8px_rgba(0,0,0,0.08)]"
+          ? "bg-black/95 border-b border-spacex-graphite"
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto max-w-6xl px-5 md:px-10 py-3 md:py-3.5 flex items-center justify-between gap-4">
-        <a href="#hero" className="flex items-center gap-3">
-          <div className="hanko-stamp text-xs tracking-widest">謹 · MIJ</div>
+      <div className="container mx-auto max-w-7xl px-5 md:px-8 py-3.5 flex items-center justify-between gap-4">
+        <a href="#hero" className="flex items-center gap-3 group">
+          <div className="flex items-center justify-center font-display font-black tracking-widest text-white text-sm border border-spacex-graphite px-2.5 py-1 hover:border-spacex-white transition-colors">
+            MIJ
+          </div>
           <div className="hidden sm:flex flex-col leading-tight">
-            <span className="text-sm font-display font-bold text-foreground">Iqbal Jaffar</span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              Full-Stack &amp; AI/ML
+            <span className="text-sm font-display font-bold uppercase tracking-spacex-sm text-white">
+              Iqbal Jaffar
+            </span>
+            <span className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">
+              ENGINEER
             </span>
           </div>
         </a>
 
-        <nav className="hidden md:flex items-center gap-1 px-1.5 py-1 rounded-full bg-primary/5 border border-border/60 backdrop-blur-md">
+        <nav className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="px-3.5 py-1.5 text-[13px] font-medium text-foreground/70 hover:text-foreground hover:bg-background/80 rounded-full transition-colors"
+              className="btn-spacex px-3.5 py-2 text-[11px] font-medium uppercase tracking-spacex-md text-spacex-silver hover:text-white transition-colors"
             >
               {item.label}
             </a>
@@ -52,7 +56,12 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm" className="rounded-full text-xs h-9 px-3 text-muted-foreground hover:text-foreground">
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="h-9 px-3 text-[11px] font-medium uppercase tracking-spacex-md text-spacex-subtle hover:text-white hover:bg-spacex-steel rounded-none border border-transparent hover:border-spacex-graphite transition-all"
+          >
             <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
               <FileText className="size-3.5" /> CV
             </a>
@@ -60,20 +69,17 @@ export default function Header() {
           <Button
             asChild
             size="sm"
-            className="relative h-9 px-4 text-sm font-medium rounded-full bg-accent hover:bg-accent/90 text-accent-foreground overflow-hidden group shadow-sm hover:shadow transition-all"
+            className="h-9 px-5 text-[11px] font-semibold uppercase tracking-spacex-md bg-white hover:bg-spacex-silver text-black rounded-none transition-all border border-white"
           >
             <a href="#contact">
-              <span className="relative z-10 inline-flex items-center gap-1.5">
-                <Mail className="size-3.5" /> Hire Me
-              </span>
-              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700" />
+              <Mail className="size-3.5" /> HIRE ME
             </a>
           </Button>
         </div>
 
         <button
           aria-label="Toggle menu"
-          className="md:hidden inline-flex items-center justify-center size-9 rounded-full border border-border bg-background"
+          className="lg:hidden inline-flex items-center justify-center size-9 border border-spacex-graphite bg-black text-white hover:border-white transition-colors"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -87,29 +93,36 @@ export default function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden overflow-hidden border-t border-border bg-background"
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            className="lg:hidden overflow-hidden border-t border-spacex-graphite bg-black"
           >
-            <nav className="container mx-auto max-w-6xl px-5 py-4 flex flex-col gap-1">
+            <nav className="container mx-auto max-w-7xl px-5 py-5 flex flex-col gap-0.5">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="py-2.5 px-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-muted"
+                  className="py-3 px-2 text-sm font-medium uppercase tracking-spacex-sm text-spacex-silver hover:text-white border-b border-spacex-steel transition-colors"
                 >
                   {item.label}
                 </a>
               ))}
-              <div className="flex gap-2 pt-3 border-t border-border mt-2">
-                <Button asChild variant="outline" className="flex-1 h-9 rounded-[0.6rem] text-sm">
+              <div className="flex gap-2 pt-4 mt-2">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="flex-1 h-10 rounded-none text-xs uppercase tracking-spacex-sm border-spacex-graphite text-spacex-silver hover:bg-spacex-steel hover:text-white hover:border-spacex-silver transition-all"
+                >
                   <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
                     <FileText className="size-3.5" /> CV
                   </a>
                 </Button>
-                <Button asChild className="flex-1 h-9 rounded-[0.6rem] text-sm bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button
+                  asChild
+                  className="flex-1 h-10 rounded-none text-xs font-semibold uppercase tracking-spacex-sm bg-white text-black hover:bg-spacex-silver transition-all border border-white"
+                >
                   <a href="#contact" onClick={() => setOpen(false)}>
-                    <Mail className="size-3.5" /> Hire Me
+                    <Mail className="size-3.5" /> HIRE
                   </a>
                 </Button>
               </div>

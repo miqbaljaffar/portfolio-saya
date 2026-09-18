@@ -24,14 +24,14 @@ export function CertModal({ item, onClose }: CertModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[999] p-4 sm:p-8"
+          className="fixed inset-0 bg-black/90 flex justify-center items-center z-[999] p-4 sm:p-8"
           onClick={onClose}
         >
           <motion.button
             type="button"
             onClick={onClose}
             aria-label="Tutup sertifikat"
-            className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 bg-black/50 hover:bg-black/70 text-white rounded-full backdrop-blur-md transition-transform hover:scale-105 z-[1]"
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 bg-black hover:bg-spacex-dark text-white rounded-none border border-spacex-graphite hover:border-white transition-colors z-[1]"
           >
             <X className="size-5" />
           </motion.button>
@@ -40,14 +40,14 @@ export function CertModal({ item, onClose }: CertModalProps) {
             initial={{ scale: 0.96, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.96, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 28, stiffness: 280 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             className="relative max-w-5xl w-full max-h-[88vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-4 mb-4 shrink-0 text-white">
+            <div className="flex items-start justify-between gap-4 mb-4 shrink-0 text-white border border-spacex-graphite bg-spacex-void p-4 rounded-none">
               <div className="min-w-0">
-                <h2 className="font-display font-bold text-lg md:text-xl leading-tight">{item.title}</h2>
-                <p className="text-xs md:text-sm text-white/60 mt-1">
+                <h2 className="font-display font-black text-lg md:text-xl leading-tight uppercase tracking-tight">{item.title}</h2>
+                <p className="text-xs md:text-sm text-spacex-muted mt-1 font-mono uppercase tracking-spacex-sm">
                   {item.issuer} &middot; {item.year}
                 </p>
               </div>
@@ -56,7 +56,7 @@ export function CertModal({ item, onClose }: CertModalProps) {
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shrink-0 inline-flex items-center gap-1.5 p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-transform hover:scale-105"
+                  className="shrink-0 inline-flex items-center gap-1.5 p-2.5 bg-white text-black hover:bg-spacex-silver rounded-none border border-white transition-colors"
                   aria-label="Lihat ukuran penuh"
                 >
                   <ExternalLink className="size-4" />
@@ -64,7 +64,7 @@ export function CertModal({ item, onClose }: CertModalProps) {
               )}
             </div>
 
-            <div className="relative w-full flex-1 rounded-lg overflow-hidden bg-black/30 min-h-[50vh]">
+            <div className="relative w-full flex-1 rounded-none overflow-hidden bg-spacex-dark border border-spacex-graphite min-h-[50vh]">
               <Image
                 src={item.image}
                 alt={item.title}

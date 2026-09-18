@@ -26,17 +26,15 @@ export function ScrollTopButton() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.6 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
           onClick={scrollToTop}
           aria-label="Scroll to top"
-          className="fixed bottom-6 right-6 md:bottom-8 md:right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-xl shadow-blue-500/30 z-40 transition-colors"
+          className="fixed bottom-6 right-6 md:bottom-8 md:right-8 p-3 bg-white hover:bg-spacex-silver text-black rounded-none border border-white z-40 transition-colors"
         >
-          <ArrowUp size={20} />
+          <ArrowUp size={18} />
         </motion.button>
       )}
     </AnimatePresence>

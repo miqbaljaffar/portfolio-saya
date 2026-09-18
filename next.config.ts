@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   generateEtags: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
+  swcMinify: true,
   experimental: {
     optimizePackageImports: [
       "lucide-react",
@@ -20,6 +21,7 @@ const nextConfig: NextConfig = {
       "framer-motion",
       "class-variance-authority",
     ],
+    optimizeServerReact: true,
   },
   async headers() {
     return [
@@ -31,6 +33,7 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
       },
       {
@@ -59,6 +62,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/_next/static/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/fonts/(.*)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],

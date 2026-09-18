@@ -9,19 +9,34 @@ const config = {
   theme: {
     extend: {
       colors: {
-        washi: "#F7F2EA",
-        sumi: "#151823",
-        indigo: {
-          tokyo: "#2D4A6F",
+        spacex: {
+          black: "#000000",
+          void: "#0A0A0A",
+          dark: "#111111",
+          steel: "#1A1A1A",
+          graphite: "#2A2A2A",
+          border: "#333333",
+          muted: "#666666",
+          subtle: "#999999",
+          silver: "#CCCCCC",
+          white: "#FFFFFF",
+          flame: "#E63946",
+          sky: "#005288",
         },
-        vermillion: "#C8402E",
-        kincha: "#D4A04A",
-        "washi-border": "#B8A99A",
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],
         sans: ["var(--font-sans)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+      },
+      letterSpacing: {
+        "spacex-xs": "0.05em",
+        "spacex-sm": "0.1em",
+        "spacex-md": "0.18em",
+        "spacex-lg": "0.25em",
+      },
+      transitionTimingFunction: {
+        "spacex": "cubic-bezier(0.4, 0, 0.2, 1)",
       },
     },
   },

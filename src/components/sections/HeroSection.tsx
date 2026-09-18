@@ -1,79 +1,129 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { MapPin, Briefcase, GraduationCap, FileText } from "lucide-react";
+import { MapPin, Briefcase, GraduationCap, FileText, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import profilePic from "@/../public/img/profile.jpg";
 
 export default function HeroSection() {
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, -30]);
-  const y2 = useTransform(scrollY, [0, 300], [0, 80]);
-  const opacity = useTransform(scrollY, [0, 250], [1, 0.15]);
+  const y1 = useTransform(scrollY, [0, 400], [0, -40]);
+  const y2 = useTransform(scrollY, [0, 400], [0, 100]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.1]);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-seigaiha">
-      <div className="absolute inset-0 pointer-events-none" />
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden bg-aero-grid"
+    >
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-24 left-6 md:left-10 lg:left-16 aero-corner tl" />
+        <div className="absolute top-24 right-6 md:right-10 lg:right-16 aero-corner tr" />
+        <div className="absolute bottom-10 left-6 md:left-10 lg:left-16 aero-corner bl" />
+        <div className="absolute bottom-10 right-6 md:right-10 lg:right-16 aero-corner br" />
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+      </div>
+
       <motion.div
         style={{ y: y1, opacity }}
-        className="container mx-auto px-5 md:px-10 pt-32 pb-20 max-w-6xl relative z-10"
+        className="container mx-auto px-5 md:px-8 lg:px-12 pt-32 pb-24 max-w-7xl relative z-10"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] items-center gap-14 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] items-center gap-12 lg:gap-16">
           <div className="space-y-8 order-2 lg:order-1">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/70 text-xs font-mono uppercase tracking-widest text-foreground/70">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+            <div className="animate-slide-left flex items-center gap-3">
+              <span className="flex items-center gap-2 px-3 py-1 border border-spacex-graphite text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-subtle">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-spacex-flame opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-spacex-flame" />
                 </span>
-                Available for opportunities
+                SYSTEM ONLINE — AVAILABLE
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                v2.0.26 / BUILD STABLE
               </span>
             </div>
 
-            <div className="space-y-5">
-              <p className="text-sm font-mono text-muted-foreground tracking-widest uppercase">
-                Full-Stack &middot; AI/ML Engineer
+            <div className="space-y-6">
+              <p className="eyebrow-label animate-fade-up delay-50">
+                FULL-STACK / AI-ML / ENGINEER
               </p>
-              <h1 className="text-4xl md:text-6xl font-display font-bold leading-[1.05] tracking-tight text-foreground">
-                Hi, saya <span className="text-accent font-black">Iqbal</span>.
+              <h1 className="animate-fade-up delay-100 text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
+                BUILDING
                 <br />
-                Saya membangun web dan AI <br className="hidden md:block" />
-                yang <span className="italic font-medium text-primary">berdampak</span>.
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-muted">
+                  PRODUCTION-GRADE
+                </span>
+                <br />
+                SYSTEMS.
               </h1>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Mohammad Iqbal Jaffar &mdash; Full-Stack Web & AI/ML Engineer dengan spesialisasi
-                backend, machine learning, dan integrasi IoT. Berpengalaman membangun produk
-                untuk deteksi hoax, analisis medis, otomatisasi bisnis, dan otomotif.
-              </p>
+              <div className="animate-fade-up delay-200 flex items-center gap-4">
+                <span className="h-px w-16 bg-spacex-flame" />
+                <p className="text-base md:text-lg text-spacex-silver leading-relaxed max-w-xl font-sans">
+                  Mohammad Iqbal Jaffar — Engineering reliable backends, deploying
+                  ML models to production, and connecting hardware to the cloud.
+                </p>
+              </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 pt-2">
-              <Button asChild size="lg" className="h-11 px-6 text-sm font-medium bg-accent hover:bg-accent/90 text-accent-foreground rounded-[0.6rem] shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-start sm:items-center gap-3 pt-2">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 px-7 text-xs font-bold uppercase tracking-spacex-md bg-white hover:bg-spacex-silver text-black rounded-none border-2 border-white transition-all group"
+              >
                 <a href="#projects">
                   <FileText className="w-4 h-4" />
-                  Lihat Karya
+                  VIEW WORK
+                  <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="h-11 px-6 text-sm font-medium rounded-[0.6rem] border-border hover:bg-muted/50 transition-all duration-300">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="h-12 px-7 text-xs font-bold uppercase tracking-spacex-md bg-transparent hover:bg-spacex-steel text-white rounded-none border-2 border-spacex-graphite hover:border-white transition-all"
+              >
                 <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
-                  Download CV
+                  DOWNLOAD CV
                 </a>
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-border/50 max-w-lg">
-              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
-                <span>Bekasi, Indonesia</span>
+            <div className="animate-fade-up delay-400 grid grid-cols-1 sm:grid-cols-3 gap-0 pt-6 border-t border-spacex-graphite/60 max-w-2xl">
+              <div className="flex items-center gap-3 py-3 sm:border-r border-spacex-graphite/60">
+                <MapPin className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                    LOCATION
+                  </span>
+                  <span className="text-sm font-medium text-white">
+                    Bekasi, ID
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                <Briefcase className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
-                <span>3+ Tahun Pengalaman</span>
+              <div className="flex items-center gap-3 py-3 sm:border-r border-spacex-graphite/60 sm:pl-4">
+                <Briefcase className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                    EXPERIENCE
+                  </span>
+                  <span className="text-sm font-medium text-white">
+                    3+ YEARS
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground col-span-2 sm:col-span-1">
-                <GraduationCap className="w-3.5 h-3.5 flex-shrink-0 text-primary/70" />
-                <span>S1 Informatika</span>
+              <div className="flex items-center gap-3 py-3 sm:pl-4">
+                <GraduationCap className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                    EDUCATION
+                  </span>
+                  <span className="text-sm font-medium text-white">
+                    S1 CS / UI
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -83,16 +133,42 @@ export default function HeroSection() {
               style={{ y: y2 }}
               className="relative group"
             >
-              <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-[1.8rem] overflow-hidden border border-border bg-card shadow-xl">
+              <div className="absolute -inset-3 border border-spacex-graphite/40 pointer-events-none">
+                <div className="aero-corner tl" />
+                <div className="aero-corner tr" />
+                <div className="aero-corner bl" />
+                <div className="aero-corner br" />
+              </div>
+              <div className="relative w-64 h-80 md:w-80 md:h-96 overflow-hidden border border-spacex-graphite bg-spacex-dark">
                 <Image
                   src={profilePic}
                   alt="Mohammad Iqbal Jaffar"
                   fill
-                  sizes="(max-width: 768px) 280px, 320px"
+                  sizes="(max-width: 768px) 280px, 360px"
                   priority
-                  className="object-cover object-center"
+                  className="object-cover object-center grayscale-[20%] contrast-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-spacex-graphite/60 bg-black/80">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                        OPERATIVE
+                      </span>
+                      <span className="text-sm font-display font-bold uppercase tracking-spacex-xs text-white">
+                        IQBAL J.
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+                        STATUS
+                      </span>
+                      <span className="text-[11px] font-mono font-bold text-spacex-flame">
+                        ACTIVE
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -100,10 +176,18 @@ export default function HeroSection() {
 
         <motion.div
           style={{ opacity }}
-          className="absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center gap-2 text-muted-foreground"
+          className="absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-accent/60 to-transparent" />
+          <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
+            SCROLL TO EXPLORE
+          </span>
+          <div className="relative w-px h-14 overflow-hidden bg-spacex-graphite">
+            <motion.div
+              className="absolute top-0 left-0 w-full h-4 bg-spacex-flame"
+              animate={{ y: ["0%", "300%"] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
         </motion.div>
       </motion.div>
     </section>
