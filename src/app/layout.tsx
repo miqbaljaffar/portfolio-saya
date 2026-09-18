@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -184,20 +183,13 @@ export default function RootLayout({
       <body
         className={`${robotoCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-black text-white`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"
         >
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"
-          >
-            SKIP TO MAIN CONTENT
-          </a>
-          {children}
-        </ThemeProvider>
+          SKIP TO MAIN CONTENT
+        </a>
+        {children}
       </body>
     </html>
   );
