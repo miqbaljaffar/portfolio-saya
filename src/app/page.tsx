@@ -36,7 +36,7 @@ const Footer = dynamic(
 
 function SectionSkeleton() {
   return (
-    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-10 animate-fade-in bg-spacex-black">
+    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-10 bg-spacex-black opacity-60">
       <div className="container mx-auto max-w-6xl space-y-10">
         <div className="max-w-2xl mx-auto text-center space-y-4">
           <div className="h-px w-32 mx-auto bg-spacex-graphite animate-pulse" />

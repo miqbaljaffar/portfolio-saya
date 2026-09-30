@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Mail, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navItems } from "@/data/portfolio";
@@ -9,10 +10,20 @@ import { navItems } from "@/data/portfolio";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  // GSAP entrance on mount — slide down from above
+  useGSAP(() => {
+    gsap.from(headerRef.current, {
+      y: -72,
+      opacity: 0,
+      duration: 0.9,
+      ease: "power4.out",
+      delay: 0.1,
+    });
+  }, { scope: headerRef });
 
   useEffect(() => {
-    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -20,10 +31,8 @@ export default function Header() {
   }, []);
 
   return (
-    <motion.header
-      initial={false}
-      animate={mounted ? { y: 0, opacity: 1 } : { y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+    <header
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
           ? "bg-black/95 border-b border-spacex-graphite"
@@ -88,6 +97,7 @@ export default function Header() {
         </button>
       </div>
 
+      {/* Mobile menu — keep Framer Motion AnimatePresence for height transition */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -132,6 +142,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

@@ -1,44 +1,84 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP, gsap, ScrollTrigger } from "@/lib/gsap";
 import { MapPin, Briefcase, GraduationCap, FileText, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import profilePic from "@/../public/img/profile.jpg";
 
 export default function HeroSection() {
-  const [mounted, setMounted] = useState(false);
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 400], [0, -40]);
-  const y2 = useTransform(scrollY, [0, 400], [0, 100]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.1]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+    // ── Entrance timeline ──────────────────────────────────────────
+    tl.from(".hero-badge",      { opacity: 0, x: -28, duration: 0.7 }, 0.2)
+      .from(".hero-eyebrow",    { opacity: 0, y: 18,  duration: 0.6 }, 0.35)
+      .from(".hero-title",      { opacity: 0, y: 40,  duration: 0.8 }, 0.45)
+      .from(".hero-subtitle",   { opacity: 0, y: 24,  duration: 0.7 }, 0.6)
+      .from(".hero-ctas",       { opacity: 0, y: 24,  duration: 0.7 }, 0.72)
+      .from(".hero-meta",       { opacity: 0, y: 20,  duration: 0.6 }, 0.82)
+      .from(imageRef.current,   { opacity: 0, x: 40,  duration: 0.9 }, 0.3)
+      .from(".hero-corner",     { opacity: 0, scale: 0.8, duration: 0.5, stagger: 0.07 }, 0.5)
+      .from(scrollIndicatorRef.current, { opacity: 0, y: 12, duration: 0.6 }, 1.0);
+
+    // ── Scroll indicator loop ──────────────────────────────────────
+    gsap.fromTo(
+      ".hero-scroll-dot",
+      { y: "0%", opacity: 1 },
+      { y: "300%", opacity: 0, duration: 1.6, repeat: -1, ease: "none" }
+    );
+
+    // ── Parallax on scroll ─────────────────────────────────────────
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        if (contentRef.current) {
+          gsap.set(contentRef.current, {
+            y: progress * -50,
+            opacity: 1 - progress * 0.9,
+          });
+        }
+        if (imageRef.current) {
+          gsap.set(imageRef.current, { y: progress * 100 });
+        }
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center overflow-hidden bg-aero-grid"
     >
+      {/* Decorative corners */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-24 left-6 md:left-10 lg:left-16 aero-corner tl" />
-        <div className="absolute top-24 right-6 md:right-10 lg:right-16 aero-corner tr" />
-        <div className="absolute bottom-10 left-6 md:left-10 lg:left-16 aero-corner bl" />
-        <div className="absolute bottom-10 right-6 md:right-10 lg:right-16 aero-corner br" />
+        <div className="hero-corner absolute top-24 left-6 md:left-10 lg:left-16 aero-corner tl" />
+        <div className="hero-corner absolute top-24 right-6 md:right-10 lg:right-16 aero-corner tr" />
+        <div className="hero-corner absolute bottom-10 left-6 md:left-10 lg:left-16 aero-corner bl" />
+        <div className="hero-corner absolute bottom-10 right-6 md:right-10 lg:right-16 aero-corner br" />
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
       </div>
 
-      <motion.div
-        style={mounted ? { y: y1, opacity } : undefined}
+      <div
+        ref={contentRef}
         className="container mx-auto px-4 sm:px-5 md:px-8 lg:px-12 pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 max-w-7xl relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] items-center gap-10 sm:gap-12 lg:gap-16">
+          {/* ── Left content ─────────────────────────────────────── */}
           <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
-            <div className="animate-slide-left flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="hero-badge flex flex-wrap items-center gap-2 sm:gap-3">
               <span className="flex items-center gap-2 px-2.5 sm:px-3 py-1 border border-spacex-graphite text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-subtle">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-spacex-flame opacity-75" />
@@ -52,10 +92,10 @@ export default function HeroSection() {
             </div>
 
             <div className="space-y-4 sm:space-y-6">
-              <p className="eyebrow-label animate-fade-up delay-50">
+              <p className="hero-eyebrow eyebrow-label">
                 FULL-STACK / AI-ML / ENGINEER
               </p>
-              <h1 className="animate-fade-up delay-100 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
+              <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-subtle">
@@ -64,7 +104,7 @@ export default function HeroSection() {
                 <br />
                 SYSTEMS.
               </h1>
-              <div className="animate-fade-up delay-200 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              <div className="hero-subtitle flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                 <span className="h-px w-12 sm:w-16 bg-spacex-flame flex-shrink-0" />
                 <p className="text-sm sm:text-base md:text-lg text-spacex-silver leading-relaxed max-w-xl font-sans">
                   Mohammad Iqbal Jaffar — Engineering reliable backends, deploying
@@ -73,7 +113,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="animate-fade-up delay-300 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+            <div className="hero-ctas flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Button
                 asChild
                 size="lg"
@@ -97,35 +137,25 @@ export default function HeroSection() {
               </Button>
             </div>
 
-            <div className="animate-fade-up delay-400 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-0 pt-5 sm:pt-6 border-t border-spacex-graphite/60 max-w-2xl">
+            <div className="hero-meta grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-0 pt-5 sm:pt-6 border-t border-spacex-graphite/60 max-w-2xl">
               <div className="flex items-center gap-3 py-2 sm:py-3 sm:border-r border-spacex-graphite/60">
                 <MapPin className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
-                    LOCATION
-                  </span>
-                  <span className="text-sm font-medium text-white">
-                    Bandung, ID
-                  </span>
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">LOCATION</span>
+                  <span className="text-sm font-medium text-white">Bandung, ID</span>
                 </div>
               </div>
               <div className="flex items-center gap-3 py-2 sm:py-3 sm:border-r border-spacex-graphite/60 sm:pl-4">
                 <Briefcase className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
-                    EXPERIENCE
-                  </span>
-                  <span className="text-sm font-medium text-white">
-                    1+ YEARS
-                  </span>
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">EXPERIENCE</span>
+                  <span className="text-sm font-medium text-white">1+ YEARS</span>
                 </div>
               </div>
               <div className="flex items-center gap-3 py-2 sm:py-3 sm:pl-4">
                 <GraduationCap className="w-4 h-4 flex-shrink-0 text-spacex-muted" />
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
-                    EDUCATION
-                  </span>
+                  <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">EDUCATION</span>
                   <span className="text-sm font-medium text-white">
                     Bachelor of Informatics Engineering / Bandung University of Technology
                   </span>
@@ -134,11 +164,9 @@ export default function HeroSection() {
             </div>
           </div>
 
+          {/* ── Right: Profile image ──────────────────────────────── */}
           <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-            <motion.div
-              style={mounted ? { y: y2 } : undefined}
-              className="relative group"
-            >
+            <div ref={imageRef} className="relative group">
               <div className="absolute -inset-3 border border-spacex-graphite/40 pointer-events-none">
                 <div className="aero-corner tl" />
                 <div className="aero-corner tr" />
@@ -158,44 +186,33 @@ export default function HeroSection() {
                 <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 border-t border-spacex-graphite/60 bg-black/80">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
-                        OPERATIVE
-                      </span>
-                      <span className="text-xs sm:text-sm font-display font-bold uppercase tracking-spacex-xs text-white">
-                        IQBAL J.
-                      </span>
+                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">OPERATIVE</span>
+                      <span className="text-xs sm:text-sm font-display font-bold uppercase tracking-spacex-xs text-white">IQBAL J.</span>
                     </div>
                     <div className="flex flex-col items-end">
-                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
-                        STATUS
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-mono font-bold text-spacex-flame">
-                        ACTIVE
-                      </span>
+                      <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-spacex-lg text-spacex-muted">STATUS</span>
+                      <span className="text-[10px] sm:text-[11px] font-mono font-bold text-spacex-flame">ACTIVE</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 
-        <motion.div
-          style={mounted ? { opacity } : undefined}
+        {/* ── Scroll indicator ────────────────────────────────────── */}
+        <div
+          ref={scrollIndicatorRef}
           className="absolute left-1/2 -translate-x-1/2 bottom-0 flex flex-col items-center gap-3"
         >
           <span className="text-[9px] font-mono uppercase tracking-spacex-lg text-spacex-muted">
             SCROLL TO EXPLORE
           </span>
           <div className="relative w-px h-14 overflow-hidden bg-spacex-graphite">
-            <motion.div
-              className="absolute top-0 left-0 w-full h-4 bg-spacex-flame"
-              animate={mounted ? { y: ["0%", "300%"] } : undefined}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            />
+            <div className="hero-scroll-dot absolute top-0 left-0 w-full h-4 bg-spacex-flame" />
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

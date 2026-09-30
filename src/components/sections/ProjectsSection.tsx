@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useGSAP, gsap } from "@/lib/gsap";
 import Image from "next/image";
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -32,6 +33,10 @@ export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState<CategoryLabel>("ALL");
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
+
+  const sectionRef  = useRef<HTMLElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const tabsRef     = useRef<HTMLDivElement>(null);
 
   const autoplay = useRef(
     Autoplay({ delay: 2800, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -67,7 +72,6 @@ export default function ProjectsSection() {
     };
   }, [emblaApi, onSelect]);
 
-  /* Reinit carousel when category filter changes */
   useEffect(() => {
     if (!emblaApi) return;
     emblaApi.reInit({ loop: true, align: "start", dragFree: true }, [autoplay.current]);
@@ -85,9 +89,45 @@ export default function ProjectsSection() {
     emblaApi?.scrollNext();
   }, [emblaApi]);
 
+  // Section entrance — tabs
+  useGSAP(() => {
+    gsap.set(tabsRef.current, { opacity: 0, y: 20 });
+    gsap.to(tabsRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
+
+  // Carousel cards stagger — on every category change AND on first load
+  useGSAP(() => {
+    const cards = carouselRef.current?.querySelectorAll(".project-card");
+    if (!cards?.length) return;
+
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 28 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        ease: "power3.out",
+        stagger: 0.05,
+        clearProps: "transform,opacity",
+      }
+    );
+  }, { scope: carouselRef, dependencies: [activeCategory] });
+
   return (
     <section
       id="projects"
+      ref={sectionRef}
       className="relative py-20 sm:py-24 md:py-32 bg-spacex-void overflow-hidden"
     >
       <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
@@ -98,8 +138,9 @@ export default function ProjectsSection() {
           description="FROM MACHINE LEARNING PROTOTYPES TO PRODUCTION WEB APPS — HERE ARE SOME OF THE WORKS I'M MOST PROUD OF."
         />
 
-        {/* Category filter tabs */}
+        {/* Category filter */}
         <div
+          ref={tabsRef}
           className="mb-8 sm:mb-10 md:mb-12 flex flex-wrap justify-center gap-2 md:gap-3"
           role="tablist"
           aria-label="Kategori proyek"
@@ -130,15 +171,17 @@ export default function ProjectsSection() {
         className="overflow-hidden cursor-grab active:cursor-grabbing"
         ref={emblaRef}
       >
-        <div className="flex gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-10 lg:pl-[max(2.5rem,calc((100vw_-_72rem)_/_2_+_2.5rem))]">
-          {filtered.map((project, i) => (
+        <div
+          ref={carouselRef}
+          className="flex gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-10 lg:pl-[max(2.5rem,calc((100vw_-_72rem)_/_2_+_2.5rem))]"
+        >
+          {filtered.map((project) => (
             <a
               key={`${activeCategory}-${project.title}`}
               href={project.link || project.github || "#"}
               target="_blank"
               rel="noreferrer noopener"
-              style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
-              className="animate-fade-up card-hover flex-none w-[280px] sm:w-[320px] md:w-[360px] border border-spacex-graphite rounded-none bg-spacex-void overflow-hidden transition-colors duration-200"
+              className="project-card card-hover flex-none w-[280px] sm:w-[320px] md:w-[360px] border border-spacex-graphite rounded-none bg-spacex-void overflow-hidden transition-colors duration-200"
             >
               {/* Thumbnail */}
               <div className="relative aspect-[16/10] overflow-hidden bg-spacex-dark border-b border-spacex-graphite">
@@ -216,7 +259,7 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      {/* Prev / Next controls */}
+      {/* Prev / Next */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
         <div className="flex items-center justify-end gap-2 mt-5 sm:mt-6 md:mt-8">
           <button

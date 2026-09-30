@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useGSAP, gsap } from "@/lib/gsap";
 import Image from "next/image";
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -17,6 +18,9 @@ export default function CertificationsSection() {
   >(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
+
+  const sectionRef  = useRef<HTMLElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const autoplay = useRef(
     Autoplay({ delay: 3200, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -53,9 +57,30 @@ export default function CertificationsSection() {
     emblaApi?.scrollNext();
   }, [emblaApi]);
 
+  // Cert cards stagger entrance on scroll-in
+  useGSAP(() => {
+    const cards = carouselRef.current?.querySelectorAll(".cert-card");
+    if (!cards?.length) return;
+
+    gsap.set(cards, { opacity: 0, y: 32 });
+    gsap.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.65,
+      ease: "power3.out",
+      stagger: 0.07,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
+
   return (
     <section
       id="certs"
+      ref={sectionRef}
       className="relative py-20 sm:py-24 md:py-32 bg-spacex-black overflow-hidden"
     >
       <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
@@ -72,12 +97,14 @@ export default function CertificationsSection() {
         className="overflow-hidden cursor-grab active:cursor-grabbing"
         ref={emblaRef}
       >
-        <div className="flex gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-10 lg:pl-[max(2.5rem,calc((100vw_-_72rem)_/_2_+_2.5rem))]">
-          {certificationsData.map((cert, i) => (
+        <div
+          ref={carouselRef}
+          className="flex gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-10 lg:pl-[max(2.5rem,calc((100vw_-_72rem)_/_2_+_2.5rem))]"
+        >
+          {certificationsData.map((cert) => (
             <div
               key={cert.title}
-              style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}
-              className="animate-fade-up flex-none w-[280px] sm:w-[320px] md:w-[360px]"
+              className="cert-card flex-none w-[280px] sm:w-[320px] md:w-[360px]"
             >
               <button
                 type="button"
@@ -120,7 +147,7 @@ export default function CertificationsSection() {
         </div>
       </div>
 
-      {/* Prev / Next controls */}
+      {/* Prev / Next */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
         <div className="flex items-center justify-end gap-2 mt-5 sm:mt-6 md:mt-8">
           <button

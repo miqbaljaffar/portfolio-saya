@@ -147,50 +147,16 @@
 }
 
 /* =============================================
-   GPU-ACCELERATED ANIMATIONS (Zero TBT impact)
+   GPU-ACCELERATED ANIMATIONS
+   NOTE: fade-up / fade-in / slide-left are now
+   handled by GSAP ScrollTrigger in each component.
+   Only keeping scanline keyframe for potential
+   future use.
    ============================================= */
-@keyframes fadeUp {
-  0% { opacity: 0; transform: translate3d(0, 20px, 0); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-@keyframes slideInLeft {
-  0% { opacity: 0; transform: translate3d(-20px, 0, 0); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0); }
-}
 @keyframes scanline {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
 }
-
-.animate-fade-up {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
-  animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
-}
-.animate-fade-in {
-  opacity: 0;
-  animation: fadeIn 0.5s ease-out forwards;
-  will-change: opacity;
-}
-.animate-slide-left {
-  opacity: 0;
-  transform: translate3d(-20px, 0, 0);
-  animation: slideInLeft 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
-}
-.delay-50 { animation-delay: 0.05s; }
-.delay-100 { animation-delay: 0.1s; }
-.delay-150 { animation-delay: 0.15s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-250 { animation-delay: 0.25s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
 
 /* =============================================
    MARQUEE (Tech stack infinite scroll)

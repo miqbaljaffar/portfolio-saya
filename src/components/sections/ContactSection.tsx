@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { SectionHeading } from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,50 @@ import {
 
 export default function ContactSection() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const asideRef   = useRef<HTMLElement>(null);
+  const formRef    = useRef<HTMLFormElement>(null);
+
+  // Aside slides in from left, form from right
+  useGSAP(() => {
+    const aside = asideRef.current;
+    const form  = formRef.current;
+    if (!aside || !form) return;
+
+    gsap.set(aside, { opacity: 0, x: -36 });
+    gsap.set(form,  { opacity: 0, x:  36 });
+
+    gsap.to([aside, form], {
+      opacity: 1,
+      x: 0,
+      duration: 0.85,
+      ease: "power4.out",
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        once: true,
+      },
+    });
+
+    // Form fields stagger after the form slides in
+    const fields = form.querySelectorAll("input, textarea");
+    gsap.set(fields, { opacity: 0, y: 14 });
+    gsap.to(fields, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      ease: "power3.out",
+      stagger: 0.08,
+      delay: 0.4,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +86,11 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative py-20 sm:py-24 md:py-32 px-4 sm:px-5 md:px-10 bg-spacex-void">
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="relative py-20 sm:py-24 md:py-32 px-4 sm:px-5 md:px-10 bg-spacex-void"
+    >
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
           number="06"
@@ -51,7 +100,8 @@ export default function ContactSection() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-5 sm:gap-6 md:gap-8">
-          <aside className="animate-fade-up space-y-3 sm:space-y-4 md:space-y-5">
+          {/* Aside */}
+          <aside ref={asideRef} className="space-y-3 sm:space-y-4 md:space-y-5">
             <div className="border border-spacex-graphite rounded-none bg-spacex-void p-4 sm:p-5 md:p-6">
               <span className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-none border border-spacex-graphite bg-spacex-dark text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-3 sm:mb-4">
                 <span className="relative flex h-2 w-2">
@@ -64,7 +114,8 @@ export default function ContactSection() {
                 INTERESTED IN WORKING TOGETHER?
               </h3>
               <p className="text-xs sm:text-sm md:text-base text-spacex-muted leading-relaxed mb-4 sm:mb-6">
-                I'M OPEN TO FREELANCE, CONTRACT, OR FULL-TIME OPPORTUNITIES. ESPECIALLY PROJECTS INVOLVING AI/ML, FULL-STACK WEB, AND IOT INTEGRATION.
+                I'M OPEN TO FREELANCE, CONTRACT, OR FULL-TIME OPPORTUNITIES.
+                ESPECIALLY PROJECTS INVOLVING AI/ML, FULL-STACK WEB, AND IOT INTEGRATION.
               </p>
 
               <div className="space-y-2.5 sm:space-y-3">
@@ -80,7 +131,9 @@ export default function ContactSection() {
                       <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-0.5">
                         EMAIL
                       </p>
-                      <p className="text-xs sm:text-sm font-medium text-white truncate">iqbaljaffar1108@gmail.com</p>
+                      <p className="text-xs sm:text-sm font-medium text-white truncate">
+                        iqbaljaffar1108@gmail.com
+                      </p>
                     </div>
                   </div>
                   <ArrowUpRight className="size-3.5 sm:size-4 text-spacex-muted shrink-0 group-hover:text-white transition-colors" />
@@ -94,16 +147,20 @@ export default function ContactSection() {
                     <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-0.5">
                       LOCATION
                     </p>
-                    <p className="text-xs sm:text-sm font-medium text-white">Bandung, INDONESIA</p>
+                    <p className="text-xs sm:text-sm font-medium text-white">
+                      Bandung, INDONESIA
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </aside>
 
+          {/* Form */}
           <form
+            ref={formRef}
             onSubmit={handleSubmit}
-            className="animate-fade-up delay-100 border border-spacex-graphite rounded-none bg-spacex-void p-4 sm:p-5 md:p-8 space-y-3.5 sm:space-y-4 md:space-y-5"
+            className="border border-spacex-graphite rounded-none bg-spacex-void p-4 sm:p-5 md:p-8 space-y-3.5 sm:space-y-4 md:space-y-5"
           >
             <div className="mb-1 sm:mb-2">
               <h3 className="font-display font-bold text-lg sm:text-xl md:text-2xl text-white uppercase tracking-tight">
@@ -156,19 +213,13 @@ export default function ContactSection() {
               className="w-full h-10 sm:h-11 rounded-none bg-white hover:bg-spacex-silver text-black uppercase tracking-spacex-sm border border-white transition-colors text-xs sm:text-sm"
             >
               {status === "idle" && (
-                <>
-                  <Send className="size-3.5 sm:size-4" /> SEND MESSAGE
-                </>
+                <><Send className="size-3.5 sm:size-4" /> SEND MESSAGE</>
               )}
               {status === "loading" && (
-                <>
-                  <Loader2 className="size-3.5 sm:size-4 animate-spin" /> SENDING...
-                </>
+                <><Loader2 className="size-3.5 sm:size-4 animate-spin" /> SENDING...</>
               )}
               {status === "success" && (
-                <>
-                  <CheckCircle2 className="size-3.5 sm:size-4" /> MESSAGE SENT!
-                </>
+                <><CheckCircle2 className="size-3.5 sm:size-4" /> MESSAGE SENT!</>
               )}
               {status === "error" && "FAILED TO SEND, TRY AGAIN"}
             </Button>

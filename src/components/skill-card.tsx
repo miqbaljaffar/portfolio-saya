@@ -5,12 +5,14 @@ interface SkillCardProps {
   index: number;
 }
 
-export function SkillCard({ item, index }: SkillCardProps) {
+/**
+ * SkillCard — static markup only.
+ * GSAP stagger animation is driven by TechStackSection (parent).
+ * The `gsap-card` class is the selector target.
+ */
+export function SkillCard({ item }: SkillCardProps) {
   return (
-    <div
-      style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
-      className="animate-fade-up group"
-    >
+    <div className="gsap-card group">
       <div className="relative flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-none bg-spacex-dark border border-spacex-graphite hover:border-white transition-colors duration-200 text-center">
         <div className="size-9 sm:size-11 md:size-12 flex items-center justify-center rounded-none bg-spacex-void border border-spacex-graphite text-spacex-subtle group-hover:text-white group-hover:border-spacex-flame transition-colors duration-200">
           <item.icon size={18} className="sm:hidden" />
