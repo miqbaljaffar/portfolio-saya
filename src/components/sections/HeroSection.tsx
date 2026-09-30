@@ -93,7 +93,7 @@ export default function HeroSection() {
 
             <div className="space-y-4 sm:space-y-6">
               <p className="hero-eyebrow eyebrow-label">
-                FULL-STACK / AI-ML / ENGINEER
+                SOFTWARE ENGINEER
               </p>
               <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING
@@ -107,8 +107,9 @@ export default function HeroSection() {
               <div className="hero-subtitle flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                 <span className="h-px w-12 sm:w-16 bg-spacex-flame flex-shrink-0" />
                 <p className="text-sm sm:text-base md:text-lg text-spacex-silver leading-relaxed max-w-xl font-sans">
-                  Mohammad Iqbal Jaffar — Engineering reliable backends, deploying
-                  ML models to production, and connecting hardware to the cloud.
+                  Mohammad Iqbal Jaffar — Crafting reliable software systems,
+                  from backend APIs and data pipelines to production-ready
+                  web applications.
                 </p>
               </div>
             </div>

@@ -26,9 +26,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const siteUrl = "https://mohammadiqbaljaffar.dev";
-const siteTitle = "MOHAMMAD IQBAL JAFFAR | FULL-STACK & AI/ML ENGINEER";
+const siteTitle = "MOHAMMAD IQBAL JAFFAR | SOFTWARE ENGINEER";
 const siteDescription =
-  "Portfolio Mohammad Iqbal Jaffar — Full-Stack Web Developer & AI/ML Engineer with backend, machine learning, and IoT integration expertise. Building production-grade systems for hoax detection, medical analysis, business automation, and automotive.";
+  "Portfolio Mohammad Iqbal Jaffar — Software Engineer with expertise in backend development, machine learning integration, and full-stack web systems. Building production-grade systems for hoax detection, medical analysis, business automation, and automotive.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
   description: siteDescription,
   keywords: [
     "Mohammad Iqbal Jaffar",
-    "Full-Stack Developer",
-    "AI Engineer",
-    "Machine Learning Engineer",
+    "Software Engineer",
     "Backend Developer",
+    "Full-Stack Developer",
+    "Machine Learning",
     "Next.js Portfolio",
     "Portfolio Developer",
     "SSW Automotive",
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
         url: "/img/profile.jpg",
         width: 1200,
         height: 630,
-        alt: "Mohammad Iqbal Jaffar — Full-Stack & AI/ML Engineer",
+        alt: "Mohammad Iqbal Jaffar — Software Engineer",
       },
     ],
   },
@@ -116,7 +116,7 @@ const jsonLdPerson = {
   name: "Mohammad Iqbal Jaffar",
   url: siteUrl,
   image: `${siteUrl}/img/profile.jpg`,
-  jobTitle: "Full-Stack & AI/ML Engineer",
+  jobTitle: "Software Engineer",
   worksFor: {
     "@type": "Organization",
     name: "Freelance",

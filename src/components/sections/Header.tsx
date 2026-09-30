@@ -49,7 +49,7 @@ export default function Header() {
               Iqbal Jaffar
             </span>
             <span className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">
-              ENGINEER
+              SOFTWARE ENGINEER
             </span>
           </div>
         </a>

@@ -134,7 +134,7 @@ export default function AboutSection() {
               BUKAN SEKADAR BANYAK FITUR.
             </h3>
             <p className="text-spacex-muted text-sm sm:text-[15px] leading-relaxed">
-              Sebagai Full-Stack &amp; AI/ML Engineer, saya menghubungkan
+              Sebagai Software Engineer, saya menghubungkan
               ketelitian software engineering dengan kebutuhan manusia nyata.
               Setiap proyek saya tangani dengan pendekatan data-driven:
               merencanakan requirements dengan jelas, menulis kode yang

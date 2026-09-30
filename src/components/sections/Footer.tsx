@@ -67,7 +67,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} MOHAMMAD IQBAL JAFFAR · ALL RIGHTS RESERVED.
           </p>
           <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-md text-spacex-muted whitespace-nowrap">
-            FULL-STACK · AI/ML ENGINEER
+            SOFTWARE ENGINEER
           </p>
         </div>
       </div>
