@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import CustomCursor from "@/components/CustomCursor";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -190,6 +191,7 @@ export default function RootLayout({
         className={`${robotoCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-black text-white`}
       >
         <Providers attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <CustomCursor />
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"

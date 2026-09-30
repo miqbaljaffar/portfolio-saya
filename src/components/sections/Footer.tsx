@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="w-full md:w-auto flex items-center gap-2 sm:gap-4 order-3 md:order-2">
             <span className="h-px flex-1 md:w-16 bg-spacex-graphite" />
             <span className="text-[9px] sm:text-[10px] md:text-xs font-mono uppercase tracking-spacex-md text-spacex-muted whitespace-nowrap">
-              // END OF TRANSMISSION
+              Thank you for visiting my portfolio
             </span>
             <span className="h-px flex-1 md:w-16 bg-spacex-graphite" />
           </div>
@@ -64,7 +64,7 @@ export default function Footer() {
 
         <div className="footer-row border-t border-spacex-graphite pt-4 sm:pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
           <p className="text-[11px] sm:text-xs text-spacex-muted font-mono">
-            &copy; {new Date().getFullYear()} MOHAMMAD IQBAL JAFFAR · ALL RIGHTS RESERVED.
+            &copy; {new Date().getFullYear()} MOHAMMAD IQBAL JAFFAR
           </p>
           <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-md text-spacex-muted whitespace-nowrap">
             SOFTWARE ENGINEER

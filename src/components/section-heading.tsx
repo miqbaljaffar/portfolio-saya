@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 
 interface SectionHeadingProps {
@@ -9,6 +9,48 @@ interface SectionHeadingProps {
   title: string;
   description?: string;
   align?: "center" | "left";
+}
+
+/** Counts from "00" up to the target number when element enters the viewport. */
+function CountUpNumber({ target }: { target: string }) {
+  const numericTarget = parseInt(target, 10);
+  const [display, setDisplay] = useState("00");
+  const triggered = useRef(false);
+  const elRef     = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = elRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || triggered.current) return;
+        triggered.current = true;
+        observer.disconnect();
+
+        let current = 0;
+        const steps    = numericTarget;
+        const duration = Math.min(600, steps * 80);
+        const interval = duration / Math.max(steps, 1);
+
+        const timer = setInterval(() => {
+          current++;
+          setDisplay(String(current).padStart(2, "0"));
+          if (current >= numericTarget) clearInterval(timer);
+        }, interval);
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [numericTarget]);
+
+  return (
+    <span ref={elRef} className="font-mono tabular-nums" aria-label={target}>
+      {display}
+    </span>
+  );
 }
 
 export function SectionHeading({
@@ -24,10 +66,10 @@ export function SectionHeading({
     const el = ref.current;
     if (!el) return;
 
-    const eyebrowEl   = el.querySelector(".sh-eyebrow");
-    const titleEl     = el.querySelector(".sh-title");
-    const descEl      = el.querySelector(".sh-desc");
-    const lineEls     = el.querySelectorAll(".sh-line");
+    const eyebrowEl = el.querySelector(".sh-eyebrow");
+    const titleEl   = el.querySelector(".sh-title");
+    const descEl    = el.querySelector(".sh-desc");
+    const lineEls   = el.querySelectorAll(".sh-line");
 
     const targets = [eyebrowEl, ...Array.from(lineEls), titleEl, descEl].filter(Boolean);
 
@@ -79,7 +121,8 @@ export function SectionHeading({
           style={{ display: "inline-block" }}
         />
         <span className="eyebrow-label text-spacex-subtle">
-          {number} / {eyebrow || "SECTION"}
+          {/* Count-up number */}
+          <CountUpNumber target={number} /> / {eyebrow || "SECTION"}
         </span>
         <span
           className="sh-line h-px w-12 md:w-16 bg-spacex-graphite origin-right"

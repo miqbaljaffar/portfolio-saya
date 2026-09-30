@@ -115,7 +115,7 @@ export default function ContactSection() {
               </h3>
               <p className="text-xs sm:text-sm md:text-base text-spacex-muted leading-relaxed mb-4 sm:mb-6">
                 I'M OPEN TO FREELANCE, CONTRACT, OR FULL-TIME OPPORTUNITIES.
-                ESPECIALLY PROJECTS INVOLVING SOFTWARE DEVELOPMENT, WEB SYSTEMS, AND INTELLIGENT APPLICATIONS.
+                ESPECIALLY PROJECTS INVOLVING AI/ML, FULL-STACK WEB, AND IOT INTEGRATION.
               </p>
 
               <div className="space-y-2.5 sm:space-y-3">

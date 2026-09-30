@@ -6,12 +6,21 @@ import { MapPin, Briefcase, GraduationCap, FileText, ArrowRight } from "lucide-r
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import profilePic from "@/../public/img/profile.jpg";
+import { useScramble } from "@/hooks/useScramble";
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+
+  // Scramble effect — starts after hero entrance delay (800ms)
+  const scrambledRole = useScramble({
+    text: "SOFTWARE ENGINEER",
+    delay: 800,
+    speed: 38,
+    scrambleCycles: 7,
+  });
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -93,7 +102,7 @@ export default function HeroSection() {
 
             <div className="space-y-4 sm:space-y-6">
               <p className="hero-eyebrow eyebrow-label">
-                SOFTWARE ENGINEER
+                {scrambledRole}
               </p>
               <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING

@@ -138,6 +138,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -262,6 +263,13 @@
 .dark ::selection {
   background: #E63946;
   color: #FFFFFF;
+}
+
+/* Restore default cursor on touch/coarse-pointer devices */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
 }
 
 /* =============================================
