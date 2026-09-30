@@ -1,21 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 import Image from "next/image";
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { SectionHeading } from "@/components/section-heading";
-import {
-  ArrowUpRight,
-  Github,
-  ExternalLink,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { projectsData } from "@/data/portfolio";
-
-type EmblaApiType = NonNullable<UseEmblaCarouselType[1]>;
 
 const categories = [
   { label: "ALL" },
@@ -29,23 +19,21 @@ type CategoryLabel = (typeof categories)[number]["label"];
 const categoryBadgeStyle =
   "rounded-none border border-spacex-graphite/50 bg-spacex-void text-spacex-silver uppercase tracking-spacex-xs";
 
+/**
+ * Masonry-style grid layout:
+ * — Desktop (lg): 3-column grid, first card spans 2 cols (featured)
+ * — Tablet (sm): 2-column grid
+ * — Mobile: single column
+ *
+ * GSAP stagger reveal on scroll-in + re-stagger on category switch.
+ * Hover: card lifts -6px + red underline sweep (card-hover CSS class).
+ */
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState<CategoryLabel>("ALL");
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
 
-  const sectionRef  = useRef<HTMLElement>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const tabsRef     = useRef<HTMLDivElement>(null);
-
-  const autoplay = useRef(
-    Autoplay({ delay: 2800, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: "start", dragFree: true },
-    [autoplay.current]
-  );
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef    = useRef<HTMLDivElement>(null);
+  const tabsRef    = useRef<HTMLDivElement>(null);
 
   const filtered =
     activeCategory === "ALL"
@@ -56,40 +44,7 @@ export default function ProjectsSection() {
             activeCategory.replace(/\s+/g, " ")
         );
 
-  const onSelect = useCallback((api: EmblaApiType) => {
-    setCanPrev(api.canScrollPrev());
-    setCanNext(api.canScrollNext());
-  }, []);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect(emblaApi);
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi, onSelect]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.reInit({ loop: true, align: "start", dragFree: true }, [autoplay.current]);
-    emblaApi.scrollTo(0);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCategory]);
-
-  const scrollPrev = useCallback(() => {
-    autoplay.current.reset();
-    emblaApi?.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    autoplay.current.reset();
-    emblaApi?.scrollNext();
-  }, [emblaApi]);
-
-  // Section entrance — tabs
+  // Tabs entrance on scroll
   useGSAP(() => {
     gsap.set(tabsRef.current, { opacity: 0, y: 20 });
     gsap.to(tabsRef.current, {
@@ -105,30 +60,34 @@ export default function ProjectsSection() {
     });
   }, { scope: sectionRef });
 
-  // Carousel cards stagger — on every category change AND on first load
+  // Grid cards stagger — fires on mount AND on every category change
   useGSAP(() => {
-    const cards = carouselRef.current?.querySelectorAll(".project-card");
+    const cards = gridRef.current?.querySelectorAll(".project-card");
     if (!cards?.length) return;
 
     gsap.fromTo(
       cards,
-      { opacity: 0, y: 28 },
+      { opacity: 0, y: 40, rotation: 0.4 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.55,
+        rotation: 0,
+        duration: 0.6,
         ease: "power3.out",
-        stagger: 0.05,
+        stagger: {
+          amount: 0.45,
+          from: "start",
+        },
         clearProps: "transform,opacity",
       }
     );
-  }, { scope: carouselRef, dependencies: [activeCategory] });
+  }, { scope: gridRef, dependencies: [activeCategory] });
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 bg-spacex-void overflow-hidden"
+      className="relative py-20 sm:py-24 md:py-32 bg-spacex-void"
     >
       <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
         <SectionHeading
@@ -138,7 +97,7 @@ export default function ProjectsSection() {
           description="FROM MACHINE LEARNING PROTOTYPES TO PRODUCTION WEB APPS — HERE ARE SOME OF THE WORKS I'M MOST PROUD OF."
         />
 
-        {/* Category filter */}
+        {/* Category filter tabs */}
         <div
           ref={tabsRef}
           className="mb-8 sm:mb-10 md:mb-12 flex flex-wrap justify-center gap-2 md:gap-3"
@@ -164,123 +123,114 @@ export default function ProjectsSection() {
             );
           })}
         </div>
-      </div>
 
-      {/* Full-bleed carousel */}
-      <div
-        className="overflow-hidden cursor-grab active:cursor-grabbing"
-        ref={emblaRef}
-      >
+        {/* ── Masonry Grid ────────────────────────────────────── */}
         <div
-          ref={carouselRef}
-          className="flex gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-10 lg:pl-[max(2.5rem,calc((100vw_-_72rem)_/_2_+_2.5rem))]"
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
         >
-          {filtered.map((project) => (
-            <a
-              key={`${activeCategory}-${project.title}`}
-              href={project.link || project.github || "#"}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="project-card card-hover flex-none w-[280px] sm:w-[320px] md:w-[360px] border border-spacex-graphite rounded-none bg-spacex-void overflow-hidden transition-colors duration-200"
-            >
-              {/* Thumbnail */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-spacex-dark border-b border-spacex-graphite">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="360px"
-                  className="object-cover"
-                />
-                <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
-                  <span className={`text-[9px] sm:text-[10px] font-mono px-2 sm:px-2.5 py-0.5 sm:py-1 ${categoryBadgeStyle}`}>
-                    {project.category.toUpperCase()}
-                  </span>
-                </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-end justify-end p-3 sm:p-4 bg-black/40">
-                  <div className="flex items-center gap-2">
+          {filtered.map((project, index) => {
+            // First card in the full "ALL" view spans 2 cols on lg
+            const isFeatured = activeCategory === "ALL" && index === 0;
+
+            return (
+              <article
+                key={`${activeCategory}-${project.title}`}
+                className={`project-card card-hover group flex flex-col border border-spacex-graphite bg-spacex-void overflow-hidden rounded-none transition-all duration-300 hover:-translate-y-1.5 ${
+                  isFeatured ? "lg:col-span-2" : ""
+                }`}
+              >
+                {/* Thumbnail */}
+                <div
+                  className={`relative overflow-hidden bg-spacex-dark border-b border-spacex-graphite ${
+                    isFeatured ? "aspect-[21/9]" : "aspect-[16/10]"
+                  }`}
+                >
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes={
+                      isFeatured
+                        ? "(max-width: 1024px) 100vw, 800px"
+                        : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                    }
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  {/* Dark scrim */}
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Category badge */}
+                  <div className="absolute top-3 left-3">
+                    <span className={`text-[9px] sm:text-[10px] font-mono px-2.5 py-1 ${categoryBadgeStyle}`}>
+                      {project.category.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Link icons — appear on hover */}
+                  <div className="absolute bottom-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
                     {project.github && (
-                      <span
-                        role="button"
-                        aria-label="Github repository"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          window.open(project.github, "_blank", "noreferrer");
-                        }}
-                        className="p-1.5 sm:p-2 rounded-none bg-white text-black hover:bg-spacex-silver transition-colors border border-white cursor-pointer"
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="GitHub repository"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 rounded-none bg-black/80 text-white hover:bg-white hover:text-black border border-white/20 hover:border-white transition-colors"
                       >
-                        <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      </span>
+                        <Github className="w-3.5 h-3.5" />
+                      </a>
                     )}
                     {project.link && (
-                      <span
-                        role="button"
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
                         aria-label="Live demo"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          window.open(project.link, "_blank", "noreferrer");
-                        }}
-                        className="p-1.5 sm:p-2 rounded-none bg-spacex-flame text-white hover:bg-spacex-flame/80 transition-colors border border-spacex-flame cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 rounded-none bg-spacex-flame text-white hover:bg-spacex-flame/80 border border-spacex-flame transition-colors"
                       >
-                        <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      </span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
                     )}
                   </div>
                 </div>
-              </div>
 
-              {/* Card body */}
-              <div className="p-4 sm:p-5 space-y-2 sm:space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display font-bold text-sm sm:text-base text-white leading-tight uppercase tracking-tight">
-                    {project.title.toUpperCase()}
-                  </h3>
-                  <ArrowUpRight className="w-4 h-4 text-spacex-muted shrink-0" />
-                </div>
-                <p className="text-[11px] sm:text-xs text-spacex-muted leading-relaxed line-clamp-3">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1 sm:gap-1.5 pt-2">
-                  {project.tags.slice(0, 4).map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-none border border-spacex-graphite bg-transparent text-spacex-silver uppercase tracking-spacex-xs"
-                    >
-                      {tag.toUpperCase()}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
+                {/* Card body */}
+                <div className="flex flex-col flex-1 p-4 sm:p-5 space-y-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-display font-bold text-sm sm:text-base text-white leading-tight uppercase tracking-tight">
+                      {project.title.toUpperCase()}
+                    </h3>
+                    <ArrowUpRight className="w-4 h-4 text-spacex-muted shrink-0 group-hover:text-spacex-flame transition-colors duration-200" />
+                  </div>
 
-      {/* Prev / Next */}
-      <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
-        <div className="flex items-center justify-end gap-2 mt-5 sm:mt-6 md:mt-8">
-          <button
-            type="button"
-            onClick={scrollPrev}
-            disabled={!canPrev}
-            aria-label="Proyek sebelumnya"
-            className="size-8 sm:size-9 inline-flex items-center justify-center rounded-none border border-spacex-graphite bg-spacex-dark text-spacex-muted hover:bg-spacex-steel hover:text-white hover:border-spacex-silver transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft className="size-4" />
-          </button>
-          <button
-            type="button"
-            onClick={scrollNext}
-            disabled={!canNext}
-            aria-label="Proyek berikutnya"
-            className="size-8 sm:size-9 inline-flex items-center justify-center rounded-none border border-spacex-graphite bg-spacex-dark text-spacex-muted hover:bg-spacex-steel hover:text-white hover:border-spacex-silver transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronRight className="size-4" />
-          </button>
+                  <p className="text-[11px] sm:text-xs text-spacex-muted leading-relaxed line-clamp-3 flex-1">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5 pt-1">
+                    {project.tags.slice(0, isFeatured ? 6 : 4).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-none border border-spacex-graphite bg-transparent text-spacex-silver uppercase tracking-spacex-xs"
+                      >
+                        {tag.toUpperCase()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
+
+        {/* Project count */}
+        <p className="mt-6 sm:mt-8 text-center text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">
+          {filtered.length} PROJECT{filtered.length !== 1 ? "S" : ""} DISPLAYED
+          {activeCategory !== "ALL" && ` · ${activeCategory}`}
+        </p>
       </div>
     </section>
   );
