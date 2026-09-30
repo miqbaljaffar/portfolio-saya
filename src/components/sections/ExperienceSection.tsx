@@ -77,8 +77,8 @@ export default function ExperienceSection() {
         <SectionHeading
           number="03"
           eyebrow="JOURNEY"
-          title="PERJALANAN KARIER DAN PENDIDIKAN"
-          description="Langkah demi langkah — dari kuliah sampai mengerjakan proyek nyata di industri."
+          title="CAREER & EDUCATION TIMELINE"
+          description="Step by step — from university through real-world industry projects."
         />
 
         <div ref={timelineRef} className="relative pl-4 sm:pl-5 md:pl-6">

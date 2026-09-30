@@ -87,7 +87,7 @@ export const projectsData: Project[] = [
   {
     title: "HoaxLens AI",
     description:
-      "Sistem pengecekan fakta otonom untuk membongkar misinformasi. Memverifikasi validitas, mendeteksi bias dan clickbait, serta melacak sumber kredibel menggunakan Gemini AI dengan Google Search Grounding dan Multimodal OCR.",
+      "An autonomous fact-checking system built to expose misinformation. Verifies claim validity, detects bias and clickbait, and traces credible sources using Gemini AI with Google Search Grounding and Multimodal OCR.",
     tags: ["React", "Vite", "Tailwind", "Express", "TypeScript", "Gemini AI"],
     category: "AI & ML",
     link: "https://hoaxlens-ai.vercel.app",
@@ -97,16 +97,16 @@ export const projectsData: Project[] = [
   {
     title: "LexAI",
     description:
-      "Sistem kecerdasan buatan yang mengubah narasi kasus hukum menjadi analisis penalaran hukum Indonesia terstruktur, mencakup klasifikasi pelanggaran, rujukan pasal, bedah unsur hukum, dan rekomendasi taktis.",
+      "An AI system that transforms legal case narratives into structured Indonesian legal reasoning analysis — covering violation classification, article references, legal element breakdown, and tactical recommendations.",
     tags: ["React", "Vite", "Tailwind", "Express", "TypeScript", "Gemini AI"],
     category: "AI & ML",
     link: "https://lexlaw-three.vercel.app",
     image: "/projects/lexai.JPG",
   },
   {
-    title: "MeowCare — Klinik Hewan Digital",
+    title: "MeowCare — Digital Vet Clinic",
     description:
-      "Aplikasi web full-stack untuk manajemen klinik hewan, dilengkapi dengan sistem antrian real-time, rekam medis pasien (kucing), dan dasbor admin interaktif untuk operasional klinik.",
+      "A full-stack web application for veterinary clinic management, featuring a real-time queuing system, patient medical records (cats), and an interactive admin dashboard for clinic operations.",
     tags: ["Next.js", "TypeScript", "Prisma", "Tailwind", "Supabase"],
     category: "Full-Stack Web",
     link: "https://meow-care-one.vercel.app",
@@ -115,7 +115,7 @@ export const projectsData: Project[] = [
   {
     title: "GlucoScan — Nutrition Fact Recognition",
     description:
-      "Model CNN cerdas yang mengekstrak fakta nutrisi dari gambar kemasan makanan menggunakan OpenCV dan PaddleOCR, dengan fokus pada analisis kadar gula untuk diabetes awareness.",
+      "A smart CNN model that extracts nutrition facts from food packaging images using OpenCV and PaddleOCR, with a focus on sugar content analysis for diabetes awareness.",
     tags: ["Python", "CNN", "TensorFlow", "OpenCV", "PaddleOCR"],
     category: "AI & ML",
     link: "https://github.com/GlucoScan-Bangkit/GlucoScanProject",
@@ -124,34 +124,34 @@ export const projectsData: Project[] = [
   {
     title: "Ztyle — Modern E-Commerce",
     description:
-      "Platform e-commerce stylish dengan fitur katalog produk, checkout, manajemen pesanan, dan CMS berita fashion dalam satu paket modern.",
+      "A stylish e-commerce platform featuring a product catalogue, checkout flow, order management, and a fashion news CMS — all packaged into one modern stack.",
     tags: ["Next.js", "Prisma", "PostgreSQL", "Zustand", "Tailwind"],
     category: "Full-Stack Web",
     link: "https://ztyle-store.vercel.app",
     image: "/projects/ztyle.JPG",
   },
   {
-    title: "JLPT Arcade — Bahasa Jepang",
+    title: "JLPT Arcade — Japanese Language",
     description:
-      "Platform belajar bahasa Jepang untuk persiapan JLPT N5–N1. Dilengkapi sistem latihan adaptif, modul kosakata, grammar, dan simulasi ujian resmi.",
+      "A Japanese language learning platform for JLPT N5–N1 preparation. Includes an adaptive practice system, vocabulary and grammar modules, and official exam simulations.",
     tags: ["Next.js", "Tailwind", "Firebase", "Gemini AI"],
     category: "Full-Stack Web",
     link: "https://kanjivibe-app-1090346603455.asia-southeast2.run.app",
     image: "/projects/jlpt.JPG",
   },
   {
-    title: "Analisis Sentimen M-Pajak",
+    title: "M-Pajak Sentiment Analysis",
     description:
-      "Analisis sentimen ulasan aplikasi M-Pajak dengan NLP dan Machine Learning, untuk menemukan insight dan rekomendasi perbaikan UX.",
+      "Sentiment analysis of M-Pajak app reviews using NLP and machine learning, uncovering insights and UX improvement recommendations from user feedback.",
     tags: ["Python", "NLP", "Scikit-learn", "TensorFlow"],
     category: "AI & ML",
     github: "https://github.com/miqbaljaffar/Sentiment_Analisis_Aplikasi_M_Pajak",
     image: "/projects/mpajak.JPG",
   },
   {
-    title: "Prediksi Student Dropout",
+    title: "Student Dropout Prediction",
     description:
-      "Analisis faktor dropout mahasiswa dan prediksi dengan machine learning, lengkap dengan dashboard visual interaktif.",
+      "Analysis of student dropout factors and prediction using machine learning, complete with an interactive visual dashboard for academic decision-making.",
     tags: ["Python", "Streamlit", "Random Forest", "Pandas"],
     category: "AI & ML",
     github: "https://github.com/miqbaljaffar/Student-Dropout",
@@ -160,7 +160,7 @@ export const projectsData: Project[] = [
   {
     title: "GTR — Smart Trash Bin",
     description:
-      "Purwarupa tong sampah pintar berbasis Arduino yang dapat memilah sampah organik, anorganik, dan logam secara otomatis dengan IR, LDR, dan sensor induktif.",
+      "An Arduino-based smart trash bin prototype that automatically sorts organic, inorganic, and metal waste using IR, LDR, and inductive sensors.",
     tags: ["C++", "Arduino", "IoT", "Hardware"],
     category: "IoT & Hardware",
     github: "https://github.com/miqbaljaffar/WasteTrash",
@@ -176,15 +176,15 @@ export const experienceData: ExperienceItem[] = [
     title: "Programmer & Technical Mentor",
     organization: "Iwasaki Keiei (Remote)",
     description:
-      "Mengembangkan & memelihara sistem aplikasi perusahaan secara remote, sekaligus menjadi Technical Mentor yang membimbing peserta internship baru.",
-    period: "Agu 2026 — Sekarang",
+      "Developing and maintaining company application systems remotely, while serving as Technical Mentor guiding new internship participants.",
+    period: "Aug 2026 — Present",
     type: "work",
   },
   {
-    title: "Pengajar Bahasa Jepang (Sensei)",
+    title: "Japanese Language Instructor (Sensei)",
     organization: "Universitas Teknologi Bandung",
     description:
-      "Mengajar kelas bahasa Jepang dalam program kerja sama UTB yang berlokasi di SMA Bina Putra, Banjar, Jawa Barat.",
+      "Teaching Japanese language classes under a UTB cooperation program, located at SMA Bina Putra, Banjar, West Java.",
     period: "Jun 2026 — Jul 2026",
     type: "org",
   },
@@ -192,7 +192,7 @@ export const experienceData: ExperienceItem[] = [
     title: "Programmer Intern (Remote)",
     organization: "Iwasaki Keiei",
     description:
-      "Mendigitalisasi alur kerja Sales, Catering, dan Audit dengan backend real-time. Mengotomatisasi pelaporan keuangan kompleks menggunakan SQL logic untuk mengurangi human error.",
+      "Digitized Sales, Catering, and Audit workflows with a real-time backend. Automated complex financial reporting using SQL logic to reduce human error.",
     period: "Jun 2025 — Apr 2026",
     type: "work",
   },
@@ -200,8 +200,8 @@ export const experienceData: ExperienceItem[] = [
     title: "Machine Learning Cohort · Distinction",
     organization: "Bangkit Academy 2024 Batch 2",
     description:
-      "Meraih 8 sertifikasi ML (DeepLearning.AI, Stanford, Dicoding). Mengembangkan GlucoScan (Nutrition Label Analyzer) dengan akurasi 83% menggunakan CNN & OCR.",
-    period: "Sep 2024 — Des 2024",
+      "Earned 8 ML certifications (DeepLearning.AI, Stanford, Dicoding). Developed GlucoScan (Nutrition Label Analyzer) achieving 83% accuracy using CNN & OCR.",
+    period: "Sep 2024 — Dec 2024",
     type: "edu",
   },
 ];
@@ -211,13 +211,13 @@ export const experienceData: ExperienceItem[] = [
    ========================================================== */
 export const certificationsData: Certification[] = [
   {
-    title: "SSW – Perawatan Kendaraan (Automotive Maintenance)",
-    issuer: "Program Specified Skilled Worker Jepang",
+    title: "SSW – Automotive Maintenance",
+    issuer: "Specified Skilled Worker Program — Japan",
     year: "2026",
     image: "/certs/ssw.jpg",
   },
   {
-    title: "JFT-Basic A2 — Tes Bahasa Jepang",
+    title: "JFT-Basic A2 — Japanese Language Test",
     issuer: "Japan Foundation",
     year: "2026",
     image: "/certs/cert_JFT.jpg",
@@ -241,7 +241,7 @@ export const certificationsData: Certification[] = [
     image: "/certs/mlops.JPG",
   },
   {
-    title: "Machine Learning Terapan",
+    title: "Applied Machine Learning",
     issuer: "Dicoding Indonesia",
     year: "2024",
     image: "/certs/mlt.JPG",

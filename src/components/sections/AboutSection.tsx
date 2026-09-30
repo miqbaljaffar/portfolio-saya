@@ -115,8 +115,8 @@ export default function AboutSection() {
         <SectionHeading
           number="01"
           eyebrow="PROFILE"
-          title="ENGINEER DENGAN KETELITIAN TINGGI"
-          description="Menyukai hal teknis, pemecahan masalah kompleks, dan mengubah ide menjadi produk yang benar-benar berfungsi."
+          title="ENGINEER WITH HIGH PRECISION"
+          description="Passionate about technical challenges, complex problem-solving, and turning ideas into products that actually work."
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
@@ -129,18 +129,17 @@ export default function AboutSection() {
               </p>
             </div>
             <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black uppercase leading-tight mb-4 sm:mb-5 text-white">
-              SAYA FOKUS PADA{" "}
-              <span className="text-spacex-flame">SOLUSI YANG TEPAT</span>,
-              BUKAN SEKADAR BANYAK FITUR.
+              I FOCUS ON{" "}
+              <span className="text-spacex-flame">THE RIGHT SOLUTION</span>,
+              NOT JUST MORE FEATURES.
             </h3>
             <p className="text-spacex-muted text-sm sm:text-[15px] leading-relaxed">
-              Sebagai Software Engineer, saya menghubungkan
-              ketelitian software engineering dengan kebutuhan manusia nyata.
-              Setiap proyek saya tangani dengan pendekatan data-driven:
-              merencanakan requirements dengan jelas, menulis kode yang
-              maintainable, dan mengukur dampak setiap fitur yang dibangun.
-              Saya senang mempelajari domain baru — dari healthcare, otomotif,
-              hingga sistem pemerintah.
+              As a Software Engineer, I bridge the precision of software
+              engineering with real human needs. Every project I approach
+              with a data-driven mindset: defining requirements clearly,
+              writing maintainable code, and measuring the impact of every
+              feature built. I enjoy learning new domains — from healthcare
+              and automotive to government systems.
             </p>
           </article>
 
@@ -171,19 +170,19 @@ export default function AboutSection() {
               <li className="flex items-start gap-3">
                 <Bot className="w-4 h-4 text-spacex-silver mt-0.5 shrink-0" />
                 <span className="text-spacex-subtle leading-snug">
-                  Integrasi AI/ML langsung ke aplikasi produksi dengan MLOps sederhana
+                  AI/ML integration directly into production apps with streamlined MLOps
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Code2 className="w-4 h-4 text-spacex-silver mt-0.5 shrink-0" />
                 <span className="text-spacex-subtle leading-snug">
-                  Backend API, caching, dan database untuk sistem skala menengah
+                  Backend APIs, caching, and databases for mid-scale systems
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Globe2 className="w-4 h-4 text-spacex-silver mt-0.5 shrink-0" />
                 <span className="text-spacex-subtle leading-snug">
-                  Kemampuan bahasa Jepang level dasar (JFT-Basic A2) &amp; sertifikasi SSW
+                  Basic Japanese proficiency (JFT-Basic A2) &amp; SSW certification
                 </span>
               </li>
             </ul>

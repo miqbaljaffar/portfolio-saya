@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "id_ID",
+    locale: "en_US",
     url: siteUrl,
     siteName: "MOHAMMAD IQBAL JAFFAR",
     title: siteTitle,
@@ -154,7 +154,7 @@ const jsonLdWebSite = {
   url: siteUrl,
   name: "Mohammad Iqbal Jaffar Portfolio",
   description: siteDescription,
-  inLanguage: "id-ID",
+  inLanguage: "en-US",
   author: {
     "@type": "Person",
     name: "Mohammad Iqbal Jaffar",
@@ -167,7 +167,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

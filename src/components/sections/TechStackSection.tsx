@@ -66,8 +66,8 @@ export default function TechStackSection() {
         <SectionHeading
           number="02"
           eyebrow="ARSENAL"
-          title="PERALATAN YANG SAYA KUASAI"
-          description="Alat teknologi pilihan yang saya gunakan setiap hari untuk membangun, melakukan testing, dan men-deploy sistem yang handal."
+          title="TOOLS I WORK WITH"
+          description="The technology stack I rely on daily to build, test, and deploy reliable systems."
         />
 
         {/* Tab buttons */}

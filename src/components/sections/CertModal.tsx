@@ -39,7 +39,7 @@ export function CertModal({ item, onClose }: CertModalProps) {
           <motion.button
             type="button"
             onClick={onClose}
-            aria-label="Tutup sertifikat"
+            aria-label="Close certificate"
             className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 bg-black hover:bg-spacex-dark text-white rounded-none border border-spacex-graphite hover:border-white transition-colors z-[1]"
           >
             <X className="size-5" />
@@ -66,7 +66,7 @@ export function CertModal({ item, onClose }: CertModalProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 inline-flex items-center gap-1.5 p-2.5 bg-white text-black hover:bg-spacex-silver rounded-none border border-white transition-colors"
-                  aria-label="Lihat ukuran penuh"
+                  aria-label="View full size"
                 >
                   <ExternalLink className="size-4" />
                 </a>
