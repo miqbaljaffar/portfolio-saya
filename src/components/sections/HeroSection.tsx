@@ -116,7 +116,7 @@ export default function HeroSection() {
                     EXPERIENCE
                   </span>
                   <span className="text-sm font-medium text-white">
-                    3+ YEARS
+                    1+ YEARS
                   </span>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function HeroSection() {
                     EDUCATION
                   </span>
                   <span className="text-sm font-medium text-white">
-                    S1 CS / UI
+                    Bachelor of Informatics Engineering / Bandung University of Technology
                   </span>
                 </div>
               </div>
