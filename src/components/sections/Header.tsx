@@ -12,7 +12,6 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
-  // GSAP entrance on mount — slide down from above
   useGSAP(() => {
     gsap.from(headerRef.current, {
       y: -72,
