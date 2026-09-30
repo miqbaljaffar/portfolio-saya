@@ -107,9 +107,7 @@ export default function HeroSection() {
               <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight text-white">
                 BUILDING
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-spacex-silver to-spacex-subtle">
-                  PRODUCTION-GRADE
-                </span>
+                PRODUCTION-GRADE
                 <br />
                 SYSTEMS.
               </h1>
