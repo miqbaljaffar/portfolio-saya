@@ -3,10 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [],
     minimumCacheTTL: 31_536_000,
     dangerouslyAllowSVG: true,
+    // contentSecurityPolicy dihapus — menyebabkan 400 pada _next/image di Vercel
   },
   poweredByHeader: false,
   compress: true,
