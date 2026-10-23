@@ -1,15 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
+import { Inter, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import CustomCursor from "@/components/CustomCursor";
 
-const robotoCondensed = Roboto_Condensed({
+/**
+ * DM Sans — clean, modern display font for headings (Creatiwise-like feel)
+ * Variable font so we get all weights without multiple requests.
+ */
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  adjustFontFallback: true,
-  weight: ["400", "500", "600", "700", "800", "900"],
+  axes: ["opsz"],
 });
 
 const inter = Inter({
@@ -19,11 +22,11 @@ const inter = Inter({
   adjustFontFallback: true,
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const dmMono = DM_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
-  adjustFontFallback: true,
+  weight: ["300", "400", "500"],
 });
 
 const siteUrl = "https://mohammadiqbaljaffar.dev";
@@ -102,13 +105,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#000000" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#F8F7F4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0A0A" },
   ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  colorScheme: "dark light",
+  colorScheme: "light dark",
 };
 
 const jsonLdPerson = {
@@ -171,7 +174,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='dark'}var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t)}catch(e){document.documentElement.classList.add('dark')}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='light'}var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t)}catch(e){document.documentElement.classList.add('light')}})();`,
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -188,15 +191,15 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${robotoCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-black text-white`}
+        className={`${dmSans.variable} ${inter.variable} ${dmMono.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <Providers attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+        <Providers attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <CustomCursor />
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-white bg-black text-white text-sm font-mono uppercase tracking-widest"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-foreground bg-background text-foreground text-sm font-sans"
           >
-            SKIP TO MAIN CONTENT
+            Skip to main content
           </a>
           {children}
         </Providers>

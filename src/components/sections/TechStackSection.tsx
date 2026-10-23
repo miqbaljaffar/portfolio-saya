@@ -7,20 +7,19 @@ import { SkillCard } from "@/components/skill-card";
 import { techStackData, type TechCategory } from "@/data/portfolio";
 
 const categories: { key: TechCategory; label: string }[] = [
-  { key: "Languages", label: "LANGUAGES" },
-  { key: "AI/ML",     label: "AI/ML" },
-  { key: "Dev Tools", label: "DEV TOOLS" },
+  { key: "Languages", label: "Languages" },
+  { key: "AI/ML",     label: "AI / ML" },
+  { key: "Dev Tools", label: "Dev Tools" },
 ];
 
 export default function TechStackSection() {
   const [activeTab, setActiveTab] = useState<TechCategory>("Languages");
-  const gridRef  = useRef<HTMLDivElement>(null);
-  const tabsRef  = useRef<HTMLDivElement>(null);
+  const gridRef    = useRef<HTMLDivElement>(null);
+  const tabsRef    = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   const items = techStackData[activeTab] || [];
 
-  // Section-level entrance (tabs + heading) — runs once on scroll-in
   useGSAP(() => {
     gsap.set(tabsRef.current, { opacity: 0, y: 20 });
     gsap.to(tabsRef.current, {
@@ -36,19 +35,17 @@ export default function TechStackSection() {
     });
   }, { scope: sectionRef });
 
-  // Grid card stagger — re-runs every time activeTab changes
   useGSAP(() => {
     const cards = gridRef.current?.querySelectorAll(".gsap-card");
     if (!cards?.length) return;
-
     gsap.fromTo(
       cards,
-      { opacity: 0, y: 24, scale: 0.96 },
+      { opacity: 0, y: 20, scale: 0.97 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.55,
+        duration: 0.5,
         ease: "power3.out",
         stagger: 0.04,
         clearProps: "transform",
@@ -60,22 +57,21 @@ export default function TechStackSection() {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 px-4 sm:px-5 md:px-10 bg-spacex-black"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-white"
     >
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
-          number="02"
-          eyebrow="ARSENAL"
-          title="TOOLS I WORK WITH"
+          eyebrow="Tech Stack"
+          title="Tools I work with"
           description="The technology stack I rely on daily to build, test, and deploy reliable systems."
         />
 
-        {/* Tab buttons */}
+        {/* Tab pills */}
         <div
           ref={tabsRef}
-          className="mb-8 sm:mb-10 md:mb-12 flex flex-wrap justify-center gap-2 md:gap-3"
+          className="mb-10 flex flex-wrap justify-center gap-2"
           role="tablist"
-          aria-label="Kategori tech stack"
+          aria-label="Tech stack categories"
         >
           {categories.map((cat) => {
             const isActive = activeTab === cat.key;
@@ -85,10 +81,10 @@ export default function TechStackSection() {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveTab(cat.key)}
-                className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm font-mono uppercase tracking-spacex-sm rounded-none transition-all duration-300 border ${
+                className={`px-5 py-2 text-[13px] font-medium rounded-full border transition-all duration-200 ${
                   isActive
-                    ? "bg-white text-black border-white"
-                    : "bg-transparent text-spacex-muted hover:text-white border-spacex-graphite hover:border-spacex-silver"
+                    ? "bg-[#0A0A0A] text-white border-[#0A0A0A] shadow-sm"
+                    : "bg-transparent text-[#6B6B6B] border-[#E5E4E0] hover:border-[#CCCBC7] hover:text-[#0A0A0A] hover:bg-[#F0EFEB]"
                 }`}
               >
                 {cat.label}
@@ -97,17 +93,15 @@ export default function TechStackSection() {
           })}
         </div>
 
-        {/* Grid */}
-        <div ref={gridRef} className="space-y-4 sm:space-y-6 md:space-y-8">
-          <div className="flex flex-wrap items-center gap-3">
-            <h3 className="font-display font-black uppercase text-lg sm:text-xl md:text-2xl text-white">
-              {activeTab.toUpperCase()}
+        {/* Skill grid */}
+        <div ref={gridRef}>
+          <div className="flex items-center gap-2 mb-5">
+            <h3 className="font-display font-bold text-[#0A0A0A] text-lg">
+              {activeTab}
             </h3>
-            <span className="text-[9px] sm:text-[10px] font-mono uppercase text-spacex-muted tracking-spacex-md">
-              {items.length} SKILLS
-            </span>
+            <span className="tag-pill">{items.length} skills</span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {items.map((tech, i) => (
               <SkillCard key={tech.name} item={tech} index={i} />
             ))}

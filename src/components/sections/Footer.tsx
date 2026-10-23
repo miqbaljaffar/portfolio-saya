@@ -2,74 +2,116 @@
 
 import { useRef } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
+import { Github, Linkedin, Mail } from "lucide-react";
+
+const links = [
+  { label: "Skills",   href: "#skills"   },
+  { label: "About",    href: "#about"    },
+  { label: "Journey",  href: "#journey"  },
+  { label: "Projects", href: "#projects" },
+  { label: "Certs",    href: "#certs"    },
+  { label: "Contact",  href: "#contact"  },
+];
+
+const socials = [
+  { label: "GitHub",   href: "https://github.com/miqbaljaffar",                   icon: Github   },
+  { label: "LinkedIn", href: "https://linkedin.com/in/mohammadiqbaljaffar",        icon: Linkedin },
+  { label: "Email",    href: "mailto:iqbaljaffar1108@gmail.com",                   icon: Mail     },
+];
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const children = footerRef.current?.querySelectorAll(".footer-row");
-    if (!children?.length) return;
-
-    gsap.set(children, { opacity: 0, y: 20 });
-    gsap.to(children, {
+    const rows = footerRef.current?.querySelectorAll(".footer-row");
+    if (!rows?.length) return;
+    gsap.set(rows, { opacity: 0, y: 20 });
+    gsap.to(rows, {
       opacity: 1,
       y: 0,
-      duration: 0.7,
+      duration: 0.65,
       ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: footerRef.current,
-        start: "top 95%",
-        once: true,
-      },
+      stagger: 0.1,
+      scrollTrigger: { trigger: footerRef.current, start: "top 95%", once: true },
     });
   }, { scope: footerRef });
 
   return (
     <footer
       ref={footerRef}
-      className="border-t border-spacex-graphite bg-black py-8 sm:py-10 md:py-12 px-4 sm:px-5 md:px-10"
+      className="bg-[#0A0A0A] text-white px-5 md:px-8 pt-14 pb-8"
     >
-      <div className="container mx-auto max-w-6xl space-y-5 sm:space-y-6 md:space-y-8">
-        <div className="footer-row flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-5">
-          <div className="flex items-center gap-3">
-            <div className="leading-tight">
-              <p className="text-sm font-display font-bold text-white uppercase tracking-spacex-sm">
-                MOHAMMAD IQBAL JAFFAR
-              </p>
-              <p className="text-[10px] sm:text-[11px] text-spacex-muted font-mono uppercase tracking-spacex-sm">
-                BUILT WITH PRECISION
-              </p>
+      <div className="container mx-auto max-w-6xl">
+
+        {/* Top row */}
+        <div className="footer-row grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 pb-10 border-b border-white/10">
+
+          {/* Brand */}
+          <div className="space-y-4 max-w-sm">
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-white text-[#0A0A0A] text-sm font-bold font-display">
+                MIJ
+              </div>
+              <div>
+                <p className="font-display font-bold text-white text-sm leading-tight">
+                  Mohammad Iqbal Jaffar
+                </p>
+                <p className="text-[11px] text-[#6B6B6B] font-medium">
+                  Software Engineer
+                </p>
+              </div>
+            </div>
+            <p className="text-[13px] text-[#6B6B6B] leading-relaxed">
+              Building reliable backends, ML pipelines, and full-stack web
+              applications that scale.
+            </p>
+            {/* Social links */}
+            <div className="flex items-center gap-2">
+              {socials.map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noreferrer" : undefined}
+                  aria-label={label}
+                  className="flex items-center justify-center size-8 rounded-full border border-white/10 text-[#6B6B6B] hover:text-white hover:border-white/30 transition-colors"
+                >
+                  <Icon className="size-3.5" />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="w-full md:w-auto flex items-center gap-2 sm:gap-4 order-3 md:order-2">
-            <span className="h-px flex-1 md:w-16 bg-spacex-graphite" />
-            <span className="text-[9px] sm:text-[10px] md:text-xs font-mono uppercase tracking-spacex-md text-spacex-muted whitespace-nowrap">
-              Thank you for visiting my portfolio
-            </span>
-            <span className="h-px flex-1 md:w-16 bg-spacex-graphite" />
-          </div>
+          {/* Nav links */}
+          <nav className="grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-2 self-start pt-1">
+            {links.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-[13px] text-[#6B6B6B] hover:text-white transition-colors py-1"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        </div>
 
-          <div className="flex items-center gap-2 order-2 md:order-3">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-spacex-flame opacity-75" />
-              <span className="relative inline-flex rounded-none h-2 w-2 bg-spacex-flame" />
+        {/* Bottom row */}
+        <div className="footer-row flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-6">
+          <p className="text-[12px] text-[#6B6B6B]">
+            &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar. Built with Next.js.
+          </p>
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
             </span>
-            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted whitespace-nowrap">
-              OPEN FOR OPPORTUNITIES
+            <span className="text-[12px] text-[#6B6B6B] font-medium">
+              Open for opportunities
             </span>
           </div>
         </div>
 
-        <div className="footer-row border-t border-spacex-graphite pt-4 sm:pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
-          <p className="text-[11px] sm:text-xs text-spacex-muted font-mono">
-            &copy; {new Date().getFullYear()} MOHAMMAD IQBAL JAFFAR
-          </p>
-          <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-md text-spacex-muted whitespace-nowrap">
-            SOFTWARE ENGINEER
-          </p>
-        </div>
       </div>
     </footer>
   );

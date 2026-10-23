@@ -36,13 +36,12 @@ const Footer = dynamic(
 
 function SectionSkeleton() {
   return (
-    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-10 bg-spacex-black opacity-60">
+    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-8 bg-[#F8F7F4] opacity-60">
       <div className="container mx-auto max-w-6xl space-y-10">
         <div className="max-w-2xl mx-auto text-center space-y-4">
-          <div className="h-px w-32 mx-auto bg-spacex-graphite animate-pulse" />
-          <div className="h-2 w-48 mx-auto bg-spacex-graphite animate-pulse" />
-          <div className="h-10 w-72 md:w-96 mx-auto bg-spacex-steel animate-pulse rounded-none" />
-          <div className="h-4 w-full bg-spacex-steel animate-pulse rounded-none" />
+          <div className="h-5 w-24 mx-auto bg-[#E5E4E0] animate-pulse rounded-full" />
+          <div className="h-9 w-72 md:w-96 mx-auto bg-[#E5E4E0] animate-pulse rounded-xl" />
+          <div className="h-4 w-full bg-[#F0EFEB] animate-pulse rounded-lg" />
         </div>
       </div>
     </section>
@@ -51,7 +50,7 @@ function SectionSkeleton() {
 
 export default function PortfolioPage() {
   return (
-    <div className="bg-black text-white antialiased min-h-screen">
+    <div className="bg-background text-foreground antialiased min-h-screen">
       <Header />
       <main id="main-content" className="relative z-10 pt-20">
         {/* Above-the-fold — render synchronous */}

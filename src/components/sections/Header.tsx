@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Mail, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { navItems } from "@/data/portfolio";
 
 export default function Header() {
@@ -12,7 +11,6 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
-  // GSAP entrance on mount — slide down from above
   useGSAP(() => {
     gsap.from(headerRef.current, {
       y: -72,
@@ -24,7 +22,7 @@ export default function Header() {
   }, { scope: headerRef });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -33,71 +31,74 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black/95 border-b border-spacex-graphite"
-          : "bg-transparent"
+          ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_#E5E4E0]"
+          : "bg-[#F8F7F4]/80 backdrop-blur-sm"
       }`}
     >
-      <div className="container mx-auto max-w-7xl px-5 md:px-8 py-3.5 flex items-center justify-between gap-4">
-        <a href="#hero" className="flex items-center gap-3 group">
-          <div className="flex items-center justify-center font-display font-black tracking-widest text-white text-sm border border-spacex-graphite px-2.5 py-1 hover:border-spacex-white transition-colors">
+      <div className="container mx-auto max-w-7xl px-5 md:px-8 py-3 flex items-center justify-between gap-4">
+
+        {/* ── Logo ─────────────────────────────────────────── */}
+        <a href="#hero" className="flex items-center gap-2.5 group shrink-0">
+          {/* Monogram badge */}
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0A0A0A] text-white text-xs font-bold tracking-wider font-display select-none">
             MIJ
           </div>
           <div className="hidden sm:flex flex-col leading-tight">
-            <span className="text-sm font-display font-bold uppercase tracking-spacex-sm text-white">
+            <span className="text-[13px] font-display font-bold text-[#0A0A0A] tracking-tight">
               Iqbal Jaffar
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">
-              SOFTWARE ENGINEER
+            <span className="text-[10px] font-mono text-[#9B9A96] tracking-wide uppercase">
+              Software Engineer
             </span>
           </div>
         </a>
 
+        {/* ── Desktop Nav ──────────────────────────────────── */}
         <nav className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="btn-spacex px-3.5 py-2 text-[11px] font-medium uppercase tracking-spacex-md text-spacex-silver hover:text-white transition-colors"
+              className="px-3.5 py-1.5 text-[13px] font-medium text-[#6B6B6B] hover:text-[#0A0A0A] rounded-full hover:bg-[#F0EFEB] transition-all duration-200"
             >
               {item.label}
             </a>
           ))}
         </nav>
 
+        {/* ── Desktop CTAs ─────────────────────────────────── */}
         <div className="hidden md:flex items-center gap-2">
-          <Button
-            asChild
-            variant="ghost"
-            size="sm"
-            className="h-9 px-3 text-[11px] font-medium uppercase tracking-spacex-md text-spacex-subtle hover:text-white hover:bg-spacex-steel rounded-none border border-transparent hover:border-spacex-graphite transition-all"
+          <a
+            href="/cv/CV_Iqbal_Jaffar.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[12px] font-medium text-[#6B6B6B] hover:text-[#0A0A0A] rounded-full border border-[#E5E4E0] hover:border-[#CCCBC7] hover:bg-[#F0EFEB] transition-all duration-200"
           >
-            <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
-              <FileText className="size-3.5" /> CV
-            </a>
-          </Button>
-          <Button
-            asChild
-            size="sm"
-            className="h-9 px-5 text-[11px] font-semibold uppercase tracking-spacex-md bg-white hover:bg-spacex-silver text-black rounded-none transition-all border border-white"
+            <FileText className="size-3.5" />
+            Resume
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[12px] font-semibold bg-[#0A0A0A] text-white rounded-full hover:bg-[#2A2A2A] transition-all duration-200 shadow-sm"
           >
-            <a href="#contact">
-              <Mail className="size-3.5" /> HIRE ME
-            </a>
-          </Button>
+            <Mail className="size-3.5" />
+            Hire Me
+          </a>
         </div>
 
+        {/* ── Mobile hamburger ─────────────────────────────── */}
         <button
           aria-label="Toggle menu"
-          className="lg:hidden inline-flex items-center justify-center size-9 border border-spacex-graphite bg-black text-white hover:border-white transition-colors"
+          className="lg:hidden inline-flex items-center justify-center size-9 rounded-full border border-[#E5E4E0] bg-white text-[#0A0A0A] hover:bg-[#F0EFEB] transition-colors"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="size-4" /> : <Menu className="size-4" />}
         </button>
       </div>
 
-      {/* Mobile menu — keep Framer Motion AnimatePresence for height transition */}
+      {/* ── Mobile menu ──────────────────────────────────── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -105,38 +106,36 @@ export default function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-            className="lg:hidden overflow-hidden border-t border-spacex-graphite bg-black"
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+            className="lg:hidden overflow-hidden border-t border-[#E5E4E0] bg-white"
           >
-            <nav className="container mx-auto max-w-7xl px-5 py-5 flex flex-col gap-0.5">
+            <nav className="container mx-auto max-w-7xl px-5 py-4 flex flex-col gap-0.5">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="py-3 px-2 text-sm font-medium uppercase tracking-spacex-sm text-spacex-silver hover:text-white border-b border-spacex-steel transition-colors"
+                  className="py-2.5 px-3 text-[14px] font-medium text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#F0EFEB] rounded-lg transition-colors"
                 >
                   {item.label}
                 </a>
               ))}
-              <div className="flex gap-2 pt-4 mt-2">
-                <Button
-                  asChild
-                  variant="outline"
-                  className="flex-1 h-10 rounded-none text-xs uppercase tracking-spacex-sm border-spacex-graphite text-spacex-silver hover:bg-spacex-steel hover:text-white hover:border-spacex-silver transition-all"
+              <div className="flex gap-2 pt-3 mt-1 border-t border-[#F0EFEB]">
+                <a
+                  href="/cv/CV_Iqbal_Jaffar.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 px-4 text-[12px] font-medium text-[#6B6B6B] border border-[#E5E4E0] rounded-full hover:bg-[#F0EFEB] transition-colors"
                 >
-                  <a href="/cv/CV_Iqbal_Jaffar.pdf" target="_blank" rel="noreferrer">
-                    <FileText className="size-3.5" /> CV
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  className="flex-1 h-10 rounded-none text-xs font-semibold uppercase tracking-spacex-sm bg-white text-black hover:bg-spacex-silver transition-all border border-white"
+                  <FileText className="size-3.5" /> Resume
+                </a>
+                <a
+                  href="#contact"
+                  onClick={() => setOpen(false)}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 px-4 text-[12px] font-semibold bg-[#0A0A0A] text-white rounded-full hover:bg-[#2A2A2A] transition-colors"
                 >
-                  <a href="#contact" onClick={() => setOpen(false)}>
-                    <Mail className="size-3.5" /> HIRE
-                  </a>
-                </Button>
+                  <Mail className="size-3.5" /> Hire Me
+                </a>
               </div>
             </nav>
           </motion.div>

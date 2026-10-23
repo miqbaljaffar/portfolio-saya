@@ -6,24 +6,25 @@ interface SkillCardProps {
 }
 
 /**
- * SkillCard — static markup only.
- * GSAP stagger animation is driven by TechStackSection (parent).
+ * SkillCard — Creatiwise-style clean white card.
+ * GSAP stagger animation driven by parent (TechStackSection).
  * The `gsap-card` class is the selector target.
  */
 export function SkillCard({ item }: SkillCardProps) {
   return (
-    <div className="gsap-card group">
-      <div className="relative flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-none bg-spacex-dark border border-spacex-graphite hover:border-white transition-colors duration-200 text-center">
-        <div className="size-9 sm:size-11 md:size-12 flex items-center justify-center rounded-none bg-spacex-void border border-spacex-graphite text-spacex-subtle group-hover:text-white group-hover:border-spacex-flame transition-colors duration-200">
-          <item.icon size={18} className="sm:hidden" />
-          <item.icon size={20} className="hidden sm:block md:hidden" />
-          <item.icon size={22} className="hidden md:block" />
+    <div className="gsap-card group cw-card cursor-default">
+      <div className="flex flex-col items-center gap-2.5 p-4 text-center">
+        {/* Icon container */}
+        <div className="size-10 flex items-center justify-center rounded-xl bg-[#F0EFEB] border border-[#E5E4E0] text-[#6B6B6B] group-hover:bg-[#0A0A0A] group-hover:text-white group-hover:border-[#0A0A0A] transition-all duration-200">
+          <item.icon size={18} />
         </div>
+
+        {/* Name + level */}
         <div className="space-y-0.5">
-          <h4 className="font-display font-black uppercase text-xs sm:text-sm md:text-[15px] text-white leading-tight">
+          <h4 className="font-display font-bold text-[#0A0A0A] text-[13px] leading-tight">
             {item.name}
           </h4>
-          <p className="text-[9px] sm:text-[10px] md:text-[11px] text-spacex-muted font-mono uppercase tracking-spacex-md">
+          <p className="text-[10px] text-[#9B9A96] font-medium capitalize">
             {item.level}
           </p>
         </div>

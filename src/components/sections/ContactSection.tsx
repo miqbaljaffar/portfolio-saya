@@ -3,7 +3,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 import { SectionHeading } from "@/components/section-heading";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -19,46 +18,34 @@ export default function ContactSection() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const sectionRef = useRef<HTMLElement>(null);
-  const asideRef   = useRef<HTMLElement>(null);
+  const asideRef   = useRef<HTMLDivElement>(null);
   const formRef    = useRef<HTMLFormElement>(null);
 
-  // Aside slides in from left, form from right
   useGSAP(() => {
     const aside = asideRef.current;
     const form  = formRef.current;
     if (!aside || !form) return;
 
-    gsap.set(aside, { opacity: 0, x: -36 });
-    gsap.set(form,  { opacity: 0, x:  36 });
-
+    gsap.set([aside, form], { opacity: 0, y: 32 });
     gsap.to([aside, form], {
       opacity: 1,
-      x: 0,
-      duration: 0.85,
+      y: 0,
+      duration: 0.8,
       ease: "power4.out",
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        once: true,
-      },
+      stagger: 0.12,
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", once: true },
     });
 
-    // Form fields stagger after the form slides in
     const fields = form.querySelectorAll("input, textarea");
-    gsap.set(fields, { opacity: 0, y: 14 });
+    gsap.set(fields, { opacity: 0, y: 12 });
     gsap.to(fields, {
       opacity: 1,
       y: 0,
-      duration: 0.5,
+      duration: 0.45,
       ease: "power3.out",
-      stagger: 0.08,
-      delay: 0.4,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        once: true,
-      },
+      stagger: 0.07,
+      delay: 0.35,
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", once: true },
     });
   }, { scope: sectionRef });
 
@@ -68,10 +55,7 @@ export default function ContactSection() {
     const form = new FormData(e.currentTarget);
     form.set("access_key", "0384d086-487f-4bae-a36d-e450ccbdcd3d");
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: form,
-      });
+      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: form });
       const json = await res.json();
       if (json.success) {
         setStatus("success");
@@ -89,141 +73,135 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 px-4 sm:px-5 md:px-10 bg-spacex-void"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-white"
     >
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
-          number="06"
-          eyebrow="CONTACT"
-          title="LET'S COLLABORATE & DISCUSS"
-          description="HAVE AN INTERESTING PROJECT OR SUITABLE VACANCY? I'M HAPPY TO DISCUSS — SEND A MESSAGE OR CONTACT VIA THE PLATFORMS BELOW."
+          eyebrow="Contact"
+          title="Let's collaborate &amp; discuss"
+          description="Have an interesting project or suitable vacancy? I'm happy to discuss — send a message or reach out via the links below."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-5 sm:gap-6 md:gap-8">
-          {/* Aside */}
-          <aside ref={asideRef} className="space-y-3 sm:space-y-4 md:space-y-5">
-            <div className="border border-spacex-graphite rounded-none bg-spacex-void p-4 sm:p-5 md:p-6">
-              <span className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-none border border-spacex-graphite bg-spacex-dark text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-3 sm:mb-4">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-spacex-flame opacity-75" />
-                  <span className="relative inline-flex rounded-none h-2 w-2 bg-spacex-flame" />
-                </span>
-                OPEN FOR COLLABORATIONS
-              </span>
-              <h3 className="font-display font-bold text-lg sm:text-xl md:text-2xl text-white mb-2 uppercase tracking-tight">
-                INTERESTED IN WORKING TOGETHER?
-              </h3>
-              <p className="text-xs sm:text-sm md:text-base text-spacex-muted leading-relaxed mb-4 sm:mb-6">
-                I'M OPEN TO FREELANCE, CONTRACT, OR FULL-TIME OPPORTUNITIES.
-                ESPECIALLY PROJECTS INVOLVING AI/ML, FULL-STACK WEB, AND IOT INTEGRATION.
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-6">
 
-              <div className="space-y-2.5 sm:space-y-3">
+          {/* ── Aside ──────────────────────────────────── */}
+          <div ref={asideRef} className="flex flex-col gap-4">
+
+            {/* Open for work card */}
+            <div className="cw-card p-6 flex flex-col gap-5">
+              <div>
+                <span className="eyebrow-pill mb-3 inline-flex">
+                  <span className="relative flex h-1.5 w-1.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  </span>
+                  Open for collaborations
+                </span>
+                <h3 className="font-display font-bold text-[#0A0A0A] text-lg md:text-xl leading-tight mb-2">
+                  Interested in working together?
+                </h3>
+                <p className="text-[13px] text-[#9B9A96] leading-relaxed">
+                  Open to freelance, contract, or full-time opportunities — especially AI/ML, full-stack web, and IoT integration.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2.5">
+                {/* Email */}
                 <a
                   href="mailto:iqbaljaffar1108@gmail.com"
-                  className="flex items-center justify-between group rounded-none bg-spacex-dark border border-spacex-graphite p-3 sm:p-4 transition-colors hover:border-spacex-silver"
+                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-[#E5E4E0] hover:border-[#CCCBC7] hover:bg-[#F8F7F4] transition-all group"
                 >
-                  <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                    <div className="p-2 sm:p-2.5 rounded-none bg-spacex-steel text-spacex-silver shrink-0 border border-spacex-graphite">
-                      <Mail className="size-3.5 sm:size-4" />
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] flex items-center justify-center shrink-0">
+                      <Mail className="size-3.5 text-[#6B6B6B]" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-0.5">
-                        EMAIL
-                      </p>
-                      <p className="text-xs sm:text-sm font-medium text-white truncate">
+                      <p className="text-[10px] text-[#9B9A96] uppercase tracking-wider font-medium mb-0.5">Email</p>
+                      <p className="text-[13px] font-medium text-[#0A0A0A] truncate">
                         iqbaljaffar1108@gmail.com
                       </p>
                     </div>
                   </div>
-                  <ArrowUpRight className="size-3.5 sm:size-4 text-spacex-muted shrink-0 group-hover:text-white transition-colors" />
+                  <ArrowUpRight className="size-4 text-[#CCCBC7] shrink-0 group-hover:text-[#0A0A0A] transition-colors" />
                 </a>
 
-                <div className="flex items-center gap-2 sm:gap-3 rounded-none bg-spacex-dark border border-spacex-graphite p-3 sm:p-4">
-                  <div className="p-2 sm:p-2.5 rounded-none bg-spacex-steel text-spacex-silver shrink-0 border border-spacex-graphite">
-                    <MapPin className="size-3.5 sm:size-4" />
+                {/* Location */}
+                <div className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E5E4E0] bg-[#F8F7F4]">
+                  <div className="size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] flex items-center justify-center shrink-0">
+                    <MapPin className="size-3.5 text-[#6B6B6B]" />
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted mb-0.5">
-                      LOCATION
-                    </p>
-                    <p className="text-xs sm:text-sm font-medium text-white">
-                      Bandung, INDONESIA
-                    </p>
+                  <div>
+                    <p className="text-[10px] text-[#9B9A96] uppercase tracking-wider font-medium mb-0.5">Location</p>
+                    <p className="text-[13px] font-medium text-[#0A0A0A]">Bandung, Indonesia</p>
                   </div>
                 </div>
               </div>
             </div>
-          </aside>
+          </div>
 
-          {/* Form */}
+          {/* ── Form ──────────────────────────────────── */}
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="border border-spacex-graphite rounded-none bg-spacex-void p-4 sm:p-5 md:p-8 space-y-3.5 sm:space-y-4 md:space-y-5"
+            className="cw-card p-6 md:p-8 flex flex-col gap-5"
           >
-            <div className="mb-1 sm:mb-2">
-              <h3 className="font-display font-bold text-lg sm:text-xl md:text-2xl text-white uppercase tracking-tight">
-                SEND A MESSAGE
-              </h3>
-            </div>
+            <h3 className="font-display font-bold text-[#0A0A0A] text-xl leading-tight">
+              Send a message
+            </h3>
 
-            <div className="space-y-1.5">
-              <label htmlFor="name" className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted">
-                FULL NAME
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="name" className="text-[12px] font-medium text-[#6B6B6B]">
+                Full Name
               </label>
               <Input
                 id="name"
                 name="name"
                 required
-                className="h-10 sm:h-11 rounded-none bg-spacex-dark border-spacex-graphite focus:border-white focus:ring-0 text-white placeholder:text-spacex-muted text-sm"
+                placeholder="Your name"
+                className="h-11 rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label htmlFor="email" className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted">
-                EMAIL
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-[12px] font-medium text-[#6B6B6B]">
+                Email Address
               </label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 required
-                className="h-10 sm:h-11 rounded-none bg-spacex-dark border-spacex-graphite focus:border-white focus:ring-0 text-white placeholder:text-spacex-muted text-sm"
+                placeholder="your@email.com"
+                className="h-11 rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label htmlFor="message" className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted">
-                MESSAGE
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="message" className="text-[12px] font-medium text-[#6B6B6B]">
+                Message
               </label>
               <Textarea
                 id="message"
                 name="message"
                 required
-                rows={4}
-                className="resize-none min-h-[120px] sm:min-h-[140px] rounded-none bg-spacex-dark border-spacex-graphite focus:border-white focus:ring-0 text-white placeholder:text-spacex-muted text-sm"
+                rows={5}
+                placeholder="Tell me about your project..."
+                className="resize-none min-h-[130px] rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
               />
             </div>
 
-            <Button
+            <button
               type="submit"
-              size="lg"
               disabled={status === "loading" || status === "success"}
-              className="w-full h-10 sm:h-11 rounded-none bg-white hover:bg-spacex-silver text-black uppercase tracking-spacex-sm border border-white transition-colors text-xs sm:text-sm"
+              className="btn-primary justify-center text-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {status === "idle" && (
-                <><Send className="size-3.5 sm:size-4" /> SEND MESSAGE</>
-              )}
-              {status === "loading" && (
-                <><Loader2 className="size-3.5 sm:size-4 animate-spin" /> SENDING...</>
-              )}
-              {status === "success" && (
-                <><CheckCircle2 className="size-3.5 sm:size-4" /> MESSAGE SENT!</>
-              )}
-              {status === "error" && "FAILED TO SEND, TRY AGAIN"}
-            </Button>
+              {status === "idle"    && <><Send className="size-4" /> Send Message</>}
+              {status === "loading" && <><Loader2 className="size-4 animate-spin" /> Sending...</>}
+              {status === "success" && <><CheckCircle2 className="size-4" /> Message Sent!</>}
+              {status === "error"   && "Failed to send — try again"}
+            </button>
           </form>
+
         </div>
       </div>
     </section>

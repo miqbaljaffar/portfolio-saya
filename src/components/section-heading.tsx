@@ -1,60 +1,20 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 
 interface SectionHeadingProps {
-  number: string;
   eyebrow?: string;
   title: string;
+  /** Optional highlight — word(s) rendered with a wavy underline */
+  highlight?: string;
   description?: string;
   align?: "center" | "left";
-}
-
-/** Counts from "00" up to the target number when element enters the viewport. */
-function CountUpNumber({ target }: { target: string }) {
-  const numericTarget = parseInt(target, 10);
-  const [display, setDisplay] = useState("00");
-  const triggered = useRef(false);
-  const elRef     = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || triggered.current) return;
-        triggered.current = true;
-        observer.disconnect();
-
-        let current = 0;
-        const steps    = numericTarget;
-        const duration = Math.min(600, steps * 80);
-        const interval = duration / Math.max(steps, 1);
-
-        const timer = setInterval(() => {
-          current++;
-          setDisplay(String(current).padStart(2, "0"));
-          if (current >= numericTarget) clearInterval(timer);
-        }, interval);
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [numericTarget]);
-
-  return (
-    <span ref={elRef} className="font-mono tabular-nums" aria-label={target}>
-      {display}
-    </span>
-  );
+  /** Legacy prop — no longer used visually but kept for back-compat */
+  number?: string;
 }
 
 export function SectionHeading({
-  number,
   eyebrow,
   title,
   description,
@@ -69,33 +29,15 @@ export function SectionHeading({
     const eyebrowEl = el.querySelector(".sh-eyebrow");
     const titleEl   = el.querySelector(".sh-title");
     const descEl    = el.querySelector(".sh-desc");
-    const lineEls   = el.querySelectorAll(".sh-line");
 
-    const targets = [eyebrowEl, ...Array.from(lineEls), titleEl, descEl].filter(Boolean);
-
-    gsap.set(targets, { opacity: 0, y: 22 });
-    gsap.set(lineEls, { scaleX: 0, y: 0 });
-
-    gsap.to(lineEls, {
-      scaleX: 1,
-      opacity: 1,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 88%",
-        once: true,
-      },
-    });
-
-    gsap.to([eyebrowEl, titleEl, descEl].filter(Boolean), {
+    const targets = [eyebrowEl, titleEl, descEl].filter(Boolean);
+    gsap.set(targets, { opacity: 0, y: 24 });
+    gsap.to(targets, {
       opacity: 1,
       y: 0,
-      duration: 0.75,
+      duration: 0.72,
       ease: "power4.out",
       stagger: 0.1,
-      delay: 0.15,
       scrollTrigger: {
         trigger: el,
         start: "top 88%",
@@ -104,42 +46,27 @@ export function SectionHeading({
     });
   }, { scope: ref });
 
+  const alignClasses = align === "left"
+    ? "text-left mx-0 items-start"
+    : "text-center mx-auto items-center";
+
   return (
     <div
       ref={ref}
-      className={`max-w-4xl mx-auto mb-10 sm:mb-14 md:mb-20 space-y-4 sm:space-y-5 ${
-        align === "left" ? "text-left mx-0" : "text-center"
-      }`}
+      className={`max-w-3xl mb-10 sm:mb-14 md:mb-18 space-y-3 flex flex-col ${alignClasses}`}
     >
-      <div
-        className={`sh-eyebrow flex items-center gap-4 ${
-          align === "left" ? "justify-start" : "justify-center"
-        }`}
-      >
-        <span
-          className="sh-line h-px w-12 md:w-16 bg-spacex-graphite origin-left"
-          style={{ display: "inline-block" }}
-        />
-        <span className="eyebrow-label text-spacex-subtle">
-          {/* Count-up number */}
-          <CountUpNumber target={number} /> / {eyebrow || "SECTION"}
-        </span>
-        <span
-          className="sh-line h-px w-12 md:w-16 bg-spacex-graphite origin-right"
-          style={{ display: "inline-block" }}
-        />
-      </div>
+      {eyebrow && (
+        <div className="sh-eyebrow">
+          <span className="eyebrow-pill">{eyebrow}</span>
+        </div>
+      )}
 
-      <h2 className="sh-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black uppercase tracking-tight text-white leading-[1.1]">
+      <h2 className={`sh-title font-display font-extrabold text-[#0A0A0A] dark:text-[#F8F7F4] leading-[1.08] tracking-[-0.025em] text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem]`}>
         {title}
       </h2>
 
       {description && (
-        <p
-          className={`sh-desc text-spacex-muted text-sm md:text-base max-w-2xl leading-relaxed font-sans ${
-            align === "left" ? "mx-0" : "mx-auto"
-          }`}
-        >
+        <p className={`sh-desc text-[#6B6B6B] dark:text-[#9B9A96] text-sm md:text-[15px] leading-relaxed max-w-2xl ${align === "center" ? "mx-auto" : ""}`}>
           {description}
         </p>
       )}

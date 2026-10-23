@@ -5,17 +5,11 @@ import { useGSAP, gsap } from "@/lib/gsap";
 import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
 import { CertModal } from "./CertModal";
-import { Award, Maximize2 } from "lucide-react";
+import { Award, Expand } from "lucide-react";
 import { certificationsData } from "@/data/portfolio";
 import type { Certification } from "@/data/portfolio";
 
-/**
- * Single flip card.
- * — Front: thumbnail + CERTIFIED badge
- * — Back: title, issuer, year + "VIEW" button
- * CSS 3D flip on hover (rotateY), JS click opens CertModal.
- */
-function FlipCard({
+function CertCard({
   cert,
   onOpen,
 }: {
@@ -23,109 +17,52 @@ function FlipCard({
   onOpen: (cert: Certification) => void;
 }) {
   return (
-    /*
-     * Perspective wrapper — must NOT be the animated element itself
-     * so the 3D space is preserved during GSAP entrance.
-     */
-    <div className="cert-flip-wrapper" style={{ perspective: "900px" }}>
-      {/*
-       * Inner — rotates on hover via CSS.
-       * transform-style: preserve-3d keeps front/back in 3D space.
-       */}
-      <div
-        className="cert-flip-inner relative w-full cursor-pointer"
-        style={{
-          transformStyle: "preserve-3d",
-          transition: "transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)",
-          aspectRatio: "4 / 3",
-        }}
-        onClick={() => onOpen(cert)}
-        role="button"
-        tabIndex={0}
-        aria-label={`Lihat sertifikat ${cert.title}`}
-        onKeyDown={(e) => e.key === "Enter" && onOpen(cert)}
-      >
-        {/* ── FRONT ─────────────────────────────────────────── */}
-        <div
-          className="absolute inset-0 border border-spacex-graphite bg-spacex-void overflow-hidden"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          {/* Thumbnail */}
-          <div className="relative w-full h-full">
-            <Image
-              src={cert.image}
-              alt={cert.title}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
-              className="object-cover"
-            />
-            {/* Gradient scrim bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          </div>
+    <div
+      className="cert-card cw-card overflow-hidden cursor-pointer group"
+      onClick={() => onOpen(cert)}
+      role="button"
+      tabIndex={0}
+      aria-label={`View certificate: ${cert.title}`}
+      onKeyDown={(e) => e.key === "Enter" && onOpen(cert)}
+    >
+      {/* Thumbnail */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#F0EFEB]">
+        <Image
+          src={cert.image}
+          alt={cert.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-all duration-300" />
 
-          {/* CERTIFIED badge top-left */}
-          <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none text-[9px] font-mono uppercase tracking-spacex-sm bg-black/70 text-spacex-silver border border-spacex-graphite/60">
-            <Award className="size-2.5" /> CERTIFIED
-          </div>
-
-          {/* Year badge top-right */}
-          <div className="absolute top-3 right-3 px-2 py-1 rounded-none text-[9px] font-mono uppercase tracking-spacex-sm bg-black/70 text-spacex-muted border border-spacex-graphite/60">
-            {cert.year}
-          </div>
-
-          {/* Title bottom */}
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="font-display font-bold text-xs sm:text-sm text-white leading-snug uppercase tracking-tight line-clamp-2">
-              {cert.title}
-            </h3>
-          </div>
-
-          {/* Hover hint */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            <span className="text-[9px] font-mono uppercase tracking-spacex-md text-white/60">
-              HOVER TO REVEAL
-            </span>
+        {/* Expand icon on hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-white rounded-full p-2.5 shadow-md">
+            <Expand className="size-4 text-[#0A0A0A]" />
           </div>
         </div>
 
-        {/* ── BACK ──────────────────────────────────────────── */}
-        <div
-          className="absolute inset-0 border border-spacex-graphite bg-spacex-dark flex flex-col justify-between p-5"
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-        >
-          {/* Corner decorations */}
-          <div className="aero-corner tl" style={{ opacity: 0.3 }} />
-          <div className="aero-corner tr" style={{ opacity: 0.3 }} />
-          <div className="aero-corner bl" style={{ opacity: 0.3 }} />
-          <div className="aero-corner br" style={{ opacity: 0.3 }} />
+        {/* Year badge */}
+        <div className="absolute top-3 right-3">
+          <span className="tag-pill bg-white/90 backdrop-blur-sm border-white/60 text-[#0A0A0A]">
+            {cert.year}
+          </span>
+        </div>
+      </div>
 
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-spacex-flame/40 bg-spacex-flame/10 text-[9px] font-mono uppercase tracking-spacex-sm text-spacex-flame">
-              <Award className="size-2.5" /> CERTIFIED · {cert.year}
-            </div>
-
-            <h3 className="font-display font-black text-sm sm:text-base text-white leading-snug uppercase tracking-tight">
-              {cert.title}
-            </h3>
-
-            <p className="text-[10px] sm:text-xs font-mono uppercase tracking-spacex-sm text-spacex-muted leading-relaxed">
-              {cert.issuer}
-            </p>
-          </div>
-
-          {/* View button */}
-          <div className="pt-4 border-t border-spacex-graphite flex items-center justify-between">
-            <span className="text-[9px] font-mono uppercase tracking-spacex-md text-spacex-muted">
-              CLICK TO EXPAND
-            </span>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-black text-[10px] font-mono uppercase tracking-spacex-sm hover:bg-spacex-silver transition-colors border border-white">
-              <Maximize2 className="size-3" />
-              VIEW
-            </div>
-          </div>
+      {/* Info */}
+      <div className="p-4 flex items-start gap-3">
+        <div className="shrink-0 flex items-center justify-center size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] mt-0.5">
+          <Award className="size-4 text-[#6B6B6B]" />
+        </div>
+        <div className="min-w-0">
+          <h3 className="font-display font-bold text-[#0A0A0A] text-[13px] leading-snug line-clamp-2 mb-0.5">
+            {cert.title}
+          </h3>
+          <p className="text-[11px] text-[#9B9A96] font-medium">
+            {cert.issuer}
+          </p>
         </div>
       </div>
     </div>
@@ -134,32 +71,21 @@ function FlipCard({
 
 export default function CertificationsSection() {
   const [selected, setSelected] = useState<Certification | null>(null);
-
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef    = useRef<HTMLDivElement>(null);
 
-  // Entrance: each card folds in from rotateY(90deg) → 0 with stagger
   useGSAP(() => {
-    const wrappers = gridRef.current?.querySelectorAll(".cert-flip-wrapper");
-    if (!wrappers?.length) return;
-
+    const cards = gridRef.current?.querySelectorAll(".cert-card");
+    if (!cards?.length) return;
     gsap.fromTo(
-      wrappers,
-      {
-        opacity: 0,
-        rotateY: 90,
-        transformOrigin: "left center",
-      },
+      cards,
+      { opacity: 0, y: 32 },
       {
         opacity: 1,
-        rotateY: 0,
-        duration: 0.7,
+        y: 0,
+        duration: 0.6,
         ease: "power3.out",
-        stagger: {
-          amount: 0.55,
-          from: "start",
-        },
-        clearProps: "transform,opacity",
+        stagger: { amount: 0.5, from: "start" },
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 78%",
@@ -173,48 +99,28 @@ export default function CertificationsSection() {
     <section
       id="certs"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 bg-spacex-black"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-[#F8F7F4]"
     >
-      <div className="container mx-auto max-w-6xl px-4 sm:px-5 md:px-10">
+      <div className="container mx-auto max-w-6xl">
         <SectionHeading
-          number="05"
-          eyebrow="CERTIFICATIONS"
-          title="CERTIFICATIONS & AWARDS"
-          description="FORMAL PROOF OF EXPERTISE — FROM SOFTWARE DEVELOPMENT TO SPECIALIZED PROFESSIONAL CERTIFICATIONS."
+          eyebrow="Certifications"
+          title="Certifications &amp; Awards"
+          description="Formal proof of expertise — from software development to specialized professional certifications."
         />
 
-        {/* ── 3×2 Flip Card Grid ──────────────────────────────── */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-          /*
-           * CSS hover target: .cert-flip-wrapper:hover .cert-flip-inner
-           * handled via global CSS below — injected as a <style> tag
-           * so it works without Tailwind arbitrary variants.
-           */
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {certificationsData.map((cert) => (
-            <FlipCard
-              key={cert.title}
-              cert={cert}
-              onOpen={setSelected}
-            />
+            <CertCard key={cert.title} cert={cert} onOpen={setSelected} />
           ))}
         </div>
 
-        {/* Cert count */}
-        <p className="mt-6 sm:mt-8 text-center text-[10px] font-mono uppercase tracking-spacex-md text-spacex-muted">
-          {certificationsData.length} CERTIFICATIONS DISPLAYED
+        <p className="mt-7 text-center text-[12px] text-[#9B9A96] font-medium">
+          {certificationsData.length} certifications displayed
         </p>
       </div>
-
-      {/* Flip hover CSS — injected inline, scoped to this section */}
-      <style>{`
-        .cert-flip-wrapper:hover .cert-flip-inner,
-        .cert-flip-wrapper:focus-within .cert-flip-inner {
-          transform: rotateY(180deg);
-        }
-      `}</style>
 
       <CertModal item={selected} onClose={() => setSelected(null)} />
     </section>
