@@ -2,10 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Explicitly list all widths used by <Image sizes="..."> across the app.
+    // Vercel Image Optimizer returns 400 if w= doesn't match these lists.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes:  [16, 32, 48, 64, 96, 128, 256, 280, 360, 380, 400, 512],
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 31_536_000,
+    minimumCacheTTL: 86_400,          // 1 day — safer default for Vercel hobby
     dangerouslyAllowSVG: true,
-    // contentSecurityPolicy dihapus — menyebabkan 400 pada _next/image di Vercel
   },
   poweredByHeader: false,
   compress: true,
