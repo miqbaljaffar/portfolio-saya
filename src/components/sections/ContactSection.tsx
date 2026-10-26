@@ -92,8 +92,8 @@ export default function ContactSection() {
               <div>
                 <span className="eyebrow-pill mb-3 inline-flex">
                   <span className="relative flex h-1.5 w-1.5 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-40" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand" />
                   </span>
                   Open for collaborations
                 </span>

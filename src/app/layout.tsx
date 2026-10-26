@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import CustomCursor from "@/components/CustomCursor";
 
 /**
  * DM Sans — clean, modern display font for headings (Creatiwise-like feel)
@@ -50,8 +49,6 @@ export const metadata: Metadata = {
     "Next.js Portfolio",
     "Portfolio Developer",
     "SSW Automotive",
-    "SpaceX Style Portfolio",
-    "Industrial Design Portfolio",
   ],
   authors: [{ name: "Mohammad Iqbal Jaffar", url: siteUrl }],
   creator: "Mohammad Iqbal Jaffar",
@@ -97,9 +94,7 @@ export const metadata: Metadata = {
     images: ["/img/profile.jpg"],
   },
   icons: {
-    icon: [
-      { url: "/file.svg", type: "image/svg+xml" },
-    ],
+    icon: "/favicon.ico",
   },
 };
 
@@ -117,17 +112,14 @@ export const viewport: Viewport = {
 const jsonLdPerson = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${siteUrl}/#person`,
   name: "Mohammad Iqbal Jaffar",
   url: siteUrl,
   image: `${siteUrl}/img/profile.jpg`,
   jobTitle: "Software Engineer",
-  worksFor: {
-    "@type": "Organization",
-    name: "Freelance",
-  },
   sameAs: [
     "https://linkedin.com/in/mohammadiqbaljaffar",
-    "https://github.com/iqbaljaffar",
+    "https://github.com/miqbaljaffar",
   ],
   knowsAbout: [
     "Full-Stack Development",
@@ -142,25 +134,33 @@ const jsonLdPerson = {
   ],
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Bekasi",
+    addressLocality: "Bandung",
+    addressRegion: "West Java",
     addressCountry: "ID",
-  },
-  alumniOf: {
-    "@type": "EducationalOrganization",
-    name: "Universitas Indonesia",
   },
 };
 
 const jsonLdWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
   url: siteUrl,
   name: "Mohammad Iqbal Jaffar Portfolio",
   description: siteDescription,
   inLanguage: "en-US",
   author: {
-    "@type": "Person",
-    name: "Mohammad Iqbal Jaffar",
+    "@id": `${siteUrl}/#person`,
+  },
+};
+
+const jsonLdProfilePage = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${siteUrl}/#profile`,
+  url: siteUrl,
+  name: siteTitle,
+  mainEntity: {
+    "@id": `${siteUrl}/#person`,
   },
 };
 
@@ -173,15 +173,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='light'}var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t)}catch(e){document.documentElement.classList.add('light')}})();`,
-          }}
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://api.web3forms.com" />
-        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
         />
@@ -189,12 +180,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfilePage) }}
+        />
       </head>
       <body
         className={`${dmSans.variable} ${inter.variable} ${dmMono.variable} font-sans antialiased bg-background text-foreground`}
       >
         <Providers attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-          <CustomCursor />
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-foreground bg-background text-foreground text-sm font-sans"

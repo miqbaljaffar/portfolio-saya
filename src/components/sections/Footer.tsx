@@ -61,7 +61,7 @@ export default function Footer() {
                 </p>
               </div>
             </div>
-            <p className="text-[13px] text-[#6B6B6B] leading-relaxed">
+            <p className="text-[13px] text-[#A0AAA2] leading-relaxed">
               Building reliable backends, ML pipelines, and full-stack web
               applications that scale.
             </p>
@@ -74,7 +74,7 @@ export default function Footer() {
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noreferrer" : undefined}
                   aria-label={label}
-                  className="flex items-center justify-center size-8 rounded-full border border-white/10 text-[#6B6B6B] hover:text-white hover:border-white/30 transition-colors"
+                  className="flex items-center justify-center size-8 rounded-full border border-white/10 text-[#A0AAA2] hover:text-white hover:border-white/30 transition-colors"
                 >
                   <Icon className="size-3.5" />
                 </a>
@@ -88,7 +88,7 @@ export default function Footer() {
               <a
                 key={href}
                 href={href}
-                className="text-[13px] text-[#6B6B6B] hover:text-white transition-colors py-1"
+                className="text-[13px] text-[#A0AAA2] hover:text-white transition-colors py-1"
               >
                 {label}
               </a>
@@ -98,15 +98,15 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="footer-row flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-6">
-          <p className="text-[12px] text-[#6B6B6B]">
+          <p className="text-[12px] text-[#A0AAA2]">
             &copy; {new Date().getFullYear()} Mohammad Iqbal Jaffar. Built with Next.js.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-40" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand" />
             </span>
-            <span className="text-[12px] text-[#6B6B6B] font-medium">
+            <span className="text-[12px] text-[#A0AAA2] font-medium">
               Open for opportunities
             </span>
           </div>

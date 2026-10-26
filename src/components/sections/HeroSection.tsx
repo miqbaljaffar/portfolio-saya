@@ -1,7 +1,3 @@
-"use client";
-
-import { useRef } from "react";
-import { useGSAP, gsap, ScrollTrigger } from "@/lib/gsap";
 import { ArrowRight, MapPin, Sparkles, Download } from "lucide-react";
 import Image from "next/image";
 
@@ -30,43 +26,10 @@ function StatCard({
 }
 
 export default function HeroSection() {
-  const sectionRef     = useRef<HTMLElement>(null);
-  const contentRef     = useRef<HTMLDivElement>(null);
-  const imageRef       = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-    tl.from(".hero-eyebrow",  { opacity: 0, y: 16, duration: 0.6 }, 0.15)
-      .from(".hero-title",    { opacity: 0, y: 48, duration: 0.8 }, 0.28)
-      .from(".hero-sub",      { opacity: 0, y: 24, duration: 0.7 }, 0.44)
-      .from(".hero-ctas",     { opacity: 0, y: 24, duration: 0.6 }, 0.56)
-      .from(".hero-meta",     { opacity: 0, y: 16, duration: 0.5 }, 0.66)
-      .from(imageRef.current, { opacity: 0, x: 40, duration: 0.9 }, 0.25)
-      .from(".hero-stat",     { opacity: 0, y: 20, scale: 0.92, stagger: 0.1, duration: 0.55 }, 0.55);
-
-    // Subtle scroll parallax
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-      onUpdate: (self) => {
-        if (contentRef.current) {
-          gsap.set(contentRef.current, { y: self.progress * -40, opacity: 1 - self.progress * 0.6 });
-        }
-        if (imageRef.current) {
-          gsap.set(imageRef.current, { y: self.progress * 60 });
-        }
-      },
-    });
-  }, { scope: sectionRef });
-
   return (
     <section
       id="hero"
-      ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#F8F7F4]"
+      className="relative min-h-screen flex items-center overflow-hidden bg-background"
     >
       {/* Subtle dot grid background */}
       <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
@@ -74,15 +37,14 @@ export default function HeroSection() {
       {/* Large decorative circle */}
       <div
         aria-hidden="true"
-        className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-[#F0EFEB] opacity-70 pointer-events-none"
+        className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-brand-soft opacity-70 blur-3xl pointer-events-none"
       />
       <div
         aria-hidden="true"
-        className="absolute -bottom-48 -left-24 w-[400px] h-[400px] rounded-full bg-[#F0EFEB] opacity-50 pointer-events-none"
+        className="absolute -bottom-48 -left-24 w-[400px] h-[400px] rounded-full bg-brand-soft opacity-50 blur-3xl pointer-events-none"
       />
 
       <div
-        ref={contentRef}
         className="container mx-auto px-5 md:px-8 lg:px-12 pt-28 pb-20 max-w-7xl relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
@@ -94,8 +56,8 @@ export default function HeroSection() {
             <div className="hero-eyebrow">
               <span className="eyebrow-pill">
                 <span className="relative flex h-1.5 w-1.5 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-40" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand" />
                 </span>
                 Available for opportunities
               </span>
@@ -107,7 +69,7 @@ export default function HeroSection() {
                 Building
                 <br />
                 <span className="relative inline-block">
-                  Production-Grade
+                  <span className="text-brand">Production-Grade</span>
                   <svg
                     aria-hidden="true"
                     className="absolute -bottom-1 left-0 w-full"
@@ -117,7 +79,7 @@ export default function HeroSection() {
                   >
                     <path
                       d="M2 6 Q75 2 150 5 Q225 8 298 4"
-                      stroke="#CCCBC7"
+                      stroke="#356B59"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       fill="none"
@@ -172,7 +134,7 @@ export default function HeroSection() {
 
           {/* ── Right: Image + floating stats ────────────── */}
           <div className="order-1 lg:order-2 relative flex justify-center lg:justify-end">
-            <div ref={imageRef} className="relative">
+            <div className="relative">
 
               {/* Profile image */}
               <div className="relative w-[280px] sm:w-[320px] md:w-[360px] lg:w-[380px] aspect-[3/4] rounded-3xl overflow-hidden border border-[#E5E4E0] shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
@@ -181,7 +143,7 @@ export default function HeroSection() {
                   alt="Mohammad Iqbal Jaffar"
                   fill
                   sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 380px"
-                  priority
+                  preload
                   className="object-cover object-center"
                 />
                 {/* Subtle gradient overlay at bottom */}

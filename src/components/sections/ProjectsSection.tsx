@@ -74,7 +74,6 @@ export default function ProjectsSection() {
         <div
           ref={tabsRef}
           className="mb-10 flex flex-wrap justify-center gap-2"
-          role="tablist"
           aria-label="Project categories"
         >
           {categories.map((cat) => {
@@ -82,8 +81,8 @@ export default function ProjectsSection() {
             return (
               <button
                 key={cat.label}
-                role="tab"
-                aria-selected={isActive}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => setActiveCategory(cat.label)}
                 className={`px-5 py-2 text-[13px] font-medium rounded-full border transition-all duration-200 ${
                   isActive

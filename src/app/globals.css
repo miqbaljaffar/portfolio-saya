@@ -6,6 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-display: var(--font-display);
@@ -45,76 +47,78 @@
 }
 
 /* =============================================
-   CREATIWISE-STYLE DESIGN SYSTEM
-   Light background, black typography, clean
+   PORTFOLIO DESIGN SYSTEM
+   Warm neutral surfaces with a restrained sage accent
    ============================================= */
 :root {
   --radius: 0.75rem;
 
   /* Core */
-  --background: #F8F7F4;
-  --foreground: #0A0A0A;
+  --background: #F7F8F5;
+  --foreground: #171D19;
+  --brand: #356B59;
+  --brand-soft: #E8F0EB;
 
   /* Card surfaces */
   --card: #FFFFFF;
-  --card-foreground: #0A0A0A;
+  --card-foreground: #171D19;
 
   /* Popover */
   --popover: #FFFFFF;
-  --popover-foreground: #0A0A0A;
+  --popover-foreground: #171D19;
 
   /* Primary = black (buttons, strong elements) */
   --primary: #0A0A0A;
   --primary-foreground: #FFFFFF;
 
   /* Secondary = light grey */
-  --secondary: #F0EFEB;
-  --secondary-foreground: #0A0A0A;
+  --secondary: #EDF0EB;
+  --secondary-foreground: #171D19;
 
   /* Muted surfaces */
-  --muted: #F0EFEB;
-  --muted-foreground: #6B6B6B;
+  --muted: #EDF0EB;
+  --muted-foreground: #59645D;
 
   /* Accent — deep charcoal (hover states) */
-  --accent: #0A0A0A;
-  --accent-foreground: #FFFFFF;
+  --accent: #E8F0EB;
+  --accent-foreground: #171D19;
 
   /* Destructive */
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
 
   /* Borders & Inputs */
-  --border: #E5E4E0;
-  --input: #E5E4E0;
-  --ring: #0A0A0A;
+  --border: #DFE5DE;
+  --input: #DFE5DE;
+  --ring: #356B59;
 
   /* Charts */
   --chart-1: #0A0A0A;
-  --chart-2: #6B6B6B;
-  --chart-3: #AEAEAE;
-  --chart-4: #D4D4D4;
-  --chart-5: #F0EFEB;
+  --chart-2: #356B59;
+  --chart-3: #78847B;
+  --chart-4: #C5CEC5;
+  --chart-5: #EDF0EB;
 
   /* Sidebar */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #0A0A0A;
   --sidebar-primary: #0A0A0A;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0EFEB;
-  --sidebar-accent-foreground: #0A0A0A;
-  --sidebar-border: #E5E4E0;
-  --sidebar-ring: #0A0A0A;
+  --sidebar-accent: #EDF0EB;
+  --sidebar-accent-foreground: #171D19;
+  --sidebar-border: #DFE5DE;
+  --sidebar-ring: #356B59;
 
   /* ── Creatiwise custom tokens ── */
-  --cw-black: #0A0A0A;
+  --cw-black: #171D19;
   --cw-white: #FFFFFF;
-  --cw-cream: #F8F7F4;
-  --cw-grey-50: #F0EFEB;
-  --cw-grey-100: #E5E4E0;
-  --cw-grey-200: #CCCBC7;
-  --cw-grey-400: #9B9A96;
-  --cw-grey-600: #6B6B6B;
-  --cw-dark-card: #111111;
+  --cw-cream: #F7F8F5;
+  --cw-grey-50: #EDF0EB;
+  --cw-grey-100: #DFE5DE;
+  --cw-grey-200: #C5CEC5;
+  --cw-grey-400: #78847B;
+  --cw-grey-600: #59645D;
+  --cw-dark-card: #171D19;
   --cw-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --cw-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
   --cw-shadow-lg: 0 8px 30px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
@@ -125,6 +129,8 @@
 .dark {
   --background: #0A0A0A;
   --foreground: #F8F7F4;
+  --brand: #8FC2A8;
+  --brand-soft: #1E3027;
   --card: #111111;
   --card-foreground: #F8F7F4;
   --popover: #111111;
@@ -159,12 +165,15 @@
   }
   body {
     @apply bg-background text-foreground;
-    cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   html {
     scroll-behavior: smooth;
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
   }
 }
 
@@ -241,7 +250,6 @@
   font-weight: 600;
   letter-spacing: 0.01em;
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  cursor: none;
 }
 .btn-primary:hover {
   background: #2A2A2A;
@@ -260,7 +268,6 @@
   font-size: 0.8125rem;
   font-weight: 500;
   transition: border-color 0.2s ease, background 0.2s ease;
-  cursor: none;
 }
 .btn-outline:hover {
   border-color: var(--cw-black);
@@ -360,14 +367,21 @@
    TEXT SELECTION
    ============================================= */
 ::selection {
-  background: #0A0A0A;
+  background: var(--brand);
   color: #FFFFFF;
 }
 
-/* Restore default cursor on touch devices */
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

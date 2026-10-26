@@ -34,7 +34,7 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_#E5E4E0]"
-          : "bg-[#F8F7F4]/80 backdrop-blur-sm"
+          : "bg-background/85 backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto max-w-7xl px-5 md:px-8 py-3 flex items-center justify-between gap-4">
@@ -90,7 +90,10 @@ export default function Header() {
 
         {/* ── Mobile hamburger ─────────────────────────────── */}
         <button
-          aria-label="Toggle menu"
+          type="button"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
           className="lg:hidden inline-flex items-center justify-center size-9 rounded-full border border-[#E5E4E0] bg-white text-[#0A0A0A] hover:bg-[#F0EFEB] transition-colors"
           onClick={() => setOpen((v) => !v)}
         >
@@ -107,6 +110,7 @@ export default function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+            id="mobile-navigation"
             className="lg:hidden overflow-hidden border-t border-[#E5E4E0] bg-white"
           >
             <nav className="container mx-auto max-w-7xl px-5 py-4 flex flex-col gap-0.5">

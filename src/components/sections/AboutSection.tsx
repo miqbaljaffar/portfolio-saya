@@ -74,7 +74,7 @@ export default function AboutSection() {
                 <span className="relative inline-block">
                   the right solution
                   <svg aria-hidden="true" className="absolute -bottom-0.5 left-0 w-full" viewBox="0 0 200 6" fill="none" preserveAspectRatio="none">
-                    <path d="M1 4 Q50 1 100 4 Q150 7 199 3" stroke="#CCCBC7" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <path d="M1 4 Q50 1 100 4 Q150 7 199 3" stroke="#356B59" strokeWidth="2" strokeLinecap="round" fill="none"/>
                   </svg>
                 </span>
                 {" "}— not just more features.
