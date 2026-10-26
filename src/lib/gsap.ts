@@ -9,10 +9,32 @@
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useGSAP as useGSAPCore } from "@gsap/react";
 
 // Register plugins once (GSAP deduplicates repeated calls)
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, useGSAPCore);
+
+type UseGSAPCallback = Parameters<typeof useGSAPCore>[0];
+type UseGSAPDependencies = Parameters<typeof useGSAPCore>[1];
+
+export function useGSAP(
+  callback?: UseGSAPCallback,
+  dependencies?: UseGSAPDependencies
+) {
+  if (typeof callback !== "function") {
+    return useGSAPCore(callback, dependencies);
+  }
+
+  return useGSAPCore((context, contextSafe) => {
+    const motionQuery = gsap.matchMedia();
+    motionQuery.add(
+      "(prefers-reduced-motion: no-preference)",
+      () => callback(context, contextSafe)
+    );
+
+    return () => motionQuery.revert();
+  }, dependencies);
+}
 
 // ─── Shared easing constants ─────────────────────────────────────
 export const EASE_OUT_EXPO = "power4.out";
@@ -26,4 +48,4 @@ export const ST_DEFAULTS = {
 } as const;
 
 // ─── Re-export everything consumers need ─────────────────────────
-export { gsap, ScrollTrigger, useGSAP };
+export { gsap, ScrollTrigger };

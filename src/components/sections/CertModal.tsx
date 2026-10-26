@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import React from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import type { Certification } from "@/data/portfolio";
 
@@ -13,6 +13,8 @@ interface CertModalProps {
 }
 
 export function CertModal({ item, onClose }: CertModalProps) {
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
     if (item) {
       const prev = document.body.style.overflow;
@@ -28,10 +30,10 @@ export function CertModal({ item, onClose }: CertModalProps) {
           role="dialog"
           aria-modal="true"
           aria-label={item.title}
-          initial={{ opacity: 0 }}
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-[999] p-4 sm:p-8"
           onClick={onClose}
         >
@@ -45,10 +47,10 @@ export function CertModal({ item, onClose }: CertModalProps) {
           </motion.button>
 
           <motion.div
-            initial={{ scale: 0.96, opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { scale: 0.96, opacity: 0, y: 16 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.96, opacity: 0, y: 16 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
             className="relative max-w-4xl w-full max-h-[90vh] flex flex-col gap-3"
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >

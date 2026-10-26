@@ -1,26 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useGSAP, gsap } from "@/lib/gsap";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X, Mail, FileText } from "lucide-react";
 import { navItems } from "@/data/portfolio";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
-
-  useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: -72,
-      opacity: 0,
-      duration: 0.9,
-      ease: "power4.out",
-      delay: 0.1,
-    });
-  }, { scope: headerRef });
-
+  const reduceMotion = useReducedMotion();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
@@ -30,8 +18,7 @@ export default function Header() {
 
   return (
     <header
-      ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[60] isolate transition-colors duration-300 ${
         scrolled
           ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_#E5E4E0]"
           : "bg-background/85 backdrop-blur-sm"
@@ -106,10 +93,10 @@ export default function Header() {
         {open && (
           <motion.div
             key="mobile-nav"
-            initial={{ height: 0, opacity: 0 }}
+            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
             id="mobile-navigation"
             className="lg:hidden overflow-hidden border-t border-[#E5E4E0] bg-white"
           >

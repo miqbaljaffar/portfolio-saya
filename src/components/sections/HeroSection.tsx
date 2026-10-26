@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { ArrowRight, MapPin, Sparkles, Download } from "lucide-react";
 import Image from "next/image";
 
@@ -26,9 +30,30 @@ function StatCard({
 }
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    const elements = sectionRef.current?.querySelectorAll(".hero-reveal");
+    if (!elements?.length) return;
+
+    gsap.fromTo(
+      elements,
+      { autoAlpha: 0, y: 18 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.65,
+        ease: "power3.out",
+        stagger: 0.1,
+        clearProps: "opacity,visibility,transform",
+      }
+    );
+  }, { scope: sectionRef });
+
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center overflow-hidden bg-background"
     >
       {/* Subtle dot grid background */}
@@ -53,7 +78,7 @@ export default function HeroSection() {
           <div className="space-y-7 order-2 lg:order-1">
 
             {/* Eyebrow pill */}
-            <div className="hero-eyebrow">
+            <div className="hero-eyebrow hero-reveal">
               <span className="eyebrow-pill">
                 <span className="relative flex h-1.5 w-1.5 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-40" />
@@ -65,7 +90,7 @@ export default function HeroSection() {
 
             {/* Main headline */}
             <div className="space-y-3">
-              <h1 className="hero-title font-display font-extrabold text-[#0A0A0A] leading-[1.05] tracking-[-0.03em] text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl">
+              <h1 className="hero-title hero-reveal font-display font-extrabold text-[#0A0A0A] leading-[1.05] tracking-[-0.03em] text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl">
                 Building
                 <br />
                 <span className="relative inline-block">
@@ -90,7 +115,7 @@ export default function HeroSection() {
                 Systems.
               </h1>
 
-              <p className="hero-sub text-base md:text-lg text-[#6B6B6B] leading-relaxed max-w-lg font-sans">
+              <p className="hero-sub hero-reveal text-base md:text-lg text-[#6B6B6B] leading-relaxed max-w-lg font-sans">
                 Mohammad Iqbal Jaffar — Software Engineer crafting reliable
                 backends, ML pipelines, and full-stack web applications that
                 actually scale.
@@ -98,7 +123,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTAs */}
-            <div className="hero-ctas flex flex-wrap items-center gap-3">
+            <div className="hero-ctas hero-reveal flex flex-wrap items-center gap-3">
               <a href="#projects" className="btn-primary text-sm">
                 View My Work
                 <ArrowRight className="size-4" />
@@ -115,7 +140,7 @@ export default function HeroSection() {
             </div>
 
             {/* Meta info */}
-            <div className="hero-meta flex flex-wrap items-center gap-4 pt-2">
+            <div className="hero-meta hero-reveal flex flex-wrap items-center gap-4 pt-2">
               <span className="flex items-center gap-1.5 text-[13px] text-[#9B9A96] font-medium">
                 <MapPin className="size-3.5 text-[#CCCBC7]" />
                 Bandung, Indonesia
@@ -133,7 +158,7 @@ export default function HeroSection() {
           </div>
 
           {/* ── Right: Image + floating stats ────────────── */}
-          <div className="order-1 lg:order-2 relative flex justify-center lg:justify-end">
+          <div className="hero-reveal order-1 lg:order-2 relative flex justify-center lg:justify-end">
             <div className="relative">
 
               {/* Profile image */}
