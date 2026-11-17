@@ -6,11 +6,9 @@ import { useGSAP, gsap } from "@/lib/gsap";
 interface SectionHeadingProps {
   eyebrow?: string;
   title: string;
-  /** Optional highlight — word(s) rendered with a wavy underline */
   highlight?: string;
   description?: string;
   align?: "center" | "left";
-  /** Legacy prop — no longer used visually but kept for back-compat */
   number?: string;
 }
 
@@ -25,12 +23,11 @@ export function SectionHeading({
   useGSAP(() => {
     const el = ref.current;
     if (!el) return;
-
-    const eyebrowEl = el.querySelector(".sh-eyebrow");
-    const titleEl   = el.querySelector(".sh-title");
-    const descEl    = el.querySelector(".sh-desc");
-
-    const targets = [eyebrowEl, titleEl, descEl].filter(Boolean);
+    const targets = [
+      el.querySelector(".sh-eyebrow"),
+      el.querySelector(".sh-title"),
+      el.querySelector(".sh-desc"),
+    ].filter(Boolean);
     gsap.set(targets, { opacity: 0, y: 24 });
     gsap.to(targets, {
       opacity: 1,
@@ -38,17 +35,14 @@ export function SectionHeading({
       duration: 0.72,
       ease: "power4.out",
       stagger: 0.1,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 88%",
-        once: true,
-      },
+      scrollTrigger: { trigger: el, start: "top 88%", once: true },
     });
   }, { scope: ref });
 
-  const alignClasses = align === "left"
-    ? "text-left mx-0 items-start"
-    : "text-center mx-auto items-center";
+  const alignClasses =
+    align === "left"
+      ? "text-left mx-0 items-start"
+      : "text-center mx-auto items-center";
 
   return (
     <div
@@ -61,12 +55,20 @@ export function SectionHeading({
         </div>
       )}
 
-      <h2 className={`sh-title font-display font-extrabold text-[#0A0A0A] dark:text-[#F8F7F4] leading-[1.08] tracking-[-0.025em] text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem]`}>
+      <h2
+        className="sh-title font-display font-extrabold leading-[1.08] tracking-[-0.025em] text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem]"
+        style={{ color: "var(--cw-black)" }}
+      >
         {title}
       </h2>
 
       {description && (
-        <p className={`sh-desc text-[#6B6B6B] dark:text-[#9B9A96] text-sm md:text-[15px] leading-relaxed max-w-2xl ${align === "center" ? "mx-auto" : ""}`}>
+        <p
+          className={`sh-desc text-sm md:text-[15px] leading-relaxed max-w-2xl ${
+            align === "center" ? "mx-auto" : ""
+          }`}
+          style={{ color: "var(--cw-grey-600)" }}
+        >
           {description}
         </p>
       )}

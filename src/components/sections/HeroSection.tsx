@@ -5,7 +5,6 @@ import { useGSAP, gsap } from "@/lib/gsap";
 import { ArrowRight, MapPin, Sparkles, Download } from "lucide-react";
 import Image from "next/image";
 
-// Small floating stat card
 function StatCard({
   value,
   label,
@@ -17,12 +16,23 @@ function StatCard({
 }) {
   return (
     <div
-      className={`hero-stat inline-flex flex-col items-start bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-[#E5E4E0] px-4 py-3 min-w-[100px] ${className}`}
+      className={`hero-stat inline-flex flex-col items-start rounded-2xl px-4 py-3 min-w-[100px] ${className}`}
+      style={{
+        background: "var(--cw-stat-bg)",
+        border: "1px solid var(--cw-stat-border)",
+        boxShadow: "var(--cw-shadow-md)",
+      }}
     >
-      <span className="text-xl font-display font-extrabold text-[#0A0A0A] leading-none tracking-tight">
+      <span
+        className="text-xl font-display font-extrabold leading-none tracking-tight"
+        style={{ color: "var(--cw-black)" }}
+      >
         {value}
       </span>
-      <span className="text-[11px] text-[#9B9A96] mt-0.5 font-medium leading-tight">
+      <span
+        className="text-[11px] mt-0.5 font-medium leading-tight"
+        style={{ color: "var(--cw-grey-400)" }}
+      >
         {label}
       </span>
     </div>
@@ -59,19 +69,19 @@ export default function HeroSection() {
       {/* Subtle dot grid background */}
       <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
 
-      {/* Large decorative circle */}
+      {/* Decorative blobs */}
       <div
         aria-hidden="true"
-        className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-brand-soft opacity-70 blur-3xl pointer-events-none"
+        className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full opacity-70 blur-3xl pointer-events-none"
+        style={{ background: "var(--brand-soft)" }}
       />
       <div
         aria-hidden="true"
-        className="absolute -bottom-48 -left-24 w-[400px] h-[400px] rounded-full bg-brand-soft opacity-50 blur-3xl pointer-events-none"
+        className="absolute -bottom-48 -left-24 w-[400px] h-[400px] rounded-full opacity-50 blur-3xl pointer-events-none"
+        style={{ background: "var(--brand-soft)" }}
       />
 
-      <div
-        className="container mx-auto px-5 md:px-8 lg:px-12 pt-28 pb-20 max-w-7xl relative z-10"
-      >
+      <div className="container mx-auto px-5 md:px-8 lg:px-12 pt-28 pb-20 max-w-7xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
 
           {/* ── Left content ──────────────────────────────── */}
@@ -90,7 +100,10 @@ export default function HeroSection() {
 
             {/* Main headline */}
             <div className="space-y-3">
-              <h1 className="hero-title hero-reveal font-display font-extrabold text-[#0A0A0A] leading-[1.05] tracking-[-0.03em] text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl">
+              <h1
+                className="hero-title hero-reveal font-display font-extrabold leading-[1.05] tracking-[-0.03em] text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl"
+                style={{ color: "var(--cw-black)" }}
+              >
                 Building
                 <br />
                 <span className="relative inline-block">
@@ -104,7 +117,7 @@ export default function HeroSection() {
                   >
                     <path
                       d="M2 6 Q75 2 150 5 Q225 8 298 4"
-                      stroke="#356B59"
+                      stroke="var(--brand)"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       fill="none"
@@ -115,7 +128,10 @@ export default function HeroSection() {
                 Systems.
               </h1>
 
-              <p className="hero-sub hero-reveal text-base md:text-lg text-[#6B6B6B] leading-relaxed max-w-lg font-sans">
+              <p
+                className="hero-sub hero-reveal text-base md:text-lg leading-relaxed max-w-lg font-sans"
+                style={{ color: "var(--cw-grey-400)" }}
+              >
                 Mohammad Iqbal Jaffar — Software Engineer crafting reliable
                 backends, ML pipelines, and full-stack web applications that
                 actually scale.
@@ -141,17 +157,26 @@ export default function HeroSection() {
 
             {/* Meta info */}
             <div className="hero-meta hero-reveal flex flex-wrap items-center gap-4 pt-2">
-              <span className="flex items-center gap-1.5 text-[13px] text-[#9B9A96] font-medium">
-                <MapPin className="size-3.5 text-[#CCCBC7]" />
+              <span
+                className="flex items-center gap-1.5 text-[13px] font-medium"
+                style={{ color: "var(--cw-grey-400)" }}
+              >
+                <MapPin className="size-3.5" style={{ color: "var(--cw-grey-200)" }} />
                 Bandung, Indonesia
               </span>
-              <span className="w-px h-4 bg-[#E5E4E0]" />
-              <span className="flex items-center gap-1.5 text-[13px] text-[#9B9A96] font-medium">
-                <Sparkles className="size-3.5 text-[#CCCBC7]" />
+              <span className="w-px h-4" style={{ background: "var(--cw-grey-100)" }} />
+              <span
+                className="flex items-center gap-1.5 text-[13px] font-medium"
+                style={{ color: "var(--cw-grey-400)" }}
+              >
+                <Sparkles className="size-3.5" style={{ color: "var(--cw-grey-200)" }} />
                 1+ Years Experience
               </span>
-              <span className="w-px h-4 bg-[#E5E4E0]" />
-              <span className="text-[13px] text-[#9B9A96] font-medium">
+              <span className="w-px h-4" style={{ background: "var(--cw-grey-100)" }} />
+              <span
+                className="text-[13px] font-medium"
+                style={{ color: "var(--cw-grey-400)" }}
+              >
                 Informatics · ITB
               </span>
             </div>
@@ -162,43 +187,85 @@ export default function HeroSection() {
             <div className="relative">
 
               {/* Profile image */}
-              <div className="relative w-[280px] sm:w-[320px] md:w-[360px] lg:w-[380px] aspect-[3/4] rounded-3xl overflow-hidden border border-[#E5E4E0] shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+              <div
+                className="relative w-[260px] sm:w-[300px] md:w-[340px] lg:w-[360px] aspect-[3/4] rounded-3xl overflow-hidden"
+                style={{
+                  border: "1px solid var(--cw-grey-100)",
+                  boxShadow: "var(--cw-shadow-hero)",
+                }}
+              >
                 <Image
                   src="/img/profile.jpg"
                   alt="Mohammad Iqbal Jaffar"
                   fill
-                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 380px"
-                  preload
+                  sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 360px"
+                  priority
                   className="object-cover object-center"
                 />
-                {/* Subtle gradient overlay at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/30 to-transparent pointer-events-none" />
+                {/* Gradient overlay */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+                  style={{ background: "linear-gradient(to top, var(--cw-white) / 0.2, transparent)" }}
+                />
               </div>
 
-              {/* Floating stat: Projects */}
-              <div className="absolute -left-8 top-10 float-anim">
+              {/* Floating stat: Projects — desktop only, repositioned */}
+              <div className="hidden sm:block absolute -left-10 top-10 float-anim">
                 <StatCard value="9+" label="Projects Built" />
               </div>
 
               {/* Floating stat: Certs */}
-              <div className="absolute -right-6 bottom-16 float-anim-slow">
+              <div className="hidden sm:block absolute -right-8 bottom-20 float-anim-slow">
                 <StatCard value="6+" label="Certifications" />
               </div>
 
               {/* Floating badge: ML */}
-              <div className="hero-stat absolute -left-4 bottom-8 bg-[#0A0A0A] text-white rounded-2xl shadow-lg px-3.5 py-2.5 border border-[#1A1A1A]">
-                <span className="text-[11px] font-semibold tracking-wide">AI / ML</span>
-                <p className="text-[10px] text-[#9B9A96] mt-0.5">TensorFlow · PyTorch</p>
+              <div
+                className="hero-stat absolute -left-6 bottom-8 rounded-2xl shadow-lg px-3.5 py-2.5"
+                style={{
+                  background: "var(--cw-black)",
+                  color: "var(--cw-white)",
+                  border: "1px solid var(--cw-grey-200)",
+                }}
+              >
+                <span
+                  className="text-[11px] font-semibold tracking-wide"
+                  style={{ color: "var(--cw-white)" }}
+                >
+                  AI / ML
+                </span>
+                <p
+                  className="text-[10px] mt-0.5"
+                  style={{ color: "var(--cw-grey-400)" }}
+                >
+                  TensorFlow · PyTorch
+                </p>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* ── Scroll cue ──────────────────────────────────── */}
-        <div className="mt-16 hidden md:flex items-center gap-3 text-[12px] text-[#CCCBC7] font-medium">
-          <div className="relative w-5 h-8 rounded-full border border-[#CCCBC7] flex items-start justify-center pt-1.5">
-            <div className="w-1 h-1.5 bg-[#9B9A96] rounded-full animate-bounce" />
+        {/* Mobile stats row — only visible on small screens */}
+        <div className="mt-10 flex sm:hidden items-center justify-center gap-4">
+          <StatCard value="9+" label="Projects Built" />
+          <StatCard value="6+" label="Certifications" />
+          <StatCard value="1+" label="Yrs Experience" />
+        </div>
+
+        {/* Scroll cue */}
+        <div
+          className="mt-14 hidden md:flex items-center gap-3 text-[12px] font-medium"
+          style={{ color: "var(--cw-grey-200)" }}
+        >
+          <div
+            className="relative w-5 h-8 rounded-full border flex items-start justify-center pt-1.5"
+            style={{ borderColor: "var(--cw-grey-200)" }}
+          >
+            <div
+              className="w-1 h-1.5 rounded-full animate-bounce"
+              style={{ background: "var(--cw-grey-400)" }}
+            />
           </div>
           Scroll to explore
         </div>

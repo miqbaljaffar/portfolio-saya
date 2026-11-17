@@ -3,10 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Minimal dot + ring cursor for the light Creatiwise theme.
- * Default: small dark dot + subtle ring
- * Hover on interactive: ring expands, dot becomes solid black
- * Hidden on touch devices.
+ * Minimal dot + ring cursor — theme-aware.
+ * Uses CSS variables so it adapts to dark/light mode automatically.
+ * Hides on touch devices.
  */
 export default function CustomCursor() {
   const dotRef  = useRef<HTMLDivElement>(null);
@@ -16,15 +15,17 @@ export default function CustomCursor() {
   const raf     = useRef<number>(0);
   const [active,  setActive]  = useState(false);
   const [visible, setVisible] = useState(false);
+  const [isTouch, setIsTouch] = useState(true); // assume touch until confirmed
 
   useEffect(() => {
+    // Guard: only enable on pointer-fine devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    setIsTouch(false);
 
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
       if (!visible) setVisible(true);
     };
-
     const onEnter = (e: MouseEvent) => {
       if ((e.target as Element).closest("a, button, [data-cursor-hover]"))
         setActive(true);
@@ -37,14 +38,11 @@ export default function CustomCursor() {
     const loop = () => {
       ring.current.x += (pos.current.x - ring.current.x) * 0.14;
       ring.current.y += (pos.current.y - ring.current.y) * 0.14;
-
       if (dotRef.current) {
-        dotRef.current.style.transform =
-          `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
+        dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform =
-          `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%, -50%)`;
+        ringRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%, -50%)`;
       }
       raf.current = requestAnimationFrame(loop);
     };
@@ -63,10 +61,8 @@ export default function CustomCursor() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (typeof window !== "undefined" &&
-      window.matchMedia("(pointer: coarse)").matches) {
-    return null;
-  }
+  // Don't render on touch devices
+  if (isTouch) return null;
 
   const dotSize  = active ? 8  : 6;
   const ringSize = active ? 40 : 28;
@@ -85,7 +81,7 @@ export default function CustomCursor() {
             width: dotSize,
             height: dotSize,
             borderRadius: "50%",
-            background: "#0A0A0A",
+            background: "var(--cw-black)",
             transition: "width 0.18s ease, height 0.18s ease",
           }}
         />
@@ -103,7 +99,7 @@ export default function CustomCursor() {
             width: ringSize,
             height: ringSize,
             borderRadius: "50%",
-            border: `1.5px solid ${active ? "#0A0A0A" : "rgba(10,10,10,0.25)"}`,
+            border: `1.5px solid ${active ? "var(--cw-black)" : "color-mix(in srgb, var(--cw-black) 25%, transparent)"}`,
             transition: "width 0.22s ease, height 0.22s ease, border-color 0.22s ease",
           }}
         />

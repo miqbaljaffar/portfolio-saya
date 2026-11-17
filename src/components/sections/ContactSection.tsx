@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useRef, useState, useId, type FormEvent } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
 import { SectionHeading } from "@/components/section-heading";
 import { Input } from "@/components/ui/input";
@@ -12,10 +12,32 @@ import {
   Mail,
   MapPin,
   Send,
+  Github,
+  Linkedin,
+  AlertCircle,
 } from "lucide-react";
 
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/miqbaljaffar",
+    icon: Github,
+    username: "miqbaljaffar",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/mohammadiqbaljaffar",
+    icon: Linkedin,
+    username: "mohammadiqbaljaffar",
+  },
+];
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export default function ContactSection() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus]       = useState<FormStatus>("idle");
+  const [errorMsg, setErrorMsg]   = useState("");
+  const statusId                  = useId();
 
   const sectionRef = useRef<HTMLElement>(null);
   const asideRef   = useRef<HTMLDivElement>(null);
@@ -52,19 +74,22 @@ export default function ContactSection() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    const form = new FormData(e.currentTarget);
-    form.set("access_key", "0384d086-487f-4bae-a36d-e450ccbdcd3d");
+    setErrorMsg("");
+    const formData = new FormData(e.currentTarget);
+    formData.set("access_key", "0384d086-487f-4bae-a36d-e450ccbdcd3d");
     try {
-      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: form });
+      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
       const json = await res.json();
       if (json.success) {
         setStatus("success");
         (e.currentTarget as HTMLFormElement).reset();
-        setTimeout(() => setStatus("idle"), 4000);
+        setTimeout(() => setStatus("idle"), 5000);
       } else {
+        setErrorMsg(json.message || "Submission failed. Please try again.");
         setStatus("error");
       }
     } catch {
+      setErrorMsg("Network error — please check your connection and try again.");
       setStatus("error");
     }
   };
@@ -73,7 +98,8 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-white"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8"
+      style={{ background: "var(--cw-section-a)" }}
     >
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
@@ -86,9 +112,9 @@ export default function ContactSection() {
 
           {/* ── Aside ──────────────────────────────────── */}
           <div ref={asideRef} className="flex flex-col gap-4">
+            <div className="cw-card p-6 flex flex-col gap-5 h-full">
 
-            {/* Open for work card */}
-            <div className="cw-card p-6 flex flex-col gap-5">
+              {/* Status pill */}
               <div>
                 <span className="eyebrow-pill mb-3 inline-flex">
                   <span className="relative flex h-1.5 w-1.5 shrink-0">
@@ -97,10 +123,16 @@ export default function ContactSection() {
                   </span>
                   Open for collaborations
                 </span>
-                <h3 className="font-display font-bold text-[#0A0A0A] text-lg md:text-xl leading-tight mb-2">
+                <h3
+                  className="font-display font-bold text-lg md:text-xl leading-tight mb-2"
+                  style={{ color: "var(--cw-black)" }}
+                >
                   Interested in working together?
                 </h3>
-                <p className="text-[13px] text-[#9B9A96] leading-relaxed">
+                <p
+                  className="text-[13px] leading-relaxed"
+                  style={{ color: "var(--cw-grey-400)" }}
+                >
                   Open to freelance, contract, or full-time opportunities — especially AI/ML, full-stack web, and IoT integration.
                 </p>
               </div>
@@ -109,32 +141,137 @@ export default function ContactSection() {
                 {/* Email */}
                 <a
                   href="mailto:iqbaljaffar1108@gmail.com"
-                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-[#E5E4E0] hover:border-[#CCCBC7] hover:bg-[#F8F7F4] transition-all group"
+                  className="flex items-center justify-between gap-3 p-3.5 rounded-xl border transition-all duration-200 group"
+                  style={{
+                    borderColor: "var(--cw-grey-100)",
+                    background: "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--cw-grey-200)";
+                    (e.currentTarget as HTMLAnchorElement).style.background  = "var(--cw-grey-50)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--cw-grey-100)";
+                    (e.currentTarget as HTMLAnchorElement).style.background  = "transparent";
+                  }}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] flex items-center justify-center shrink-0">
-                      <Mail className="size-3.5 text-[#6B6B6B]" />
+                    <div
+                      className="size-8 rounded-lg flex items-center justify-center shrink-0"
+                      style={{
+                        background: "var(--cw-icon-bg)",
+                        border: "1px solid var(--cw-icon-border)",
+                      }}
+                    >
+                      <Mail className="size-3.5" style={{ color: "var(--cw-grey-600)" }} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] text-[#9B9A96] uppercase tracking-wider font-medium mb-0.5">Email</p>
-                      <p className="text-[13px] font-medium text-[#0A0A0A] truncate">
+                      <p
+                        className="text-[10px] uppercase tracking-wider font-medium mb-0.5"
+                        style={{ color: "var(--cw-grey-400)" }}
+                      >
+                        Email
+                      </p>
+                      <p
+                        className="text-[13px] font-medium truncate"
+                        style={{ color: "var(--cw-black)" }}
+                      >
                         iqbaljaffar1108@gmail.com
                       </p>
                     </div>
                   </div>
-                  <ArrowUpRight className="size-4 text-[#CCCBC7] shrink-0 group-hover:text-[#0A0A0A] transition-colors" />
+                  <ArrowUpRight
+                    className="size-4 shrink-0 transition-colors duration-200 group-hover:text-foreground"
+                    style={{ color: "var(--cw-grey-200)" }}
+                  />
                 </a>
 
                 {/* Location */}
-                <div className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E5E4E0] bg-[#F8F7F4]">
-                  <div className="size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] flex items-center justify-center shrink-0">
-                    <MapPin className="size-3.5 text-[#6B6B6B]" />
+                <div
+                  className="flex items-center gap-3 p-3.5 rounded-xl border"
+                  style={{
+                    borderColor: "var(--cw-contact-row-border)",
+                    background: "var(--cw-contact-row-bg)",
+                  }}
+                >
+                  <div
+                    className="size-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{
+                      background: "var(--cw-icon-bg)",
+                      border: "1px solid var(--cw-icon-border)",
+                    }}
+                  >
+                    <MapPin className="size-3.5" style={{ color: "var(--cw-grey-600)" }} />
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#9B9A96] uppercase tracking-wider font-medium mb-0.5">Location</p>
-                    <p className="text-[13px] font-medium text-[#0A0A0A]">Bandung, Indonesia</p>
+                    <p
+                      className="text-[10px] uppercase tracking-wider font-medium mb-0.5"
+                      style={{ color: "var(--cw-grey-400)" }}
+                    >
+                      Location
+                    </p>
+                    <p
+                      className="text-[13px] font-medium"
+                      style={{ color: "var(--cw-black)" }}
+                    >
+                      Bandung, Indonesia
+                    </p>
                   </div>
                 </div>
+
+                {/* Social links */}
+                {socialLinks.map(({ label, href, icon: Icon, username }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${label} profile: ${username}`}
+                    className="flex items-center justify-between gap-3 p-3.5 rounded-xl border transition-all duration-200 group"
+                    style={{
+                      borderColor: "var(--cw-grey-100)",
+                      background: "transparent",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--cw-grey-200)";
+                      (e.currentTarget as HTMLAnchorElement).style.background  = "var(--cw-grey-50)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--cw-grey-100)";
+                      (e.currentTarget as HTMLAnchorElement).style.background  = "transparent";
+                    }}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className="size-8 rounded-lg flex items-center justify-center shrink-0"
+                        style={{
+                          background: "var(--cw-icon-bg)",
+                          border: "1px solid var(--cw-icon-border)",
+                        }}
+                      >
+                        <Icon className="size-3.5" style={{ color: "var(--cw-grey-600)" }} />
+                      </div>
+                      <div className="min-w-0">
+                        <p
+                          className="text-[10px] uppercase tracking-wider font-medium mb-0.5"
+                          style={{ color: "var(--cw-grey-400)" }}
+                        >
+                          {label}
+                        </p>
+                        <p
+                          className="text-[13px] font-medium truncate"
+                          style={{ color: "var(--cw-black)" }}
+                        >
+                          @{username}
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight
+                      className="size-4 shrink-0 transition-colors duration-200 group-hover:text-foreground"
+                      style={{ color: "var(--cw-grey-200)" }}
+                    />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -144,61 +281,140 @@ export default function ContactSection() {
             ref={formRef}
             onSubmit={handleSubmit}
             className="cw-card p-6 md:p-8 flex flex-col gap-5"
+            aria-label="Contact form"
+            noValidate
           >
-            <h3 className="font-display font-bold text-[#0A0A0A] text-xl leading-tight">
+            <h3
+              className="font-display font-bold text-xl leading-tight"
+              style={{ color: "var(--cw-black)" }}
+            >
               Send a message
             </h3>
 
+            {/* Name */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="name" className="text-[12px] font-medium text-[#6B6B6B]">
-                Full Name
+              <label
+                htmlFor="contact-name"
+                className="text-[12px] font-semibold"
+                style={{ color: "var(--cw-grey-600)" }}
+              >
+                Full Name <span aria-hidden="true" style={{ color: "var(--destructive)" }}>*</span>
               </label>
               <Input
-                id="name"
+                id="contact-name"
                 name="name"
                 required
+                autoComplete="name"
                 placeholder="Your name"
-                className="h-11 rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
+                className="h-11 rounded-xl text-sm"
+                style={{
+                  background: "var(--cw-input-bg)",
+                  borderColor: "var(--cw-input-border)",
+                  color: "var(--cw-black)",
+                }}
               />
             </div>
 
+            {/* Email */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="email" className="text-[12px] font-medium text-[#6B6B6B]">
-                Email Address
+              <label
+                htmlFor="contact-email"
+                className="text-[12px] font-semibold"
+                style={{ color: "var(--cw-grey-600)" }}
+              >
+                Email Address <span aria-hidden="true" style={{ color: "var(--destructive)" }}>*</span>
               </label>
               <Input
-                id="email"
+                id="contact-email"
                 name="email"
                 type="email"
                 required
+                autoComplete="email"
                 placeholder="your@email.com"
-                className="h-11 rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
+                className="h-11 rounded-xl text-sm"
+                style={{
+                  background: "var(--cw-input-bg)",
+                  borderColor: "var(--cw-input-border)",
+                  color: "var(--cw-black)",
+                }}
               />
             </div>
 
+            {/* Message */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="message" className="text-[12px] font-medium text-[#6B6B6B]">
-                Message
+              <label
+                htmlFor="contact-message"
+                className="text-[12px] font-semibold"
+                style={{ color: "var(--cw-grey-600)" }}
+              >
+                Message <span aria-hidden="true" style={{ color: "var(--destructive)" }}>*</span>
               </label>
               <Textarea
-                id="message"
+                id="contact-message"
                 name="message"
                 required
                 rows={5}
-                placeholder="Tell me about your project..."
-                className="resize-none min-h-[130px] rounded-xl bg-[#F8F7F4] border-[#E5E4E0] focus:border-[#0A0A0A] focus:ring-0 text-[#0A0A0A] placeholder:text-[#CCCBC7] text-sm"
+                placeholder="Tell me about your project or opportunity..."
+                className="resize-none min-h-[130px] rounded-xl text-sm"
+                style={{
+                  background: "var(--cw-input-bg)",
+                  borderColor: "var(--cw-input-border)",
+                  color: "var(--cw-black)",
+                }}
               />
             </div>
+
+            {/* Error banner */}
+            {status === "error" && (
+              <div
+                role="alert"
+                id={statusId}
+                className="flex items-start gap-2.5 p-3.5 rounded-xl border"
+                style={{
+                  background: "rgba(220,38,38,0.08)",
+                  borderColor: "rgba(220,38,38,0.25)",
+                }}
+              >
+                <AlertCircle className="size-4 mt-0.5 shrink-0 text-destructive" />
+                <p className="text-[13px] font-medium text-destructive leading-snug">
+                  {errorMsg || "Something went wrong. Please try again."}
+                </p>
+              </div>
+            )}
+
+            {/* Success banner */}
+            {status === "success" && (
+              <div
+                role="status"
+                aria-live="polite"
+                id={statusId}
+                className="flex items-start gap-2.5 p-3.5 rounded-xl border"
+                style={{
+                  background: "rgba(53,107,89,0.08)",
+                  borderColor: "rgba(53,107,89,0.25)",
+                }}
+              >
+                <CheckCircle2 className="size-4 mt-0.5 shrink-0 text-brand" />
+                <p
+                  className="text-[13px] font-medium leading-snug"
+                  style={{ color: "var(--brand)" }}
+                >
+                  Message sent! I&apos;ll get back to you soon.
+                </p>
+              </div>
+            )}
 
             <button
               type="submit"
               disabled={status === "loading" || status === "success"}
+              aria-disabled={status === "loading" || status === "success"}
+              aria-describedby={status === "error" || status === "success" ? statusId : undefined}
               className="btn-primary justify-center text-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {status === "idle"    && <><Send className="size-4" /> Send Message</>}
               {status === "loading" && <><Loader2 className="size-4 animate-spin" /> Sending...</>}
-              {status === "success" && <><CheckCircle2 className="size-4" /> Message Sent!</>}
-              {status === "error"   && "Failed to send — try again"}
+              {status === "success" && <><CheckCircle2 className="size-4" /> Sent Successfully!</>}
+              {status === "error"   && <><Send className="size-4" /> Try Again</>}
             </button>
           </form>
 

@@ -26,7 +26,10 @@ function CertCard({
       onKeyDown={(e) => e.key === "Enter" && onOpen(cert)}
     >
       {/* Thumbnail */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#F0EFEB]">
+      <div
+        className="relative aspect-[4/3] overflow-hidden"
+        style={{ background: "var(--cw-grey-50)" }}
+      >
         <Image
           src={cert.image}
           alt={cert.title}
@@ -38,14 +41,21 @@ function CertCard({
 
         {/* Expand icon on hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-white rounded-full p-2.5 shadow-md">
-            <Expand className="size-4 text-[#0A0A0A]" />
+          <div className="rounded-full p-2.5 shadow-md" style={{ background: "var(--cw-white)" }}>
+            <Expand className="size-4" style={{ color: "var(--cw-black)" }} />
           </div>
         </div>
 
         {/* Year badge */}
         <div className="absolute top-3 right-3">
-          <span className="tag-pill bg-white/90 backdrop-blur-sm border-white/60 text-[#0A0A0A]">
+          <span
+            className="tag-pill backdrop-blur-sm"
+            style={{
+              background: "rgba(255,255,255,0.90)",
+              borderColor: "rgba(255,255,255,0.60)",
+              color: "#0A0A0A",
+            }}
+          >
             {cert.year}
           </span>
         </div>
@@ -53,14 +63,23 @@ function CertCard({
 
       {/* Info */}
       <div className="p-4 flex items-start gap-3">
-        <div className="shrink-0 flex items-center justify-center size-8 rounded-lg bg-[#F0EFEB] border border-[#E5E4E0] mt-0.5">
-          <Award className="size-4 text-[#6B6B6B]" />
+        <div
+          className="shrink-0 flex items-center justify-center size-8 rounded-lg mt-0.5"
+          style={{
+            background: "var(--cw-icon-bg)",
+            border: "1px solid var(--cw-icon-border)",
+          }}
+        >
+          <Award className="size-4" style={{ color: "var(--cw-grey-600)" }} />
         </div>
         <div className="min-w-0">
-          <h3 className="font-display font-bold text-[#0A0A0A] text-[13px] leading-snug line-clamp-2 mb-0.5">
+          <h3
+            className="font-display font-bold text-[13px] leading-snug line-clamp-2 mb-0.5"
+            style={{ color: "var(--cw-black)" }}
+          >
             {cert.title}
           </h3>
-          <p className="text-[11px] text-[#9B9A96] font-medium">
+          <p className="text-[11px] font-medium" style={{ color: "var(--cw-grey-400)" }}>
             {cert.issuer}
           </p>
         </div>
@@ -86,11 +105,7 @@ export default function CertificationsSection() {
         duration: 0.6,
         ease: "power3.out",
         stagger: { amount: 0.5, from: "start" },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 78%",
-          once: true,
-        },
+        scrollTrigger: { trigger: sectionRef.current, start: "top 78%", once: true },
       }
     );
   }, { scope: sectionRef });
@@ -99,7 +114,8 @@ export default function CertificationsSection() {
     <section
       id="certs"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-[#F8F7F4]"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8"
+      style={{ background: "var(--cw-section-b)" }}
     >
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
@@ -117,7 +133,10 @@ export default function CertificationsSection() {
           ))}
         </div>
 
-        <p className="mt-7 text-center text-[12px] text-[#9B9A96] font-medium">
+        <p
+          className="mt-7 text-center text-[12px] font-medium"
+          style={{ color: "var(--cw-grey-400)" }}
+        >
           {certificationsData.length} certifications displayed
         </p>
       </div>

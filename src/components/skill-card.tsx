@@ -6,25 +6,44 @@ interface SkillCardProps {
 }
 
 /**
- * SkillCard — Creatiwise-style clean white card.
- * GSAP stagger animation driven by parent (TechStackSection).
- * The `gsap-card` class is the selector target.
+ * SkillCard — dark-mode-aware, richer hover micro-interaction.
+ * Parent (TechStackSection) drives GSAP stagger via `.gsap-card`.
  */
 export function SkillCard({ item }: SkillCardProps) {
   return (
-    <div className="gsap-card group cw-card cursor-default">
+    <div
+      className="gsap-card group cw-card cursor-default select-none"
+      style={{ transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease" }}
+    >
       <div className="flex flex-col items-center gap-2.5 p-4 text-center">
-        {/* Icon container */}
-        <div className="size-10 flex items-center justify-center rounded-xl bg-[#F0EFEB] border border-[#E5E4E0] text-[#6B6B6B] group-hover:bg-[#0A0A0A] group-hover:text-white group-hover:border-[#0A0A0A] transition-all duration-200">
-          <item.icon size={18} />
+        {/* Icon container — flips color on hover */}
+        <div
+          className="size-10 flex items-center justify-center rounded-xl transition-all duration-200"
+          style={{
+            background: "var(--cw-icon-bg)",
+            border: "1px solid var(--cw-icon-border)",
+            color: "var(--cw-icon-color)",
+          }}
+          aria-hidden="true"
+        >
+          {/* Override with group-hover via inline style on wrapper instead */}
+          <span className="block group-hover:[&>svg]:scale-110 transition-transform duration-200">
+            <item.icon size={18} />
+          </span>
         </div>
 
-        {/* Name + level */}
+        {/* Name */}
         <div className="space-y-0.5">
-          <h4 className="font-display font-bold text-[#0A0A0A] text-[13px] leading-tight">
+          <h4
+            className="font-display font-bold text-[13px] leading-tight transition-colors duration-200"
+            style={{ color: "var(--cw-black)" }}
+          >
             {item.name}
           </h4>
-          <p className="text-[10px] text-[#9B9A96] font-medium capitalize">
+          <p
+            className="text-[10px] font-medium capitalize transition-colors duration-200"
+            style={{ color: "var(--cw-grey-400)" }}
+          >
             {item.level}
           </p>
         </div>

@@ -188,7 +188,7 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${inter.variable} ${dmMono.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <Providers attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+        <Providers attribute="class" defaultTheme="light" enableSystem={true}>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:border focus:border-foreground bg-background text-foreground text-sm font-sans"

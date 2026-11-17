@@ -36,12 +36,12 @@ const Footer = dynamic(
 
 function SectionSkeleton() {
   return (
-    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-8 bg-[#F8F7F4] opacity-60">
+    <section aria-hidden="true" className="py-24 md:py-32 px-5 md:px-8 opacity-60" style={{ background: "var(--cw-section-b)" }}>
       <div className="container mx-auto max-w-6xl space-y-10">
         <div className="max-w-2xl mx-auto text-center space-y-4">
-          <div className="h-5 w-24 mx-auto bg-[#E5E4E0] animate-pulse rounded-full" />
-          <div className="h-9 w-72 md:w-96 mx-auto bg-[#E5E4E0] animate-pulse rounded-xl" />
-          <div className="h-4 w-full bg-[#F0EFEB] animate-pulse rounded-lg" />
+          <div className="h-5 w-24 mx-auto animate-pulse rounded-full" style={{ background: "var(--cw-grey-100)" }} />
+          <div className="h-9 w-72 md:w-96 mx-auto animate-pulse rounded-xl" style={{ background: "var(--cw-grey-100)" }} />
+          <div className="h-4 w-full animate-pulse rounded-lg" style={{ background: "var(--cw-grey-50)" }} />
         </div>
       </div>
     </section>

@@ -7,9 +7,9 @@ import { Briefcase, GraduationCap, Users } from "lucide-react";
 import { experienceData } from "@/data/portfolio";
 
 const typeConfig = {
-  work: { icon: Briefcase, bg: "bg-[#0A0A0A]",    text: "text-white",       label: "Work"        },
-  edu:  { icon: GraduationCap, bg: "bg-[#F0EFEB]", text: "text-[#0A0A0A]", label: "Education"   },
-  org:  { icon: Users, bg: "bg-[#F0EFEB]",          text: "text-[#0A0A0A]", label: "Organization"},
+  work: { icon: Briefcase, darkBg: true,  label: "Work"         },
+  edu:  { icon: GraduationCap, darkBg: false, label: "Education" },
+  org:  { icon: Users, darkBg: false,     label: "Organization"  },
 };
 
 export default function ExperienceSection() {
@@ -48,7 +48,8 @@ export default function ExperienceSection() {
     <section
       id="journey"
       ref={sectionRef}
-      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8 bg-[#F8F7F4]"
+      className="relative py-20 sm:py-24 md:py-32 px-5 md:px-8"
+      style={{ background: "var(--cw-section-a)" }}
     >
       <div className="container mx-auto max-w-3xl">
         <SectionHeading
@@ -59,7 +60,10 @@ export default function ExperienceSection() {
 
         <div ref={timelineRef} className="relative pl-6 md:pl-8">
           {/* Vertical timeline line */}
-          <div className="tl-line absolute left-[11px] md:left-[13px] top-0 bottom-0 w-0.5 bg-[#E5E4E0] rounded-full" />
+          <div
+            className="tl-line absolute left-[11px] md:left-[13px] top-0 bottom-0 w-0.5 rounded-full"
+            style={{ background: "var(--cw-timeline-line)" }}
+          />
 
           <ul className="space-y-5 md:space-y-6">
             {experienceData.map((item, i) => {
@@ -69,26 +73,40 @@ export default function ExperienceSection() {
                 <li key={`${item.title}-${i}`} className="tl-item relative">
                   {/* Node dot */}
                   <span
-                    className={`absolute -left-[21px] md:-left-[25px] top-4 flex items-center justify-center size-5 md:size-6 rounded-full border-2 border-white shadow-sm ${cfg.bg}`}
+                    className="absolute -left-[21px] md:-left-[25px] top-4 flex items-center justify-center size-5 md:size-6 rounded-full border-2 shadow-sm"
+                    style={{
+                      background: cfg.darkBg ? "var(--cw-black)" : "var(--cw-icon-bg)",
+                      borderColor: "var(--background)",
+                    }}
                   >
-                    <Icon className={`size-2.5 md:size-3 ${cfg.text}`} />
+                    <Icon
+                      className="size-2.5 md:size-3"
+                      style={{ color: cfg.darkBg ? "var(--cw-white)" : "var(--cw-black)" }}
+                    />
                   </span>
 
                   <article className="cw-card p-5 md:p-6 hover:-translate-y-0.5 transition-transform duration-200">
                     <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
                       <div className="min-w-0">
-                        <h3 className="font-display font-bold text-[#0A0A0A] text-base md:text-lg leading-tight mb-0.5">
+                        <h3
+                          className="font-display font-bold text-base md:text-lg leading-tight mb-0.5"
+                          style={{ color: "var(--cw-black)" }}
+                        >
                           {item.title}
                         </h3>
-                        <p className="text-[13px] font-semibold text-[#6B6B6B]">
+                        <p
+                          className="text-[13px] font-semibold"
+                          style={{ color: "var(--cw-grey-600)" }}
+                        >
                           {item.organization}
                         </p>
                       </div>
-                      <span className="shrink-0 tag-pill">
-                        {item.period}
-                      </span>
+                      <span className="shrink-0 tag-pill">{item.period}</span>
                     </div>
-                    <p className="text-[13px] md:text-sm text-[#9B9A96] leading-relaxed">
+                    <p
+                      className="text-[13px] md:text-sm leading-relaxed"
+                      style={{ color: "var(--cw-grey-400)" }}
+                    >
                       {item.description}
                     </p>
                   </article>
